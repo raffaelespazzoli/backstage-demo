@@ -1,0 +1,72 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    cert-utils-operator.redhat-cop.io/certs-from-secret: gitlab-gitlab-tls
+  name: gitlab
+spec:
+  host: gitlab.apps.${cluster_base_domain}
+  port:
+    targetPort: 8181
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: gitlab-webservice-default
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    cert-utils-operator.redhat-cop.io/certs-from-secret: gitlab-registry-tls
+  name: registry
+spec:
+  host: registry.apps.${cluster_base_domain}
+  port:
+    targetPort: 5000
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: gitlab-registry
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    cert-utils-operator.redhat-cop.io/certs-from-secret: gitlab-minio-tls
+  name: minio
+spec:
+  host: minio.apps.${cluster_base_domain}
+  port:
+    targetPort: 9000
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: gitlab-minio-svc
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: gitlab-issuer
+spec:
+  acme:
+    server: 'https://acme-v02.api.letsencrypt.org/directory'
+    email: ${EMAIL}
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:  
+    # ACME DNS-01 provider configurations
+    - dns01:
+      # Here we define a list of DNS-01 providers that can solve DNS challenges
+        route53:
+          accessKeyID: ${AWS_ACCESS_KEY_ID}
+          secretAccessKeySecretRef:
+            name: cert-manager-dns-credentials
+            key: aws_secret_access_key
+          region: ${REGION} 
+          hostedZoneID: ${zoneid}
+
+            

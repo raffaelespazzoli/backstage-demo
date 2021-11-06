@@ -1,0 +1,23 @@
+## Installation & configuration of jetstack/cert-manager
+## See requirements.yaml for current version
+certmanager:
+  installCRDs: false
+  nameOverride: certmanager
+  # Install cert-manager chart. Set to false if you already have cert-manager
+  # installed or if you are not using cert-manager.
+  install: false
+  # Other cert-manager configurations from upstream
+  # See https://github.com/jetstack/cert-manager/blob/master/deploy/charts/cert-manager/README#configuration
+  rbac:
+    create: false
+global:
+  hosts:
+    domain: apps.${cluster_base_domain}
+  ingress:
+    enabled: false
+    configureCertmanager: false
+    tls:
+      enabled: false       
+certmanager-issuer:
+  email: raffaele.spazzoli@gmail.com
+
