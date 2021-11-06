@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: root-application
-  namespace: argocd
+  namespace: openshift-gitops
 spec:
   project: default
   source:
@@ -13,4 +13,4 @@ spec:
       include: "*.yaml"
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: openshift-gitops

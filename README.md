@@ -6,6 +6,12 @@
 oc apply -f ./argocd/operator.yaml
 ```
 
+apply the root argo application
+
+```shell
+oc apply -f ./argo-root-application.yaml
+```
+
 
 ## Deploy gitlab operator
 
