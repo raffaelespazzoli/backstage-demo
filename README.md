@@ -4,12 +4,15 @@
 
 ```shell
 oc apply -f ./argocd/operator.yaml
+oc apply -f ./argocd/rbac.yaml
+oc apply -f ./argocd/argo-root-application.yaml
 ```
 
 apply the root argo application
 
 ```shell
-oc apply -f ./argo-root-application.yaml
+
+
 ```
 
 
