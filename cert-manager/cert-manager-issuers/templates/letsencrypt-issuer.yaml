@@ -17,7 +17,7 @@ spec:
       resource: '*'
   secretRef:
     name: cert-manager-dns-credentials
-    namespace: {{ .Release.namespace }}
+    namespace: {{ .Release.Namespace }}
 ---    
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -35,7 +35,7 @@ spec:
     - dns01:
       # Here we define a list of DNS-01 providers that can solve DNS challenges
         route53:
-          accessKeyID: {{ (lookup "v1" "Secret" .Release.namespace "cert-manager-dns-credentials").data.aws_access_key_id | b64dec }}
+          accessKeyID: {{ (lookup "v1" "Secret" .Release.Namespace "cert-manager-dns-credentials").data.aws_access_key_id | b64dec }}
           secretAccessKeySecretRef:
             name: cert-manager-dns-credentials
             key: aws_secret_access_key
