@@ -67,7 +67,7 @@ spec:
                 secretAccessKeySecretRef:
                   name: cert-manager-dns-credentials
                   key: aws_secret_access_key
-    patchType: application/strategic-merge-patch+json
+    patchType: application/merge-patch+json
     sourceObjectRefs:
     - apiVersion: v1
       kind: Secret
