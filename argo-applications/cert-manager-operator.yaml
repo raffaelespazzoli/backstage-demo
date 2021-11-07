@@ -6,9 +6,10 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://charts.jetstack.io
-    targetRevision: HEAD
-    path: cert-manager/cert-manager
+    path: ''
+    repoURL: 'https://charts.jetstack.io'
+    targetRevision: v1.6.1
+    chart: cert-manager
     helm:
       releaseName: cert-manager-operator
       values: |
