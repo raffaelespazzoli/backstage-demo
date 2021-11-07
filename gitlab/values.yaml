@@ -17,7 +17,27 @@ global:
     enabled: false
     configureCertmanager: false
     tls:
-      enabled: false       
+      enabled: true
+
 certmanager-issuer:
   email: raffaele.spazzoli@gmail.com
+
+nginx-ingress:
+  enabled: false  
+
+
+
+gitlab:
+  webservice:
+    ingress:
+      tls:
+        secretName: gitlab-tls
+registry:
+  ingress:
+    tls:
+      secretName: registry-tls
+minio:
+  ingress:
+    tls:
+      secretName: minio-tls
 

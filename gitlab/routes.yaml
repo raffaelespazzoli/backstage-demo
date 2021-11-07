@@ -2,7 +2,7 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   annotations:
-    cert-utils-operator.redhat-cop.io/certs-from-secret: gitlab-gitlab-tls
+    cert-utils-operator.redhat-cop.io/certs-from-secret: gitlab-tls
   name: gitlab
 spec:
   host: gitlab.apps.${cluster_base_domain}
@@ -18,7 +18,7 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   annotations:
-    cert-utils-operator.redhat-cop.io/certs-from-secret: gitlab-registry-tls
+    cert-utils-operator.redhat-cop.io/certs-from-secret: registry-tls
   name: registry
 spec:
   host: registry.apps.${cluster_base_domain}
@@ -34,7 +34,7 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   annotations:
-    cert-utils-operator.redhat-cop.io/certs-from-secret: gitlab-minio-tls
+    cert-utils-operator.redhat-cop.io/certs-from-secret: minio-tls
   name: minio
 spec:
   host: minio.apps.${cluster_base_domain}
@@ -47,26 +47,72 @@ spec:
     name: gitlab-minio-svc
 ---
 apiVersion: cert-manager.io/v1
-kind: Issuer
+kind: Certificate
 metadata:
-  name: gitlab-issuer
+  name: minio
 spec:
-  acme:
-    server: 'https://acme-v02.api.letsencrypt.org/directory'
-    email: ${EMAIL}
-    # Name of a secret used to store the ACME account private key
-    privateKeySecretRef:
-      name: letsencrypt-staging
-    solvers:  
-    # ACME DNS-01 provider configurations
-    - dns01:
-      # Here we define a list of DNS-01 providers that can solve DNS challenges
-        route53:
-          accessKeyID: ${AWS_ACCESS_KEY_ID}
-          secretAccessKeySecretRef:
-            name: cert-manager-dns-credentials
-            key: aws_secret_access_key
-          region: ${REGION} 
-          hostedZoneID: ${zoneid}
+  # Secret names are always required.
+  secretName: minio-tls
+  commonName: minio.apps.${cluster_base_domain}
+  usages:
+    - server auth 
+  dnsNames:
+  - minio.apps.${cluster_base_domain}
+  duration: 168h
+  renewBefore: 1h
+  issuerRef:
+    name: letsencrypt-issuer
+    # We can reference ClusterIssuers by changing the kind here.
+    # The default value is Issuer (i.e. a locally namespaced Issuer)
+    kind: ClusterIssuer
+    # This is optional since cert-manager will default to this value however
+    # if you are using an external issuer, change this to that issuer group.
+    group: cert-manager.io
+---    
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: registry
+spec:
+  # Secret names are always required.
+  secretName: registry-tls
+  commonName: registry.apps.${cluster_base_domain}
+  usages:
+    - server auth 
+  dnsNames:
+  - registry.apps.${cluster_base_domain}
+  duration: 168h
+  renewBefore: 1h
+  issuerRef:
+    name: letsencrypt-issuer
+    # We can reference ClusterIssuers by changing the kind here.
+    # The default value is Issuer (i.e. a locally namespaced Issuer)
+    kind: ClusterIssuer
+    # This is optional since cert-manager will default to this value however
+    # if you are using an external issuer, change this to that issuer group.
+    group: cert-manager.io
+---    
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: gitlab
+spec:
+  # Secret names are always required.
+  secretName: gitlab-tls
+  commonName: gitlab.apps.${cluster_base_domain}
+  usages:
+    - server auth 
+  dnsNames:
+  - gitlab.apps.${cluster_base_domain}
+  duration: 168h
+  renewBefore: 1h
+  issuerRef:
+    name: letsencrypt-issuer
+    # We can reference ClusterIssuers by changing the kind here.
+    # The default value is Issuer (i.e. a locally namespaced Issuer)
+    kind: ClusterIssuer
+    # This is optional since cert-manager will default to this value however
+    # if you are using an external issuer, change this to that issuer group.
+    group: cert-manager.io                  
 
             

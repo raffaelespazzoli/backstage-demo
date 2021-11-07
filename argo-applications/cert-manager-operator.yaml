@@ -6,17 +6,19 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
+    repoURL: https://charts.jetstack.io
     targetRevision: HEAD
-    path: cert-manager
-    directory:
-      include: operator.yaml
+    path: cert-manager/cert-manager
+    helm:
+      releaseName: cert-manager-operator
+      values: |
+        extraArgs: "{--dns01-recursive-nameservers-only,--dns01-recursive-nameservers=8.8.8.8:53\,1.1.1.1:53}"
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
   syncPolicy:
     automated: 
-      prune: false
+      prune: true
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
