@@ -1,3 +1,4 @@
+
 frontend:
   enabled: true
 appConfig:
@@ -21,4 +22,8 @@ appConfig:
         secure: false
         clientId: ${AUTH_GITLAB_CLIENT_ID}
         clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
-        audience: ${GITLAB_BASE_URL}  
+        audience: ${GITLAB_BASE_URL}
+        
+global:          
+  postgresql:
+    postgresqlPassword: changeit           
