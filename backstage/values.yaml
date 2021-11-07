@@ -1,0 +1,24 @@
+frontend:
+  enabled: true
+appConfig:
+  app:
+    baseUrl: https://backstage.apps.tmp-raffa.demo.red-chesterfield.com
+    title: Backstage
+  backend:
+    baseUrl: https://backstage.apps.tmp-raffa.demo.red-chesterfield.com
+    cors:
+      origin: https://backstage.apps.tmp-raffa.demo.red-chesterfield.com
+  lighthouse:
+    baseUrl: https://backstage.apps.tmp-raffa.demo.red-chesterfield.com
+  techdocs:
+    storageUrl: https://backstage.apps.tmp-raffa.demo.red-chesterfield.com
+    requestUrl: https://backstage.apps.tmp-raffa.demo.red-chesterfield.com
+
+  auth:
+    providers:
+      development:
+        appOrigin: 'https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com/'
+        secure: false
+        clientId: ${AUTH_GITLAB_CLIENT_ID}
+        clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+        audience: ${GITLAB_BASE_URL}  

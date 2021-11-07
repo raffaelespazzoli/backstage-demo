@@ -1,0 +1,79 @@
+{{- $frontendUrl := urlParse .Values.appConfig.app.baseUrl}}
+{{- $backendUrl := urlParse .Values.appConfig.backend.baseUrl}}
+{{- $lighthouseUrl := urlParse .Values.appConfig.lighthouse.baseUrl}}
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ include "backstage.fullname" . }}-ingress
+  annotations:
+    cert-utils-operator.redhat-cop.io/certs-from-secret: {{ include "backstage.fullname" . }}-tls
+spec:
+  host: {{ $frontendUrl.host }}
+  port:
+    targetPort: 80
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: {{ include "frontend.serviceName" . }}
+---    
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ include "backstage.fullname" . }}-ingress-backend
+  annotations:
+    cert-utils-operator.redhat-cop.io/certs-from-secret: {{ include "backstage.fullname" . }}-tls  
+spec:
+  host: {{ $frontendUrl.host }}
+  path: /api
+  port:
+    targetPort: 7000
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: {{ include "backend.serviceName" . }}
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ include "backstage.fullname" . }}-ingress-lighthouse
+  annotations:
+    cert-utils-operator.redhat-cop.io/certs-from-secret: {{ include "backstage.fullname" . }}-tls  
+spec:
+  host: {{ $frontendUrl.host }}
+  path: /lighthouse-api
+  port:
+    targetPort: 3003
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: {{ include "lighthouse.serviceName" . }}    
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "backstage.fullname" . }}
+spec:
+  secretName: {{ include "backstage.fullname" . }}-tls
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  subject:
+    organizations:
+      - backstage
+  commonName: {{ $frontendUrl.host }}
+  isCA: false
+  usages:
+    - server auth
+  # At least one of a DNS Name, URI, or IP address is required.
+  dnsNames:
+    - {{ $frontendUrl.host }}   
+  issuerRef:
+    name: letsencrypt-issuer
+    # We can reference ClusterIssuers by changing the kind here.
+    # The default value is Issuer (i.e. a locally namespaced Issuer)
+    kind: ClusterIssuer
+    # This is optional since cert-manager will default to this value however
+    # if you are using an external issuer, change this to that issuer group.
+    group: cert-manager.io   
