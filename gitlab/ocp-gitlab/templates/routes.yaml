@@ -58,8 +58,8 @@ spec:
     - server auth 
   dnsNames:
   - minio.{{ .Values.global.hosts.domain }}
-  duration: 168h
-  renewBefore: 1h
+  duration: 168h0m0s
+  renewBefore: 1h0m0s
   issuerRef:
     name: letsencrypt-issuer
     # We can reference ClusterIssuers by changing the kind here.
@@ -81,8 +81,8 @@ spec:
     - server auth 
   dnsNames:
   - registry.{{ .Values.global.hosts.domain }}
-  duration: 168h
-  renewBefore: 1h
+  duration: 168h0m0s
+  renewBefore: 1h0m0s
   issuerRef:
     name: letsencrypt-issuer
     # We can reference ClusterIssuers by changing the kind here.
@@ -104,8 +104,8 @@ spec:
     - server auth 
   dnsNames:
   - gitlab.{{ .Values.global.hosts.domain }}
-  duration: 168h
-  renewBefore: 1h
+  duration: 168h0m0s
+  renewBefore: 1h0m0s
   issuerRef:
     name: letsencrypt-issuer
     # We can reference ClusterIssuers by changing the kind here.
