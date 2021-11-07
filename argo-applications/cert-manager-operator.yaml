@@ -19,7 +19,7 @@ spec:
         installCRDs: true
         global:
           leaderElection:
-            namespace: $(POD_NAMESPACE)
+            namespace: cert-manager
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
