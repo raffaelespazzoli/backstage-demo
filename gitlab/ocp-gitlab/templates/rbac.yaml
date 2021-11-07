@@ -2,6 +2,8 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: 'system:openshift:scc:anyuid'
+  annotations:
+    helm.sh/hook: pre-install
 subjects:
   - kind: ServiceAccount
     name: gitlab-shared-secrets
