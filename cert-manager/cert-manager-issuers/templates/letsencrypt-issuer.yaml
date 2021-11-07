@@ -35,9 +35,44 @@ spec:
     - dns01:
       # Here we define a list of DNS-01 providers that can solve DNS challenges
         route53:
-          accessKeyID: {{ (lookup "v1" "Secret" .Release.Namespace "cert-manager-dns-credentials").data.aws_access_key_id | b64dec }}
+          accessKeyID: dummy
           secretAccessKeySecretRef:
             name: cert-manager-dns-credentials
             key: aws_secret_access_key
-          region: {{ (lookup "config.openshift.io/v1" "Infrastructure" "" "cluster").status.platformStatus.aws.region }}
-          hostedZoneID: {{ (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.publicZone.id }}
+          region: dummy
+          hostedZoneID: dummy
+---          
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: ResourceLocker
+metadata:
+  name: letsencrypt-issuer
+  namespace: openshift-gitops
+spec:
+  serviceAccountRef:
+    name: openshift-gitops-argocd-application-controller
+  patches:
+  - targetObjectRef:
+      apiVersion: cert-manager.io/v1
+      kind: ClusterIssuer
+      name: letsencrypt-issuer
+    patchTemplate: |
+      spec:
+        acme:
+          solvers
+          - dns01:
+            accessKeyID: {{ "{{" }} (index . 0).data.aws_access_key_id | b64dec {{ "}}" }}
+            region: {{ "{{" }} (index . 1).status.platformStatus.aws.region {{ "}}" }}
+            hostedZoneID: {{ "{{" }} (index . 2).spec.publicZone.id {{ "}}" }}
+    patchType: application/strategic-merge-patch+json
+    sourceObjectRefs:
+    - apiVersion: v1
+      kind: Secret
+      namespace: {{ .Release.Namespace }}
+      name: cert-manager-dns-credentials
+    - apiVersion: config.openshift.io/v1
+      kind: Infrastructure
+      name: cluster
+    - apiVersion: config.openshift.io/v1
+      kind: DNS
+      name: cluster      
+    id: letsencrypt-issuer           
