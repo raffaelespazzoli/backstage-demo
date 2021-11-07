@@ -57,8 +57,8 @@ metadata:
   name: {{ include "backstage.fullname" . }}
 spec:
   secretName: {{ include "backstage.fullname" . }}-tls
-  duration: 2160h # 90d
-  renewBefore: 360h # 15d
+  duration: 168h0m0s
+  renewBefore: 1h0m0s
   subject:
     organizations:
       - backstage
