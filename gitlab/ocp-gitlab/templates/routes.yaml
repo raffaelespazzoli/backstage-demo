@@ -5,7 +5,7 @@ metadata:
     cert-utils-operator.redhat-cop.io/certs-from-secret: gitlab-tls
   name: gitlab
 spec:
-  host: gitlab.apps.${cluster_base_domain}
+  host: gitlab.{{ .Values.global.hosts.domain }}
   port:
     targetPort: 8181
   tls:
@@ -21,7 +21,7 @@ metadata:
     cert-utils-operator.redhat-cop.io/certs-from-secret: registry-tls
   name: registry
 spec:
-  host: registry.apps.${cluster_base_domain}
+  host: registry.{{ .Values.global.hosts.domain }}
   port:
     targetPort: 5000
   tls:
@@ -37,7 +37,7 @@ metadata:
     cert-utils-operator.redhat-cop.io/certs-from-secret: minio-tls
   name: minio
 spec:
-  host: minio.apps.${cluster_base_domain}
+  host: minio.{{ .Values.global.hosts.domain }}
   port:
     targetPort: 9000
   tls:
@@ -53,11 +53,11 @@ metadata:
 spec:
   # Secret names are always required.
   secretName: minio-tls
-  commonName: minio.apps.${cluster_base_domain}
+  commonName: minio.{{ .Values.global.hosts.domain }}
   usages:
     - server auth 
   dnsNames:
-  - minio.apps.${cluster_base_domain}
+  - minio.{{ .Values.global.hosts.domain }}
   duration: 168h
   renewBefore: 1h
   issuerRef:
@@ -76,11 +76,11 @@ metadata:
 spec:
   # Secret names are always required.
   secretName: registry-tls
-  commonName: registry.apps.${cluster_base_domain}
+  commonName: registry.{{ .Values.global.hosts.domain }}
   usages:
     - server auth 
   dnsNames:
-  - registry.apps.${cluster_base_domain}
+  - registry.{{ .Values.global.hosts.domain }}
   duration: 168h
   renewBefore: 1h
   issuerRef:
@@ -99,11 +99,11 @@ metadata:
 spec:
   # Secret names are always required.
   secretName: gitlab-tls
-  commonName: gitlab.apps.${cluster_base_domain}
+  commonName: gitlab.{{ .Values.global.hosts.domain }}
   usages:
     - server auth 
   dnsNames:
-  - gitlab.apps.${cluster_base_domain}
+  - gitlab.{{ .Values.global.hosts.domain }}
   duration: 168h
   renewBefore: 1h
   issuerRef:
