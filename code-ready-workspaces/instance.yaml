@@ -1,0 +1,67 @@
+apiVersion: org.eclipse.che/v1
+kind: CheCluster
+metadata:
+  name: codeready-workspaces
+  namespace: openshift-workspaces
+spec:
+  auth:
+    identityProviderURL: >-
+      https://codeready-openshift-workspaces.apps.tmp-raffa.demo.red-chesterfield.com/auth
+    identityProviderRealm: codeready
+    updateAdminPassword: false
+    identityProviderIngress: {}
+    oAuthSecret: OE3qF8OzfuZ1
+    oAuthClientName: codeready-workspaces-openshift-identity-provider-9njhhp
+    initialOpenShiftOAuthUser: true
+    identityProviderContainerResources:
+      limits: {}
+      request: {}
+    identityProviderClientId: codeready-public
+    identityProviderPostgresSecret: che-identity-postgres-secret
+    identityProviderRoute: {}
+    externalIdentityProvider: false
+    identityProviderSecret: che-identity-secret
+    openShiftoAuth: true
+  database:
+    chePostgresContainerResources:
+      limits: {}
+      request: {}
+    chePostgresDb: dbche
+    chePostgresHostName: postgres
+    chePostgresPort: '5432'
+    chePostgresSecret: che-postgres-secret
+    externalDb: false
+  devWorkspace:
+    enable: false
+  imagePuller:
+    enable: false
+    spec: {}
+  k8s: {}
+  metrics:
+    enable: true
+  server:
+    cheLogLevel: INFO
+    dashboardIngress: {}
+    externalDevfileRegistry: false
+    pluginRegistryIngress: {}
+    cheServerRoute: {}
+    devfileRegistryIngress: {}
+    cheHost: codeready-openshift-workspaces.apps.tmp-raffa.demo.red-chesterfield.com
+    selfSignedCert: false
+    cheServerIngress: {}
+    cheDebug: 'false'
+    tlsSupport: true
+    dashboardRoute: {}
+    allowUserDefinedWorkspaceNamespaces: false
+    pluginRegistryRoute: {}
+    devfileRegistryRoute: {}
+    externalPluginRegistry: false
+    workspaceNamespaceDefault: <username>-codeready
+    serverExposureStrategy: single-host
+    gitSelfSignedCert: false
+    useInternalClusterSVCNames: false
+    cheFlavor: codeready
+  storage:
+    preCreateSubPaths: true
+    pvcClaimSize: 10Gi
+    pvcStrategy: common
