@@ -9,18 +9,13 @@ spec:
       https://codeready-openshift-workspaces.apps.tmp-raffa.demo.red-chesterfield.com/auth
     identityProviderRealm: codeready
     updateAdminPassword: false
-    identityProviderIngress: {}
-    oAuthSecret: OE3qF8OzfuZ1
-    oAuthClientName: codeready-workspaces-openshift-identity-provider-9njhhp
     initialOpenShiftOAuthUser: true
     identityProviderContainerResources:
       limits: {}
       request: {}
     identityProviderClientId: codeready-public
-    identityProviderPostgresSecret: che-identity-postgres-secret
     identityProviderRoute: {}
     externalIdentityProvider: false
-    identityProviderSecret: che-identity-secret
     openShiftoAuth: true
   database:
     chePostgresContainerResources:
@@ -29,7 +24,6 @@ spec:
     chePostgresDb: dbche
     chePostgresHostName: postgres
     chePostgresPort: '5432'
-    chePostgresSecret: che-postgres-secret
     externalDb: false
   devWorkspace:
     enable: false
