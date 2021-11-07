@@ -28,6 +28,9 @@ gitlab:
       tls:
         secretName: minio-tls
 
+  migrations:
+    enabled: false        
+
 global:
   hosts:
     domain: apps.dummy
@@ -35,4 +38,7 @@ global:
     enabled: false
     configureCertmanager: false
     tls:
-      enabled: true        
+      enabled: true   
+      
+  migrations:
+    enabled: false
