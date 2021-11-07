@@ -60,9 +60,13 @@ spec:
         acme:
           solvers
           - dns01:
-            accessKeyID: {{ "{{" }} (index . 0).data.aws_access_key_id | b64dec {{ "}}" }}
-            region: {{ "{{" }} (index . 1).status.platformStatus.aws.region {{ "}}" }}
-            hostedZoneID: {{ "{{" }} (index . 2).spec.publicZone.id {{ "}}" }}
+              route53:
+                accessKeyID: {{ "{{" }} (index . 0).data.aws_access_key_id | b64dec {{ "}}" }}
+                region: {{ "{{" }} (index . 1).status.platformStatus.aws.region {{ "}}" }}
+                hostedZoneID: {{ "{{" }} (index . 2).spec.publicZone.id {{ "}}" }}
+                secretAccessKeySecretRef:
+                  name: cert-manager-dns-credentials
+                  key: aws_secret_access_key
     patchType: application/strategic-merge-patch+json
     sourceObjectRefs:
     - apiVersion: v1
