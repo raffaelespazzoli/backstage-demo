@@ -26,10 +26,7 @@ gitlab:
   minio:
     ingress:
       tls:
-        secretName: minio-tls
-
-  migrations:
-    enabled: false        
+        secretName: minio-tls     
 
 global:
   hosts:
@@ -39,6 +36,4 @@ global:
     configureCertmanager: false
     tls:
       enabled: true   
-      
-  migrations:
-    enabled: false
+
