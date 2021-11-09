@@ -10,15 +10,9 @@ spec:
   completionMode: NonIndexed
   completions: 1
   parallelism: 1
-  selector:
-    matchLabels:
-      app: gitlab-post-install-config
   suspend: false
+  restartPolicy: OnFailure
   template:
-    metadata:
-      creationTimestamp: null
-      labels:
-        app: gitlab-post-install-config
     spec:
       containers:
       - command:
