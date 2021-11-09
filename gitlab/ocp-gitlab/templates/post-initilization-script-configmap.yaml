@@ -5,4 +5,4 @@ metadata:
   annotations:
     helm.sh/hook: post-upgrade,post-install
 data:
-{{ (.Files.Glob "post-install-config.sh").AsConfig | indent 2 }}
+{{ (.Files.Glob "files/post-install-config.sh").AsConfig | indent 2 }}
