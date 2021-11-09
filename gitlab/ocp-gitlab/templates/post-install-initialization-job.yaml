@@ -11,9 +11,9 @@ spec:
   completions: 1
   parallelism: 1
   suspend: false
-  restartPolicy: OnFailure
   template:
     spec:
+      restartPolicy: OnFailure
       containers:
       - command:
         - /var/opt/script/post-install-config.sh
