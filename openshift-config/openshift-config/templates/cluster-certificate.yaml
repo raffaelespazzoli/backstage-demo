@@ -7,6 +7,7 @@ spec:
   secretName: lets-encrypt-certs-tls
   duration: 168h0m0s
   renewBefore: 1h0m0s
+  commonName: '*.apps.tmp-raffa.demo.red-chesterfield.com'
   usages:
     - server auth
   # At least one of a DNS Name, URI, or IP address is required.
