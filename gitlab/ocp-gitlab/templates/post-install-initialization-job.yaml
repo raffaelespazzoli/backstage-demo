@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gitlab-post-install-config
+  annotations:
+    helm.sh/hook: post-upgrade,post-install  
+spec:
+  activeDeadlineSeconds: 3600
+  backoffLimit: 6
+  completionMode: NonIndexed
+  completions: 1
+  parallelism: 1
+  selector:
+    matchLabels:
+      app: gitlab-post-install-config
+  suspend: false
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: gitlab-post-install-config
+    spec:
+      containers:
+      - command:
+        - /var/opt/script/post-install-config.sh
+        image: registry.redhat.io/web-terminal-tech-preview/web-terminal-tooling-rhel8
+        imagePullPolicy: IfNotPresent
+        name: gitlab-post-install-config
+        resources:
+          requests:
+            cpu: 250m
+            memory: 200Mi
+        volumeMounts:
+        - mountPath: /var/opt/script
+          name: gitlab-post-install-config-script
+      volumes:
+      - configMap:
+          defaultMode: 0777
+          name: gitlab-post-install-config-script
+        name: gitlab-post-install-config-script
