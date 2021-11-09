@@ -20,7 +20,7 @@ spec:
           gitlab:
             clientID: {{ "{{" }} (index . 0).data.client_id | b64dec {{ "}}" }}
             clientSecret: 
-              name:ocp-gitlab-app-credentials
+              name: ocp-gitlab-app-credentials
             url: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com/ 
     patchType: application/merge-patch+json
     sourceObjectRefs:
