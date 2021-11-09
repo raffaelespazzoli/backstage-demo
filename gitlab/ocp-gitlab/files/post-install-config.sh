@@ -41,12 +41,12 @@ curl --request POST --header "Authorization: Bearer ${access_token}" --data "use
 
 # create application for OCP
 export OCP_APP_RESPONSE=$(curl --request POST --header "Authorization: Bearer ${access_token}" --data "name=ocp&redirect_uri=https://oauth-openshift.apps.tmp-raffa.demo.red-chesterfield.com/oauth2callback/gitlab&scopes=profile read_user email openid" "https://${gitlab_hostname}/api/v4/applications")
-oc patch secret ocp-gitlab-app-credentials -p='{"data":{"client_id": "'"$(echo ${OCP_APP_RESPONSE} | jq -r .application_id)"'"},{"clientSecret": "'"$(echo ${OCP_APP_RESPONSE} | jq -r .secret)"'"}}' -n gitlab-system
+oc patch secret ocp-gitlab-app-credentials -p='{"data":{"client_id": "'"$(echo ${OCP_APP_RESPONSE} | jq -r .application_id)"'","clientSecret": "'"$(echo ${OCP_APP_RESPONSE} | jq -r .secret)"'"}}' -n gitlab-system
 
 # create application for backstage
 export BACKSTAGE_APP_RESPONSE=$(curl --request POST --header "Authorization: Bearer ${access_token}" --data "name=backstage&redirect_uri=https://backstage.apps.tmp-raffa.demo.red-chesterfield.com/api/auth/gitlab/handler/frame&scopes=read_user" "https://${gitlab_hostname}/api/v4/applications")
-oc patch secret backstage-gitlab-app-credentials -p='{"data":{"client_id": "'"$(echo ${BACKSTAGE_APP_RESPONSE} | jq -r .application_id)"'"},{"client_secret": "'"$(echo ${BACKSTAGE_APP_RESPONSE} | jq -r .secret)"'"}}' -n gitlab-system
+oc patch secret backstage-gitlab-app-credentials -p='{"data":{"client_id": "'"$(echo ${BACKSTAGE_APP_RESPONSE} | jq -r .application_id)"'","client_secret": "'"$(echo ${BACKSTAGE_APP_RESPONSE} | jq -r .secret)"'"}}' -n gitlab-system
 
 # create application for code ready workspaces
-export CRW_APP_RESPONSE=$(curl --request POST --header "Authorization: Bearer ${access_token}" --data "name=CodeReadyWorkspaces&redirect_urihttps://keycloak-openshift-workspaces.tmp-raffa.demo.red-chesterfield.com/auth/realms/codeready/broker/gitlab/endpoint&scopes=read_user" "https://${gitlab_hostname}/api/v4/applications")
-oc patch secret crw-gitlab-app-credentials -p='{"data":{"client_id": "'"$(echo ${CRW_APP_RESPONSE} | jq -r .application_id)"'"},{"client_secret": "'"$(echo ${CRW_APP_RESPONSE} | jq -r .secret)"'"}}' -n gitlab-system
+export CRW_APP_RESPONSE=$(curl --request POST --header "Authorization: Bearer ${access_token}" --data "name=CodeReadyWorkspaces&redirect_uri=https://keycloak-openshift-workspaces.tmp-raffa.demo.red-chesterfield.com/auth/realms/codeready/broker/gitlab/endpoint&scopes=read_user" "https://${gitlab_hostname}/api/v4/applications")
+oc patch secret crw-gitlab-app-credentials -p='{"data":{"client_id": "'"$(echo ${CRW_APP_RESPONSE} | jq -r .application_id)"'","client_secret": "'"$(echo ${CRW_APP_RESPONSE} | jq -r .secret)"'"}}' -n gitlab-system

@@ -1,0 +1,31 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: ResourceLocker
+metadata:
+  name: gitlab-ocp-oauth-provider
+  namespace: openshift-config
+spec:
+  serviceAccountRef:
+    name: default
+  patches:
+  - targetObjectRef:
+      apiVersion: config.openshift.io/v1
+      kind: OAuth
+      name: cluster
+    patchTemplate: |
+      spec:
+        identityProviders:
+        - name: gitlab 
+          mappingMethod: claim 
+          type: GitLab
+          gitlab:
+            clientID: {{ "{{" }} (index . 0).data.client_id  {{ "}}" }}
+            clientSecret: 
+              name:ocp-gitlab-app-credentials
+            url: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com/ 
+    patchType: application/merge-patch+json
+    sourceObjectRefs:
+    - apiVersion: v1
+      kind: Secret
+      name: ocp-gitlab-app-credentials
+      namespace: openshift-config     
+    id: gitlab-ocp-oauth-provider
