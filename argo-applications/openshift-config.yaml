@@ -9,7 +9,6 @@ spec:
     repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
     targetRevision: HEAD
     path: openshift-config/openshift-config
-    helm: {}
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-config
