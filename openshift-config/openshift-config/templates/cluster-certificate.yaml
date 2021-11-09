@@ -26,7 +26,7 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: ResourceLocker
 metadata:
   name: letsencrypt-certs
-  namespace: openshift-gitops
+  namespace: openshift-config
 spec:
   serviceAccountRef:
     name: default
@@ -52,7 +52,7 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: ResourceLocker
 metadata:
   name: letsencrypt-ingress-operator
-  namespace: openshift-gitops
+  namespace: openshift-config
 spec:
   serviceAccountRef:
     name: default
