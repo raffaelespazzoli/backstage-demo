@@ -66,6 +66,5 @@ spec:
       spec:
         defaultCertificate:
           name: lets-encrypt-certs-tls
-    patchType: application/merge-patch+json
-    sourceObjectRefs: []     
+    patchType: application/merge-patch+json    
     id: cluster-certs    
