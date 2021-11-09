@@ -1,0 +1,71 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: lets-encrypt-certs
+  namespace: openshift-ingress
+spec:
+  secretName: lets-encrypt-certs-tls
+  duration: 168h0m0s
+  renewBefore: 1h0m0s
+  commonName: apps.tmp-raffa.demo.red-chesterfield.com
+  usages:
+    - server auth
+  # At least one of a DNS Name, URI, or IP address is required.
+  dnsNames:
+    - '*.apps.tmp-raffa.demo.red-chesterfield.com'
+  issuerRef:
+    name: letsencrypt-issuer
+    # We can reference ClusterIssuers by changing the kind here.
+    # The default value is Issuer (i.e. a locally namespaced Issuer)
+    kind: ClusterIssuer
+    # This is optional since cert-manager will default to this value however
+    # if you are using an external issuer, change this to that issuer group.
+    group: cert-manager.io
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: ResourceLocker
+metadata:
+  name: letsencrypt-issuer
+  namespace: openshift-gitops
+spec:
+  serviceAccountRef:
+    name: default
+  patches:
+  - targetObjectRef:
+      apiVersion: v1
+      kind: Secret
+      name: lets-encrypt-certs-tls
+      namespace: openshift-ingress
+    patchTemplate: |
+      data:
+        cert: {{ (index (index . 0).data "tls.crt") }}
+        key: {{ (index (index . 0).data "tls.key") }}
+    patchType: application/merge-patch+json
+    sourceObjectRefs:
+    - apiVersion: v1
+      kind: Secret
+      name: lets-encrypt-certs-tls
+      namespace: openshift-ingress     
+    id: cluster-certs
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: ResourceLocker
+metadata:
+  name: letsencrypt-issuer
+  namespace: openshift-gitops
+spec:
+  serviceAccountRef:
+    name: default
+  patches:
+  - targetObjectRef:
+      apiVersion: operator.openshift.io/v1
+      kind: IngressController
+      name: default
+      namespace: openshift-ingress-operator
+    patchTemplate: |
+      spec:
+        defaultCertificate:
+          name: lets-encrypt-certs-tls
+    patchType: application/merge-patch+json
+    sourceObjectRefs: []     
+    id: cluster-certs    

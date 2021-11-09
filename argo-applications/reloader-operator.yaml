@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://stakater.github.io/stakater-charts
-    targetRevision: v0.0.103
-    chart: reloader
+    repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
+    targetRevision: HEAD
+    path: reloader-operator/reloader-operator
   destination:
     server: https://kubernetes.default.svc
     namespace: reloader-operator
