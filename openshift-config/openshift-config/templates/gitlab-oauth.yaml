@@ -14,6 +14,12 @@ spec:
     patchTemplate: |
       spec:
         identityProviders:
+        - name: my_htpasswd_provider 
+          mappingMethod: claim 
+          type: HTPasswd
+          htpasswd:
+            fileData:
+              name: htpass-secret        
         - name: gitlab 
           mappingMethod: claim 
           type: GitLab
