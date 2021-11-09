@@ -18,7 +18,7 @@ spec:
           mappingMethod: claim 
           type: GitLab
           gitlab:
-            clientID: {{ "{{" }} (index . 0).data.client_id  {{ "}}" }}
+            clientID: {{ "{{" }} (index . 0).data.client_id | b64dec {{ "}}" }}
             clientSecret: 
               name:ocp-gitlab-app-credentials
             url: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com/ 
