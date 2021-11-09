@@ -38,8 +38,8 @@ spec:
       namespace: openshift-ingress
     patchTemplate: |
       data:
-        cert: {{ (index (index . 0).data "tls.crt") }}
-        key: {{ (index (index . 0).data "tls.key") }}
+        cert: {{ "{{" }} (index (index . 0).data "tls.crt") {{ "}}" }}
+        key: {{ "{{" }} (index (index . 0).data "tls.key") {{ "}}" }}
     patchType: application/merge-patch+json
     sourceObjectRefs:
     - apiVersion: v1
