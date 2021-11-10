@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "backstage.fullname" . }}-backend
+  annotations:
+    secret.reloader.stakater.com/reload: "backstage-gitlab-app-credentials,root-pat"
 
 spec:
   replicas: {{ .Values.backend.replicaCount }}
@@ -40,13 +42,31 @@ spec:
           resources:
           {{- toYaml .Values.backend.resources | nindent 12 }}
 
-          envFrom:
-            - secretRef:
-                name: {{ include "backstage.fullname" . }}-backend
-            - configMapRef:
-                name: {{ include "backstage.fullname" . }}-app-env
-            - configMapRef:
-                name: {{ include "backstage.fullname" . }}-auth
+          env:
+          - name: AUTH_GITLAB_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: backstage-gitlab-app-credentials
+                key: client_secret
+          - name: AUTH_GITLAB_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: backstage-gitlab-app-credentials
+                key: client_id                
+          -name: GITLAB_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: root-pat
+                key: pat
+                
+
+          # envFrom:
+          #   - secretRef:
+          #       name: {{ include "backstage.fullname" . }}-backend
+          #   - configMapRef:
+          #       name: {{ include "backstage.fullname" . }}-app-env
+          #   - configMapRef:
+          #       name: {{ include "backstage.fullname" . }}-auth
           env:
             - name: NODE_ENV
               value: {{ .Values.backend.nodeEnv | default "development" }}

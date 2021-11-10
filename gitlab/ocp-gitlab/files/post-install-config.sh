@@ -29,8 +29,8 @@ done
 export david_user_id=$(curl --request GET --header "Authorization: Bearer ${access_token}" "https://${gitlab_hostname}/api/v4/users?username=david" | jq -r .[0].id)
 export andy_user_id=$(curl --request GET --header "Authorization: Bearer ${access_token}" "https://${gitlab_hostname}/api/v4/users?username=andy" | jq -r .[0].id)
 
-export sales_group_id=$(curl --request GET --header "Authorization: Bearer ${access_token}" "https://${gitlab_hostname}/api/v4/groups" | jq '.[] | select(.name=="sales").id')
-export hr_group_id=$(curl --request GET --header "Authorization: Bearer ${access_token}" "https://${gitlab_hostname}/api/v4/groups" | jq '.[] | select(.name=="hr").id')
+export sales_group_id=$(curl --request GET --header "Authorization: Bearer ${access_token}" "https://${gitlab_hostname}/api/v4/groups" | jq -r '.[] | select(.name=="sales").id')
+export hr_group_id=$(curl --request GET --header "Authorization: Bearer ${access_token}" "https://${gitlab_hostname}/api/v4/groups" | jq -r '.[] | select(.name=="hr").id')
 
 # david in sales
 curl --request POST --header "Authorization: Bearer ${access_token}" --data "user_id=${david_user_id}&access_level=30" "https://${gitlab_hostname}/api/v4/groups/${sales_group_id}/members"
@@ -39,14 +39,35 @@ curl --request POST --header "Authorization: Bearer ${access_token}" --data "use
 curl --request POST --header "Authorization: Bearer ${access_token}" --data "user_id=${andy_user_id}&access_level=30" "https://${gitlab_hostname}/api/v4/groups/${hr_group_id}/members"
 
 
+
+export APP_LIST_RESPONSE=$(curl --request GET --header "Authorization: Bearer ${access_token}" "https://${gitlab_hostname}/api/v4/applications")
+
 # create application for OCP
+export OCP_APP_ID=$(echo ${APP_LIST_RESPONSE} | jq -r '.[] | select(.application_name=="ocp").id' )
+for id in ${OCP_APP_ID}; do
+  curl --request DELETE --header "Authorization: Bearer ${access_token}" "https://${gitlab_hostname}/api/v4/applications/${id}"
+done  
+  
 export OCP_APP_RESPONSE=$(curl --request POST --header "Authorization: Bearer ${access_token}" --data "name=ocp&redirect_uri=https://oauth-openshift.apps.tmp-raffa.demo.red-chesterfield.com/oauth2callback/gitlab&scopes=api profile read_user email openid" "https://${gitlab_hostname}/api/v4/applications")
 oc patch secret ocp-gitlab-app-credentials -p='{"data":{"client_id": "'"$(echo ${OCP_APP_RESPONSE} | jq -r .application_id | base64 -w0)"'","clientSecret": "'"$(echo ${OCP_APP_RESPONSE} | jq -r .secret | base64 -w0)"'"}}' -n gitlab-system
 
 # create application for backstage
+export BACKSTAGE_APP_ID=$(echo ${APP_LIST_RESPONSE} | jq -r '.[] | select(.application_name=="backstage").id' )
+
+for id in ${BACKSTAGE_APP_ID}; do
+  curl --request DELETE --header "Authorization: Bearer ${access_token}" "https://${gitlab_hostname}/api/v4/applications/${id}"
+done  
+ 
 export BACKSTAGE_APP_RESPONSE=$(curl --request POST --header "Authorization: Bearer ${access_token}" --data "name=backstage&redirect_uri=https://backstage.apps.tmp-raffa.demo.red-chesterfield.com/api/auth/gitlab/handler/frame&scopes=read_user" "https://${gitlab_hostname}/api/v4/applications")
 oc patch secret backstage-gitlab-app-credentials -p='{"data":{"client_id": "'"$(echo ${BACKSTAGE_APP_RESPONSE} | jq -r .application_id | base64 -w0)"'","client_secret": "'"$(echo ${BACKSTAGE_APP_RESPONSE} | jq -r .secret | base64 -w0)"'"}}' -n gitlab-system
 
 # create application for code ready workspaces
-export CRW_APP_RESPONSE=$(curl --request POST --header "Authorization: Bearer ${access_token}" --data "name=CodeReadyWorkspaces&redirect_uri=https://keycloak-openshift-workspaces.tmp-raffa.demo.red-chesterfield.com/auth/realms/codeready/broker/gitlab/endpoint&scopes=read_user" "https://${gitlab_hostname}/api/v4/applications")
+# create application for backstage
+export CRW_APP_ID=$(echo ${APP_LIST_RESPONSE} | jq -r '.[] | select(.application_name=="backstage").id' )
+
+for id in ${CRW_APP_ID}; do
+  curl --request DELETE --header "Authorization: Bearer ${access_token}" "https://${gitlab_hostname}/api/v4/applications/${id}"
+done
+
+export CRW_APP_RESPONSE=$(curl --request POST --header "Authorization: Bearer ${access_token}" --data "name=CodeReadyWorkspaces&redirect_uri=https://keycloak-openshift-workspaces.tmp-raffa.demo.red-chesterfield.com/auth/realms/codeready/broker/gitlab/endpoint&scopes=api write_repository openid" "https://${gitlab_hostname}/api/v4/applications")
 oc patch secret crw-gitlab-app-credentials -p='{"data":{"client_id": "'"$(echo ${CRW_APP_RESPONSE} | jq -r .application_id | base64 -w0)"'","client_secret": "'"$(echo ${CRW_APP_RESPONSE} | jq -r .secret | base64 -w0)"'"}}' -n gitlab-system
