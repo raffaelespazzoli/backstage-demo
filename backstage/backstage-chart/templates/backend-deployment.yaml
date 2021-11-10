@@ -42,13 +42,13 @@ spec:
           resources:
           {{- toYaml .Values.backend.resources | nindent 12 }}
 
-          # envFrom:
-          #   - secretRef:
-          #       name: {{ include "backstage.fullname" . }}-backend
-          #   - configMapRef:
-          #       name: {{ include "backstage.fullname" . }}-app-env
-          #   - configMapRef:
-          #       name: {{ include "backstage.fullname" . }}-auth
+          envFrom:
+            - secretRef:
+                name: {{ include "backstage.fullname" . }}-backend
+            - configMapRef:
+                name: {{ include "backstage.fullname" . }}-app-env
+            - configMapRef:
+                name: {{ include "backstage.fullname" . }}-auth
           env:
             - name: NODE_ENV
               value: {{ .Values.backend.nodeEnv | default "development" }}
@@ -72,7 +72,7 @@ spec:
                 secretKeyRef:
                   name: root-pat
                   key: pat  
-                                  
+
           volumeMounts:
             {{- if .Values.backend.postgresCertMountEnabled }}
             - name: postgres-ca

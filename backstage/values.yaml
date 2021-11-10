@@ -19,10 +19,10 @@ appConfig:
     providers:
       development:
         appOrigin: 'https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com/'
-        secure: false
-        clientId: ${AUTH_GITLAB_CLIENT_ID}
-        clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
-        audience: ${GITLAB_BASE_URL}
+        secure: true
+#        clientId: ${AUTH_GITLAB_CLIENT_ID}
+#        clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+#        audience: ${GITLAB_BASE_URL}
         
 global:          
   postgresql:
