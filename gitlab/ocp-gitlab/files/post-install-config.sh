@@ -40,7 +40,7 @@ curl --request POST --header "Authorization: Bearer ${access_token}" --data "use
 
 
 # create application for OCP
-export OCP_APP_RESPONSE=$(curl --request POST --header "Authorization: Bearer ${access_token}" --data "name=ocp&redirect_uri=https://oauth-openshift.apps.tmp-raffa.demo.red-chesterfield.com/oauth2callback/gitlab&scopes=profile read_user email openid" "https://${gitlab_hostname}/api/v4/applications")
+export OCP_APP_RESPONSE=$(curl --request POST --header "Authorization: Bearer ${access_token}" --data "name=ocp&redirect_uri=https://oauth-openshift.apps.tmp-raffa.demo.red-chesterfield.com/oauth2callback/gitlab&scopes=api profile read_user email openid" "https://${gitlab_hostname}/api/v4/applications")
 oc patch secret ocp-gitlab-app-credentials -p='{"data":{"client_id": "'"$(echo ${OCP_APP_RESPONSE} | jq -r .application_id | base64 -w0)"'","clientSecret": "'"$(echo ${OCP_APP_RESPONSE} | jq -r .secret | base64 -w0)"'"}}' -n gitlab-system
 
 # create application for backstage
