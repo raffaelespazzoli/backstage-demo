@@ -19,15 +19,22 @@ spec:
           type: HTPasswd
           htpasswd:
             fileData:
-              name: htpass-secret        
+              name: htpass-secret
         - name: gitlab 
           mappingMethod: claim 
-          type: GitLab
-          gitlab:
-            clientID: {{ "{{" }} (index . 0).data.client_id | b64dec {{ "}}" }}
+          type: OpenID
+          openID:
+            clientID: {{ "{{" }} (index . 0).data.client_id | b64dec {{ "}}" }} 
             clientSecret: 
               name: ocp-gitlab-app-credentials
-            url: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com/ 
+            claims: 
+              preferredUsername:
+              - preferred_username
+              name:
+              - name
+              email:
+              - email
+            issuer: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com
     patchType: application/merge-patch+json
     sourceObjectRefs:
     - apiVersion: v1
