@@ -57,21 +57,22 @@ spec:
                 secretKeyRef:
                   name: {{ include "backend.postgresql.passwordSecret" .}}
                   key: postgresql-password
-          - name: AUTH_GITLAB_CLIENT_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: backstage-gitlab-app-credentials
-                key: client_secret
-          - name: AUTH_GITLAB_CLIENT_ID
-            valueFrom:
-              secretKeyRef:
-                name: backstage-gitlab-app-credentials
-                key: client_id                
-          - name: GITLAB_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: root-pat
-                key: pat                  
+            - name: AUTH_GITLAB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-gitlab-app-credentials
+                  key: client_secret
+            - name: AUTH_GITLAB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-gitlab-app-credentials
+                  key: client_id                
+            - name: GITLAB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: root-pat
+                  key: pat  
+                                  
           volumeMounts:
             {{- if .Values.backend.postgresCertMountEnabled }}
             - name: postgres-ca
