@@ -53,7 +53,7 @@ spec:
               secretKeyRef:
                 name: backstage-gitlab-app-credentials
                 key: client_id                
-          -name: GITLAB_TOKEN
+          - name: GITLAB_TOKEN
             valueFrom:
               secretKeyRef:
                 name: root-pat
