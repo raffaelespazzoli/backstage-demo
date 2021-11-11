@@ -46,9 +46,20 @@ data:
             clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
             audience: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com
 
-    scaffolder:
-      azure: null
-
+    kubernetes:
+      serviceLocatorMethod:
+        type: 'multiTenant'
+      clusterLocatorMethods:
+          - type: 'config'
+            clusters:
+              - url: http://127.0.0.1:9999
+                name: ocp
+                authProvider: 'serviceAccount'
+                skipTLSVerify: false
+                serviceAccountToken: ${K8S_MINIKUBE_TOKEN}
+                dashboardUrl: https://console-openshift-console.apps.tmp-raffa.demo.red-chesterfield.com/ # url copied from running the command: minikube service kubernetes-dashboard -n kubernetes-dashboard
+                dashboardApp: openshift
+                caData: ${K8S_CONFIG_CA_DATA}        
 
     sentry:
       organization: "example-org-name"
@@ -62,6 +73,7 @@ data:
         - host: gitlab.apps.tmp-raffa.demo.red-chesterfield.com
           token: ${GITLAB_TOKEN}
           apiBaseUrl: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com/api/v4
+          
 ---
 apiVersion: v1
 kind: ConfigMap
