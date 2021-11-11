@@ -15,14 +15,15 @@ appConfig:
     storageUrl: https://backstage.apps.tmp-raffa.demo.red-chesterfield.com
     requestUrl: https://backstage.apps.tmp-raffa.demo.red-chesterfield.com
 
-  auth:
-    providers:
-      development:
-        appOrigin: 'https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com/'
-        secure: true
-#        clientId: ${AUTH_GITLAB_CLIENT_ID}
-#        clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
-#        audience: ${GITLAB_BASE_URL}
+  # auth:
+  #   providers:
+  #     gitlab:
+  #       development:
+  #         appOrigin: 'https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com/'
+  #         secure: true
+  # #        clientId: ${AUTH_GITLAB_CLIENT_ID}
+  # #        clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+  # #        audience: ${GITLAB_BASE_URL}
         
 global:          
   postgresql:
