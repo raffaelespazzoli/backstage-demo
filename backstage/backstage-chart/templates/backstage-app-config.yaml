@@ -4,7 +4,64 @@ metadata:
   name: {{ include "backstage.fullname" . }}-app-config
 data:
 {{ include "backstage.appConfigFilename" . | indent 2 }}: |
-{{ tpl (.Files.Get "files/app-config.development.yaml.tpl") . | indent 4 }}
+    backend:
+      lighthouseHostname: "backstage-lighthouse"
+      listen:
+          port: 7000
+      database:
+        client: "pg"
+        connection:
+          host: "backstage-postgresql"
+          port: "5432"
+          user: "backend-user"
+          database: "backstage_plugin_catalog"
+          ssl:
+            rejectUnauthorized: "false"
+            ca: "/etc/postgresql/ca.crt"
+
+    catalog:
+      locations:
+        # Backstage example components
+        - type: url
+          target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all-components.yaml
+        # Example component for github-actions
+        - type: url
+          target: https://github.com/backstage/backstage/blob/master/plugins/github-actions/examples/sample.yaml
+        # Example component for techdocs
+        - type: url
+          target: https://github.com/backstage/backstage/blob/master/plugins/techdocs-backend/examples/documented-component/catalog-info.yaml
+        # Backstage example APIs
+        - type: url
+          target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all-apis.yaml
+        # Backstage example templates
+        - type: url
+          target: https://github.com/backstage/backstage/blob/master/plugins/scaffolder-backend/sample-templates/all-templates.yaml
+
+    auth:
+      environment: development
+      providers:
+        gitlab:
+          development:
+            clientId: ${AUTH_GITLAB_CLIENT_ID}
+            clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+            audience: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com
+
+    scaffolder:
+      azure: null
+
+
+    sentry:
+      organization: "example-org-name"
+
+    techdocs:
+      generator: 
+        runIn: 'local'
+
+    integrations:
+      gitlab:
+        - host: gitlab.apps.tmp-raffa.demo.red-chesterfield.com
+          token: ${GITLAB_TOKEN}
+          apiBaseUrl: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com/api/v4
 ---
 apiVersion: v1
 kind: ConfigMap
