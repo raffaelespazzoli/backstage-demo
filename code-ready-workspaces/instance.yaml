@@ -3,19 +3,24 @@ kind: CheCluster
 metadata:
   name: codeready-workspaces
   namespace: openshift-workspaces
-spec:
+spec:  
   auth:
     identityProviderURL: >-
-      https://codeready-openshift-workspaces.apps.tmp-raffa.demo.red-chesterfield.com/auth
+      https://keycloak-openshift-workspaces.apps.tmp-raffa.demo.red-chesterfield.com/auth
     identityProviderRealm: codeready
     updateAdminPassword: false
+    identityProviderIngress: {}
+    oAuthSecret: egCxCWxRn13v
+    oAuthClientName: codeready-workspaces-openshift-identity-provider-sta3z4
     initialOpenShiftOAuthUser: true
     identityProviderContainerResources:
       limits: {}
       request: {}
     identityProviderClientId: codeready-public
+    identityProviderPostgresSecret: che-identity-postgres-secret
     identityProviderRoute: {}
     externalIdentityProvider: false
+    identityProviderSecret: che-identity-secret
     openShiftoAuth: true
   database:
     chePostgresContainerResources:
@@ -24,6 +29,7 @@ spec:
     chePostgresDb: dbche
     chePostgresHostName: postgres
     chePostgresPort: '5432'
+    chePostgresSecret: che-postgres-secret
     externalDb: false
   devWorkspace:
     enable: false
@@ -55,9 +61,6 @@ spec:
     gitSelfSignedCert: false
     useInternalClusterSVCNames: false
     cheFlavor: codeready
-    # customCheProperties:
-    #   CHE_INTEGRATION_GITLAB_SERVER__ENDPOINTS: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com
-    #   CHE_INTEGRATION_GITLAB_OAUTH__ENDPOINT: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com
   storage:
     preCreateSubPaths: true
     pvcClaimSize: 10Gi
