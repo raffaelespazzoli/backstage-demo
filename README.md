@@ -17,3 +17,15 @@ notes
 
 https://gitlab-configuration-as-code.readthedocs.io/en/latest/faq.html
 https://github.com/crossplane-contrib/provider-gitlab
+
+oc new-project github-cicd
+oc adm policy add-cluster-role-to-user cluster-admin -z default -n github-cicd
+oc serviceaccounts get-token default -n github-cicd
+
+
+kube svc account for backstage
+
+```shell
+oc create serviceaccount backstage -n default
+oc adm policy add-cluster-role-to-user cluster-reader -z backstage -n default
+oc serviceaccounts get-token backstage -n default

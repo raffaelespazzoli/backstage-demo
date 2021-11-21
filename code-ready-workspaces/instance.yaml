@@ -55,9 +55,9 @@ spec:
     gitSelfSignedCert: false
     useInternalClusterSVCNames: false
     cheFlavor: codeready
-    customCheProperties:
-      CHE_INTEGRATION_GITLAB_SERVER__ENDPOINTS: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com
-      CHE_INTEGRATION_GITLAB_OAUTH__ENDPOINT: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com
+    # customCheProperties:
+    #   CHE_INTEGRATION_GITLAB_SERVER__ENDPOINTS: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com
+    #   CHE_INTEGRATION_GITLAB_OAUTH__ENDPOINT: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com
   storage:
     preCreateSubPaths: true
     pvcClaimSize: 10Gi
