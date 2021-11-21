@@ -20,25 +20,20 @@ spec:
           htpasswd:
             fileData:
               name: htpass-secret
-        - name: gitlab 
+        - name: backstage-demo-github 
           mappingMethod: claim 
-          type: OpenID
-          openID:
+          type: GitHub
+          github:
             clientID: {{ "{{" }} (index . 0).data.client_id | b64dec {{ "}}" }} 
             clientSecret: 
-              name: ocp-gitlab-app-credentials
-            claims: 
-              preferredUsername:
-              - preferred_username
-              name:
-              - name
-              email:
-              - email
-            issuer: https://gitlab.apps.tmp-raffa.demo.red-chesterfield.com
+              name: ocp-github-app-credentials
+            organizations: 
+            - raf-backstage-demo
+            teams: []            
     patchType: application/merge-patch+json
     sourceObjectRefs:
     - apiVersion: v1
       kind: Secret
-      name: ocp-gitlab-app-credentials
+      name: ocp-github-app-credentials
       namespace: openshift-config     
     id: gitlab-ocp-oauth-provider

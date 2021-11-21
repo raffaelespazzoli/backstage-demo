@@ -29,3 +29,13 @@ kube svc account for backstage
 oc create serviceaccount backstage -n default
 oc adm policy add-cluster-role-to-user cluster-reader -z backstage -n default
 oc serviceaccounts get-token backstage -n default
+```
+
+create github secret for ocp
+
+cretae github oauth app at the rog level
+
+```shell
+source secret.sh
+oc create secret generic ocp-github-app-credentials --from-literal=client_id=${ocp_github_client_id} --from-literal=clientSecret=${ocp_github_client_secret} -n openshift-config
+```
