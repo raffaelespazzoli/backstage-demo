@@ -8,10 +8,10 @@ spec:
   source:
     repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
     targetRevision: HEAD
-    path: backstage/backstage-chart
+    path: backstage/backstage
     helm:
-      valueFiles:
-      - ../values.yaml
+      values: | 
+        base_domain: tmp-raffa.demo.red-chesterfield.com
   destination:
     server: https://kubernetes.default.svc
     namespace: backstage

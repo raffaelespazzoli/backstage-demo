@@ -1,0 +1,19 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: {{ include "backstage.fullname" . }}
+  labels:
+    {{- include "backstage.labels" . | nindent 4 }}
+  annotations:
+    cert-utils-operator.redhat-cop.io/certs-from-secret: {{ include "backstage.fullname" . }}-tls
+spec:
+  host: {{ include "backstage.fullname" . }}.apps.{{ .Values.base_domain }}
+  to:
+    kind: Service
+    name: {{ include "backstage.fullname" . }}
+    weight: 100
+  port:
+    targetPort: 7007
+  tls:
+    termination: edge
+  wildcardPolicy: None

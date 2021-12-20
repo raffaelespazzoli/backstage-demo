@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "reloader-operator.name" -}}
+{{- define "backstage.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "reloader-operator.fullname" -}}
+{{- define "backstage.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,36 +26,37 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "reloader-operator.chart" -}}
+{{- define "backstage.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "reloader-operator.labels" -}}
-helm.sh/chart: {{ include "reloader-operator.chart" . }}
-{{ include "reloader-operator.selectorLabels" . }}
+{{- define "backstage.labels" -}}
+helm.sh/chart: {{ include "backstage.chart" . }}
+{{ include "backstage.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ include "backstage.name" . }}
 {{- end }}
 
 {{/*
 Selector labels
 */}}
-{{- define "reloader-operator.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "reloader-operator.name" . }}
+{{- define "backstage.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "backstage.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "reloader-operator.serviceAccountName" -}}
+{{- define "backstage.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "reloader-operator.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "backstage.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
