@@ -25,7 +25,7 @@ spec:
         factor: 2 # a factor to multiply the base duration after each failed retry
         maxDuration: 10m # the maximum amount of time allowed for the backoff strategy
   ignoreDifferences:
-  - group: argoproj.io/v1alpha1
+  - group: argoproj.io
     kind: Application
     namespace: openshift-gitops
     name: backstage
