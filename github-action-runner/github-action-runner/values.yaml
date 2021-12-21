@@ -1,4 +1,4 @@
-global:
+actions-runner-controller:
   githubWebhookServer:
     enabled: "true"
     service:

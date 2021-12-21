@@ -46,7 +46,7 @@ oc create secret generic ocp-github-app-credentials -n openshift-config --from-l
 oc new-project backstage
 oc create secret generic github-credentials -n backstage --from-literal=AUTH_GITHUB_CLIENT_ID=${backstage_github_client_id} --from-literal=AUTH_GITHUB_CLIENT_SECRET=${backstage_github_client_secret} --from-literal=GITHUB_TOKEN=${org_admin_pat} --from-literal=GITHUB_ORG=${github_organization}
 oc new-project actions-runner-system
-oc create secret generic controller-manager -n actions-runner-system --from-literal=github_app_id=${github_app_id} --from-literal=github_app_installation_id=${INSTALLATION_ID} --from-file=github_app_private_key=${github_app_private_key_file_path}
+oc create secret generic controller-manager -n actions-runner-system --from-literal=github_app_id=${github_app_id} --from-literal=github_app_installation_id=${github_app_installation_id} --from-file=github_app_private_key=${github_app_private_key_file_path}
 ```
 
 To improve the demo experience and have some data pre-populated, you can optionally fork these repos to the new organization:
