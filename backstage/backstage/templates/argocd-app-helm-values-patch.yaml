@@ -19,3 +19,4 @@ spec:
             values: |
               base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "Ingress" "" "cluster").spec.domain {{ "}}" }}            
     patchType: application/merge-patch+json
+    id: base-domain-patch
