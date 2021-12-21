@@ -1,0 +1,8 @@
+global:
+  githubWebhookServer:
+    enabled: "true"
+    service:
+      type: ClusterIP
+    secret:
+      create: "true"
+    github_webhook_secret_token: ciao

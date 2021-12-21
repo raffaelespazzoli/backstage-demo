@@ -9,8 +9,9 @@ This demo is based on GitHub. It requires some manual preparation steps for task
 3. create an Oauth app in this organization for Code Ready Workspaces. The call back url should be `https://codeready-openshift-workspaces.apps.${based_domain}/auth/realms/codeready/broker/github/endpoint`
 4. create an Oauth app in this organization for OpenShift. The call back url should be `https://oauth-openshift.apps.${based_domain}/oauth2callback/backstage-demo-github/`
 5. create a Personal Access Token (PAT) with an account that is administrator to the chosen organization.
+6. create a GitHub application in this organization for the github action runner controller following the insreuctions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git.
 
-Create a client secret for each of these apps.
+Create a client secret for each of the Oauth apps.
 
 Create a file called `secrets.sh` and store it at the top of this repo, it will be ignored by Git.
 
@@ -23,6 +24,9 @@ export crw_github_client_secret=<crw_oauth_app_secret>
 export ocp_github_client_id=<ocp_oauth_app_id>
 export ocp_github_client_secret=<ocp_oauth_app_secret>
 export org_admin_pat=<pat token>
+export github_app_id=<application_id_for_action_runner>
+export github_app_installation_id=<application_installation_id_for_action_runner>
+export github_app_private_key_file_path=./github_action_runner_app.pem
 ```
 
 now you can source the file and populate the environment variables any time:
@@ -41,6 +45,8 @@ oc annotate secret github-oauth-config -n openshift-workspaces --overwrite=true 
 oc create secret generic ocp-github-app-credentials -n openshift-config --from-literal=client_id=${ocp_github_client_id} --from-literal=clientSecret=${ocp_github_client_secret}
 oc new-project backstage
 oc create secret generic github-credentials -n backstage --from-literal=AUTH_GITHUB_CLIENT_ID=${backstage_github_client_id} --from-literal=AUTH_GITHUB_CLIENT_SECRET=${backstage_github_client_secret} --from-literal=GITHUB_TOKEN=${org_admin_pat} --from-literal=GITHUB_ORG=${github_organization}
+oc new-project actions-runner-system
+oc create secret generic controller-manager -n actions-runner-system --from-literal=github_app_id=${github_app_id} --from-literal=github_app_installation_id=${INSTALLATION_ID} --from-file=github_app_private_key=${github_app_private_key_file_path}
 ```
 
 To improve the demo experience and have some data pre-populated, you can optionally fork these repos to the new organization:

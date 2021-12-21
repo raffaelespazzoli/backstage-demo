@@ -30,4 +30,13 @@ spec:
     namespace: openshift-gitops
     name: backstage
     jsonPointers:
+    - /spec/source/helm/values
+  - group: argoproj.io
+    kind: Application
+    namespace: openshift-gitops
+    name: github-action-runner
+    jsonPointers:
     - /spec/source/helm/values              
+
+
+    

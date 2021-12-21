@@ -1,0 +1,19 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: {{ include "github-action-runner.fullname" . }}
+  labels:
+    {{- include "github-action-runner.labels" . | nindent 4 }}
+  annotations:
+    cert-utils-operator.redhat-cop.io/certs-from-secret: {{ include "github-action-runner.fullname" . }}-tls
+spec:
+  host: {{ include "github-action-runner.fullname" . }}.apps.{{ .Values.base_domain }}
+  to:
+    kind: Service
+    name: {{ include "github-action-runner.fullname" . }}
+    weight: 100
+  port:
+    targetPort: {{ .Values.service.port }}
+  tls:
+    termination: edge
+  wildcardPolicy: None
