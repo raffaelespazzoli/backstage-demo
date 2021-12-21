@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://actions-runner-controller.github.io/actions-runner-controller
+    repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
     path: github-action-runner/github-action-runner
     targetRevision: HEAD
     helm:
