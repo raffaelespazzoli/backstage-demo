@@ -10,7 +10,8 @@ spec:
     targetRevision: HEAD
     path: backstage/backstage
     helm:
-      values: ""
+      values: | 
+        base_domain: "dummy"
   destination:
     server: https://kubernetes.default.svc
     namespace: backstage
