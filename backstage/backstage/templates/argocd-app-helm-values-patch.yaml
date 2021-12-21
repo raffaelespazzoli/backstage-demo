@@ -1,0 +1,21 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: ResourceLocker
+metadata:
+  name: backstag-app-patch
+  namespace: openshift-gitops
+spec:
+  serviceAccountRef:
+    name: openshift-gitops-argocd-server
+  patches:
+  - targetObjectRef:
+      apiVersion: argoproj.io/v1alpha1
+      kind: Application
+      namespace: openshift-gitops
+      name: backstage
+    patchTemplate: |
+      spec:
+        source:
+          helm:
+            values: |
+              base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "Ingress" "" "cluster").spec.domain {{ "}}" }}            
+    patchType: application/merge-patch+json

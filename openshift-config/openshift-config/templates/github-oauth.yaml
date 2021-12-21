@@ -1,7 +1,7 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: ResourceLocker
 metadata:
-  name: gitlab-ocp-oauth-provider
+  name: github-ocp-oauth-provider
   namespace: openshift-config
 spec:
   serviceAccountRef:
