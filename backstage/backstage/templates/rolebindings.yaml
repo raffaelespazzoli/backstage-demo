@@ -9,4 +9,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: {{ include "backstage.serviceAccountName" . }}
-  namespace: {{ .Release.namespace }}
+  namespace: {{ .Release.Namespace }}
