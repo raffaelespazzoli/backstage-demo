@@ -5,7 +5,7 @@ metadata:
     {{- include "backstage.labels" . | nindent 4 }}
   name: {{ include "backstage.fullname" . }}-configuration
 data:
-  app_config.yaml: |
+  app-config.yaml: |
     app:
       title: Scaffolded Backstage App
       baseUrl: https://{{ include "backstage.fullname" . }}.apps.{{ .Values.base_domain }}
