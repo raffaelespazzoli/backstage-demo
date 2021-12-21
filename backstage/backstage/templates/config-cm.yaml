@@ -1,0 +1,128 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{- include "backstage.labels" . | nindent 4 }}
+  name: {{ include "backstage.fullname" . }}-configuration
+data:
+  app_config.yaml: |
+    app:
+      title: Scaffolded Backstage App
+      baseUrl: https://{{ include "backstage.fullname" . }}.apps.{{ .Values.base_domain }}
+
+    organization:
+      name: My Demo Company
+
+    backend:
+      baseUrl: https://{{ include "backstage.fullname" . }}.apps.{{ .Values.base_domain }}
+      listen:
+        port: 7000
+      csp:
+        connect-src: ["'self'", 'http:', 'https:']
+        # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
+        # Default Helmet Content-Security-Policy values can be removed by setting the key to false
+      cors:
+        origin: https://{{ include "backstage.fullname" . }}.apps.{{ .Values.base_domain }}
+        methods: [GET, POST, PUT, DELETE]
+        credentials: true
+      database:
+        client: sqlite3
+        connection: ':memory:'
+      cache:
+        store: memory
+      # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
+
+    integrations:
+      github:
+        - host: github.com
+          token: ${GITHUB_TOKEN}
+
+    proxy: {}
+
+    # Reference documentation http://backstage.io/docs/features/techdocs/configuration
+    # Note: After experimenting with basic setup, use CI/CD to generate docs
+    # and an external cloud storage when deploying TechDocs for production use-case.
+    # https://backstage.io/docs/features/techdocs/how-to-guides#how-to-migrate-from-techdocs-basic-to-recommended-deployment-approach
+    techdocs:
+      builder: 'local' # Alternatives - 'external'
+      generator:
+        runIn: 'local' # Alternatives - 'local'
+      publisher:
+        type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
+
+    auth:
+      environment: development
+      providers:
+        github:
+          development:
+            clientId: ${AUTH_GITHUB_CLIENT_ID}
+            clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+
+    scaffolder:
+      github:
+        token: ${GITHUB_TOKEN}
+        visibility: public # or 'internal' or 'private'
+
+    kubernetes:
+      serviceLocatorMethod:
+        type: 'multiTenant'
+      clusterLocatorMethods:
+        - type: 'config'
+          clusters:
+            - url: https://api.{{ .Values.base_domain }}:6443
+              name: openshift
+              authProvider: 'serviceAccount'
+              skipTLSVerify: true
+              serviceAccountToken: ${KUBE_TOKEN}
+              dashboardUrl: https://console-openshift-console.apps.{{ .Values.base_domain }}.com
+              dashboardApp: openshift
+
+
+    catalog:
+      rules:
+        - allow: [Component, System, API, Group, User, Resource, Location]
+      locations:
+        # Backstage example components
+        - type: url
+          target: https://github.com/${GITHUB_ORG}/backstage/blob/master/packages/catalog-model/examples/all-components.yaml
+
+        # Backstage example systems
+        - type: url
+          target: https://github.com/${GITHUB_ORG}/backstage/blob/master/packages/catalog-model/examples/all-systems.yaml
+
+        # Backstage example APIs
+        - type: url
+          target: https://github.com/${GITHUB_ORG}/backstage/blob/master/packages/catalog-model/examples/all-apis.yaml
+
+        # Backstage example resources
+        - type: url
+          target: https://github.com/${GITHUB_ORG}/backstage/blob/master/packages/catalog-model/examples/all-resources.yaml
+
+        # Backstage example organization groups
+        - type: url
+          target: https://github.com/${GITHUB_ORG}/backstage/blob/master/packages/catalog-model/examples/acme/org.yaml
+
+        # Backstage example templates
+        - type: url
+          target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/react-ssr-template/template.yaml
+          rules:
+            - allow: [Template]
+        - type: url
+          target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/springboot-grpc-template/template.yaml
+          rules:
+            - allow: [Template]
+        - type: url
+          target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/quarkus-template/template.yaml
+          rules:
+            - allow: [Template] 
+        - type: url
+          target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/docs-template/template.yaml
+          rules:
+            - allow: [Template]
+
+        - type: github-discovery
+          target: https://github.com/${GITHUB_ORG}
+          
+        - type: github-org
+          target: https://github.com/${GITHUB_ORG}      
+

@@ -2,6 +2,8 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: {{ include "backstage.fullname" . }}
+  labels:
+    {{- include "backstage.labels" . | nindent 4 }}  
 spec:
   # Secret names are always required.
   secretName: {{ include "backstage.fullname" . }}-tls

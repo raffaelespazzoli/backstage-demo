@@ -29,6 +29,13 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          args: ["--config", "/config/app-config.yaml"]
+          volumeMounts:
+          - name: backstage-config
+            mountPath: /config          
+          envFrom:
+          - secretRef:
+              name: github-credentials        
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -59,3 +66,9 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: backstage-config
+          configMap:
+            # Provide the name of the ConfigMap containing the files you want
+            # to add to the container
+            name: {{ include "backstage.fullname" . }}-configuration 
