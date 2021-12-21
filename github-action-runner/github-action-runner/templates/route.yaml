@@ -10,10 +10,10 @@ spec:
   host: {{ include "github-action-runner.fullname" . }}.apps.{{ .Values.base_domain }}
   to:
     kind: Service
-    name: {{ include "github-action-runner.fullname" . }}
+    name: github-action-runner-actions-runner-controller-github-webhook-s
     weight: 100
   port:
-    targetPort: 9443
+    targetPort: 8000
   tls:
     termination: edge
   wildcardPolicy: None

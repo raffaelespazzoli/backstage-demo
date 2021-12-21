@@ -5,4 +5,4 @@ actions-runner-controller:
       type: ClusterIP
     secret:
       create: "true"
-    github_webhook_secret_token: ciao
+      github_webhook_secret_token: ciao
