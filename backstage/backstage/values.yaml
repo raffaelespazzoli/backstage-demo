@@ -38,7 +38,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 7007
+  port: 7000
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

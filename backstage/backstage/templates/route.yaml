@@ -13,7 +13,7 @@ spec:
     name: {{ include "backstage.fullname" . }}
     weight: 100
   port:
-    targetPort: 7000
+    targetPort: {{ .Values.service.port }}
   tls:
     termination: edge
   wildcardPolicy: None
