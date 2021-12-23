@@ -1,0 +1,38 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: NamespaceConfig
+metadata:
+  name: team-edit-access
+spec:
+  labelSelector:
+    matchExpressions:
+      - key: team
+        operator: Exists
+  templates:     
+    - objectTemplate: | 
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: {{ index .metadata.annotation "team" }}-edit
+          namespace: {{ .Name }}
+        roleRef:
+          apiGroup: rbac.authorization.k8s.io
+          kind: ClusterRole
+          name: edit
+        subjects:
+        - kind: Group
+          apiGroup: rbac.authorization.k8s.io
+          name: {{ index .metadata.annotation "team" }}
+    - objectTemplate: | 
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: {{ index .metadata.annotation "team" }}-build-sa-edit
+          namespace: {{ .Name }}
+        roleRef:
+          apiGroup: rbac.authorization.k8s.io
+          kind: ClusterRole
+          name: edit
+        subjects:          
+        - kind: ServiceAccount
+          name: default
+          namespace: {{ index .metadata.annotation "build-namespace" }}
