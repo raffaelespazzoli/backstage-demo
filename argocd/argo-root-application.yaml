@@ -42,7 +42,6 @@ spec:
     namespace: openshift-gitops
     name: openshift-config
     jsonPointers:
-    - /spec/source/helm/values                
-
+    - /spec/source/helm/values
 
     
