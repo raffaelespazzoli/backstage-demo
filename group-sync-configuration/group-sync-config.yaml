@@ -1,0 +1,12 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: GroupSync
+metadata:
+  name: github-group-sync-configuration
+spec:
+  providers:
+  - name: github
+    github:
+      organization: raf-backstage-demo
+      credentialsSecret:
+        name: github-group-sync
+        namespace: group-sync-operator

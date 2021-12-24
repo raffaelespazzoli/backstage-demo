@@ -1,0 +1,22 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: NamespaceConfig
+metadata:
+  name: small-namespace
+spec:
+  labelSelector:
+    matchLabels:
+      environment: build
+  templates:  
+    - objectTemplate: | 
+        apiVersion: actions.summerwind.dev/v1alpha1
+        kind: RunnerDeployment
+        metadata:
+          name: {{ index .metadata.annotation "app" }}-build-runner
+        spec:
+          replicas: 2
+          spec:
+            ephemeral: true
+            organization: raf-backstage-demo
+            labels: 
+              app: {{ index .metadata.annotation "app" }}
+              runs-on: self-hosted
