@@ -11,7 +11,7 @@ spec:
     path: openshift-config/openshift-config
     helm:
       values: | 
-        base_domain: "dummy"    
+        base_domain: "dummy"
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-config
