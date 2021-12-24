@@ -7,7 +7,7 @@ metadata:
 spec:
   # Secret names are always required.
   secretName: {{ include "github-action-runner.fullname" . }}-tls
-  commonName: {{ include "github-action-runner.fullname" . }}.apps.{{ .Values.base_domain }}
+  commonName: {{ include "github-action-runner.fullname" . }}
   usages:
     - server auth 
   dnsNames:

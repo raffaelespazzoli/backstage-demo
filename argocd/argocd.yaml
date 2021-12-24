@@ -7,9 +7,6 @@ spec:
   server:
     autoscale:
       enabled: false
-      tls:
-        insecureEdgeTerminationPolicy: Redirect
-        termination: reencrypt      
     grpc:
       ingress:
         enabled: false
@@ -24,6 +21,9 @@ spec:
         memory: 128Mi
     route:
       enabled: true
+      tls:
+        insecureEdgeTerminationPolicy: Redirect
+        termination: reencrypt      
     service:
       type: ''
   grafana:
