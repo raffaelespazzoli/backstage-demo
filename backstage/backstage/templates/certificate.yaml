@@ -7,7 +7,6 @@ metadata:
 spec:
   # Secret names are always required.
   secretName: {{ include "backstage.fullname" . }}-tls
-  commonName: {{ include "backstage.fullname" . }}.apps.{{ .Values.base_domain }}
   usages:
     - server auth 
   dnsNames:
