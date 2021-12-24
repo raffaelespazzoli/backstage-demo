@@ -10,7 +10,7 @@ spec:
   usages:
     - server auth 
   dnsNames:
-  - {{ include "github-action-runner.fullname" . }}.apps.{{ .Values.base_domain }}
+  - ghr.apps.{{ .Values.base_domain }}
   duration: 168h0m0s
   renewBefore: 1h0m0s
   issuerRef:
