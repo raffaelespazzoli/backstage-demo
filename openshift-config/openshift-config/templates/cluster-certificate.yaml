@@ -7,12 +7,12 @@ spec:
   secretName: lets-encrypt-certs-tls
   duration: 168h0m0s
   renewBefore: 1h0m0s
-  commonName: '*.apps.tmp-raffa.demo.red-chesterfield.com'
+  commonName: '*.apps.{{ .Values.base_domain }}'
   usages:
     - server auth
   # At least one of a DNS Name, URI, or IP address is required.
   dnsNames:
-    - '*.apps.tmp-raffa.demo.red-chesterfield.com'
+    - '*.apps.{{ .Values.base_domain }}'
   issuerRef:
     name: letsencrypt-issuer
     # We can reference ClusterIssuers by changing the kind here.

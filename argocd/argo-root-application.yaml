@@ -36,7 +36,13 @@ spec:
     namespace: openshift-gitops
     name: github-action-runner
     jsonPointers:
-    - /spec/source/helm/values              
+    - /spec/source/helm/values
+  - group: argoproj.io
+    kind: Application
+    namespace: openshift-gitops
+    name: openshift-config
+    jsonPointers:
+    - /spec/source/helm/values                
 
 
     
