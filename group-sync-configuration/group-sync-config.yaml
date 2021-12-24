@@ -3,6 +3,7 @@ kind: GroupSync
 metadata:
   name: github-group-sync-configuration
 spec:
+  schedule: "*/30 * * * *"
   providers:
   - name: github
     github:
