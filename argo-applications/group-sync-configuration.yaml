@@ -13,7 +13,7 @@ spec:
       include: "*.yaml"
   destination:
     server: https://kubernetes.default.svc
-    namespace: openshift-gitops
+    namespace: group-sync-operator
   syncPolicy:
     automated: 
       prune: true
