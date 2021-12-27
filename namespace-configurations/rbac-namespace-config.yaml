@@ -8,12 +8,12 @@ spec:
       - key: team
         operator: Exists
   templates:     
-    - objectTemplate: | 
+    - objectTemplate: |
         apiVersion: rbac.authorization.k8s.io/v1
         kind: RoleBinding
         metadata:
-          name: {{ .Annotations.team }}-edit
-          namespace: {{ .Name }}
+          name: "{{ .Annotations.team }}-edit"
+          namespace: "{{ .Name }}"
         roleRef:
           apiGroup: rbac.authorization.k8s.io
           kind: ClusterRole
@@ -21,13 +21,13 @@ spec:
         subjects:
         - kind: Group
           apiGroup: rbac.authorization.k8s.io
-          name: {{ .Annotations.team }}
-    - objectTemplate: | 
+          name: "{{ .Annotations.team }}"
+    - objectTemplate: |
         apiVersion: rbac.authorization.k8s.io/v1
         kind: RoleBinding
         metadata:
-          name: {{ .Annotations.team }}-build-sa-edit
-          namespace: {{ .Name }}
+          name: "{{ .Annotations.team }}-build-sa-edit"
+          namespace: "{{ .Name }}"
         roleRef:
           apiGroup: rbac.authorization.k8s.io
           kind: ClusterRole
@@ -35,4 +35,4 @@ spec:
         subjects:          
         - kind: ServiceAccount
           name: default
-          namespace: {{ .Annotations.build-namespace }}
+          namespace: "{{ index .Annotations "build-namespace" }}"

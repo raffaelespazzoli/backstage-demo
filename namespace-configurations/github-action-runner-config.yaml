@@ -7,17 +7,18 @@ spec:
     matchLabels:
       environment: build
   templates:  
-    - objectTemplate: | 
+    - objectTemplate: |
         apiVersion: actions.summerwind.dev/v1alpha1
         kind: RunnerDeployment
         metadata:
-          name: {{ .Annotations.app }}-build-runner
-          namespace: {{ .Name }}
+          name: "{{ .Annotations.app }}-build-runner"
+          namespace: "{{ .Name }}"
         spec:
           replicas: 2
-          spec:
-            ephemeral: true
-            organization: raf-backstage-demo
-            labels: 
-              app: {{ .Annotations.app }}
-              runs-on: self-hosted
+          template:
+            spec:
+              ephemeral: true
+              organization: raf-backstage-demo
+              labels: 
+                app: "{{ .Annotations.app }}"
+                runs-on: self-hosted
