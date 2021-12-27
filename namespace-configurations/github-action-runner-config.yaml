@@ -27,7 +27,10 @@ spec:
                 - "{{ .Labels.app }}"
                 - self-hosted
               organization: raf-backstage-demo
-              resources: {}
+              resources: 
+                requests: 
+                  cpu: "200m"
+                  memory: memory: "1Gi"
       excludedPaths:
         - .spec.template.metadata
         - .spec.template.spec.image
