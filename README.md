@@ -1,8 +1,49 @@
 # backstage-demo
 
-This demo is based on GitHub. It requires some manual preparation steps for tasks that do not seem automate-able on GitHub (at least i was no able to automate them).
+TL,DR, if you want to just setup the demo go to [here](#manual-preparation)
+This demo is intended to show what a good developer experience might look like when developing applications to be deployed on OpenShift and the eco-system of tools that come with it.
+The developer experience is divided in four pillars which are tightly interconnected but that we are going to examine separately.
+
+1. the onboarding experience.
+2. the coding time.
+3. the build time.
+4. the run time.
+
+The objective of this demo is to explore how we can get a better and better experience while at the same time maintaining the following requirements:
+
+1. Security. There is tension between making everything self-serviced and everything secure. When these two requirements come to a odd, security should win.
+2. Scalability. whether we are supporting a team of developers with a few software components or hundreds of teams and thousands of components the cost should be the same. To do so we deploy everything via gitops and we automate all of the configuration/maintenance operations.
+
+## Onboarding time
+
+The onboarding time is the first time a developer experience the platform that comprise all of the tools. Onboarding should be as seamless as possible. Right now the onboarding experience is the following:
+
+1. user on-boarding. A user must be invited to the github organization. This is equivalent to HR onboarding an employee into the enterprise IDP.
+2. Application onboarding. An application is declared to exist and belong to a team. This application is given a set of namespace for its SDLC. This process is not defined yet.
+3. Component onboarding. A software component which resides in a repo is onboarded to the system. It will be pre-configured to work with Code ready workspace and to be deployed by the pipelines to the previously defined namespace. This happens via the scaffolder feature of Backstage
+
+## Coding time
+
+The purpose of the coding time experience is to provide a comfortable environment for developers to code and to run their inner loop. Ideally setting up the workspace should be immediate and the inner loop should be very fast (no more than ~30 seconds) while at the same time running the software components in an environment that is as close as possible as to what production will be.
+In this demo the coding is done in Code Ready Workspaces. Each developer gets one or more workspaces for their software components which are easily accessible from Backstage.
+
+## Build time
+
+The purpose of the build time experience is to keep running pipeline simple for the developers while at the same time allowing for pipelines rich of functionalities. This can be done with the concept of pipeline as a service by which we mean that a central team manages one or more pipelines and developer *invoke* those pipelines as is they were service, passing some parameters.
+In this demo pipelines are implemented with github workflows and the concept of pipeline as a service is implemented using the shared workflow features.
+When new components are created via scaffholder, also the pipeline is configured, so in theory a component is ready to be deployed to production right away after being created.
+
+## Runtime
+
+The runtime for the demo is OpenShift. The concept of a good runtime experience for a developer is that any piece of infrastructure needed to run the application should be self serviceable, possibly via manifests that will be deployed to OpenShift together with the rest of the application manifests. This includes also piece of infrastructure external to Openshift.
+In this demo we have several operator that keep the configuration internal to OpenShift tidy and scale to any number of teams being ondoarded (permissions, quotas, etc). There are no example of external configuration at the moment.
+
+For the future we plan to add monitoring to the runtime experience.
 
 ## Manual preparation
+
+This demo is based on GitHub.
+It requires some manual preparation steps for tasks that do not seem automate-able on GitHub (at least i was no able to automate them).
 
 1. create a new organization or reuse an existing one.
 2. create an Oauth app in this organization for backstage. The call back url should be `https://backstage.apps.${based_domain}/api/auth/github`
@@ -83,3 +124,6 @@ at the moment is still unclear what creates namespaces. regardless of that, name
 - `build-namespace`: the name of the namespace in which the pipeline which deploys to this namespace runs. In the build-namespace a github runner is deployed with edit permissions.
 - `size`: determines the quota given to the namespace. Allowed values `small`, `medium`, `large`.
 - `environment`: the purpose of the namespace. If environment equals build, an action runner for that app will be deployed. Other special behaviors related to environment might added in the future.
+
+
+

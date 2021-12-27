@@ -1,0 +1,44 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app-1-build
+  labels:
+    app : app-1
+    team: demo-team-a
+    build-namespace: app-1-build
+    size: medium
+    environment: build
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app-1-dev
+  labels:
+    app : app-1
+    team: demo-team-a
+    build-namespace: app-1-build
+    size: medium
+    environment: dev
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app-1-qa
+  labels:
+    app : app-1
+    team: demo-team-a
+    build-namespace: app-1-build
+    size: medium
+    environment: qa
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app-1-prod
+  labels:
+    app : app-1
+    team: demo-team-a
+    build-namespace: app-1-build
+    size: medium
+    environment: prod            
