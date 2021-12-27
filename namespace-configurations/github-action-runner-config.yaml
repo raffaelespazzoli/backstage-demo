@@ -26,7 +26,8 @@ spec:
         - .spec.template.metadata
         - .spec.template.spec.image
         - .spec.template.spec.resources
-        - .spec.template.spec.dockerContainerResources
+        - .spec.template.spec.dockerdContainerResources
+        - .spec.selector
         - .status	
         - .spec.replicas	
         - .metadata        
