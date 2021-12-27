@@ -12,7 +12,7 @@ spec:
         apiVersion: rbac.authorization.k8s.io/v1
         kind: RoleBinding
         metadata:
-          name: {{ index .metadata.annotations "team" }}-edit
+          name: {{ index .Metadata.Annotations "team" }}-edit
           namespace: {{ .Name }}
         roleRef:
           apiGroup: rbac.authorization.k8s.io
@@ -21,12 +21,12 @@ spec:
         subjects:
         - kind: Group
           apiGroup: rbac.authorization.k8s.io
-          name: {{ index .metadata.annotations "team" }}
+          name: {{ index .Metadata.Annotations "team" }}
     - objectTemplate: | 
         apiVersion: rbac.authorization.k8s.io/v1
         kind: RoleBinding
         metadata:
-          name: {{ index .metadata.annotations "team" }}-build-sa-edit
+          name: {{ index .Metadata.Annotations "team" }}-build-sa-edit
           namespace: {{ .Name }}
         roleRef:
           apiGroup: rbac.authorization.k8s.io
@@ -35,4 +35,4 @@ spec:
         subjects:          
         - kind: ServiceAccount
           name: default
-          namespace: {{ index .metadata.annotations "build-namespace" }}
+          namespace: {{ index .Metadata.Annotations "build-namespace" }}
