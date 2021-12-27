@@ -11,10 +11,10 @@ spec:
         apiVersion: actions.summerwind.dev/v1alpha1
         kind: RunnerDeployment
         metadata:
-          name: "{{ .Labels.app }}-build-runner"
+          name: "{{ .Labels.app }}-buildah-runner"
           namespace: "{{ .Name }}"
         spec:
-          replicas: 2
+          replicas: 1
           selector: null
           template:
             metadata: {}
@@ -22,10 +22,11 @@ spec:
               dockerEnabled: false
               dockerdContainerResources: {}
               ephemeral: true
-              image: ''
+              image: quay.io/redhat-github-actions/buildah-runner:v1.3
               labels:
                 - "{{ .Labels.app }}"
                 - self-hosted
+                - buildah
               organization: raf-backstage-demo
               resources: 
                 requests: 
@@ -40,3 +41,37 @@ spec:
         - .status	
         - .spec.replicas	
         - .metadata
+    - objectTemplate: |
+        apiVersion: actions.summerwind.dev/v1alpha1
+        kind: RunnerDeployment
+        metadata:
+          name: "{{ .Labels.app }}-java-runner"
+          namespace: "{{ .Name }}"
+        spec:
+          replicas: 1
+          selector: null
+          template:
+            metadata: {}
+            spec:
+              dockerEnabled: false
+              dockerdContainerResources: {}
+              ephemeral: true
+              image: quay.io/redhat-github-actions/java-runner-11:v1.3
+              labels:
+                - "{{ .Labels.app }}"
+                - self-hosted
+                - java
+              organization: raf-backstage-demo
+              resources: 
+                requests: 
+                  cpu: "200m"
+                  memory: "1Gi"
+      excludedPaths:
+        - .spec.template.metadata
+        - .spec.template.spec.image
+        - .spec.template.spec.resources
+        - .spec.template.spec.dockerdContainerResources
+        - .spec.selector
+        - .status	
+        - .spec.replicas	
+        - .metadata        
