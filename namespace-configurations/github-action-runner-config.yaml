@@ -30,7 +30,7 @@ spec:
               resources: 
                 requests: 
                   cpu: "200m"
-                  memory: memory: "1Gi"
+                  memory: "1Gi"
       excludedPaths:
         - .spec.template.metadata
         - .spec.template.spec.image
