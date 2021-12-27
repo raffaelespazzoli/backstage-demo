@@ -14,11 +14,10 @@ spec:
           name: {{ .Name }}-quota
           namespace: {{ .Name }}
         spec:
-          quota:
-            hard: 
-              requests.cpu: "10" 
-              requests.memory: 10Gi 
-              requests.ephemeral-storage: 10Gi
+          hard: 
+            requests.cpu: "10" 
+            requests.memory: 10Gi 
+            requests.ephemeral-storage: 10Gi
 ---              
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
@@ -36,11 +35,10 @@ spec:
           name: {{ .Name }}-quota
           namespace: {{ .Name }}
         spec:
-          quota:
-            hard: 
-              requests.cpu: "30" 
-              requests.memory: 30Gi 
-              requests.ephemeral-storage: 30Gi
+          hard: 
+            requests.cpu: "30" 
+            requests.memory: 30Gi 
+            requests.ephemeral-storage: 30Gi
 ---           
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
@@ -58,8 +56,7 @@ spec:
           name: {{ .Name }}-quota
           namespace: {{ .Name }}
         spec:
-          quota:
-            hard: 
-              requests.cpu: "50" 
-              requests.memory: 50Gi 
-              requests.ephemeral-storage: 50Gi  
+          hard: 
+            requests.cpu: "50" 
+            requests.memory: 50Gi 
+            requests.ephemeral-storage: 50Gi  
