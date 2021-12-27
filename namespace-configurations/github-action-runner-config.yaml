@@ -15,13 +15,18 @@ spec:
           namespace: "{{ .Name }}"
         spec:
           replicas: 2
+          selector: null
           template:
+            metadata: {}
             spec:
+              dockerdContainerResources: {}
               ephemeral: true
+              image: ''
+              labels:
+                - "{{ .Labels.app }}"
+                - self-hosted
               organization: raf-backstage-demo
-              labels: 
-              - "{{ .Labels.app }}"
-              - self-hosted
+              resources: {}
       excludedPaths:
         - .spec.template.metadata
         - .spec.template.spec.image
@@ -30,4 +35,4 @@ spec:
         - .spec.selector
         - .status	
         - .spec.replicas	
-        - .metadata        
+        - .metadata
