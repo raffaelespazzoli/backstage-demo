@@ -22,3 +22,8 @@ spec:
               labels: 
               - "{{ .Labels.app }}"
               - self-hosted
+      excludedPaths:
+        - spec.template.metadata
+        - spec.template.spec.image
+        - spec.template.spec.resources
+        - spec.template.spec.dockerContainerResources
