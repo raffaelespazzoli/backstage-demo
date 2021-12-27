@@ -1,7 +1,7 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
 metadata:
-  name: small-namespace
+  name: github-action-runner-deployment
 spec:
   labelSelector:
     matchLabels:
