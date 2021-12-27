@@ -11,7 +11,7 @@ spec:
         apiVersion: actions.summerwind.dev/v1alpha1
         kind: RunnerDeployment
         metadata:
-          name: "{{ .Annotations.app }}-build-runner"
+          name: "{{ .Labels.app }}-build-runner"
           namespace: "{{ .Name }}"
         spec:
           replicas: 2
@@ -20,5 +20,5 @@ spec:
               ephemeral: true
               organization: raf-backstage-demo
               labels: 
-                app: "{{ .Annotations.app }}"
-                runs-on: self-hosted
+              - "{{ .Labels.app }}"
+              - self-hosted
