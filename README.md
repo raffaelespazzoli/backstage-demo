@@ -52,6 +52,7 @@ It requires some manual preparation steps for tasks that do not seem automate-ab
 5. create a Personal Access Token (PAT) with an account that is administrator to the chosen organization.
 6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${based_domain}`. The webhook secret is hardcoded to `ciao`.
 7. create a GitHub Application for the group-sync-operator following the instructions [here](https://github.com/redhat-cop/group-sync-operator#as-a-github-app). Store the ssh key pem in a file called `group-sync-operator-app-key.pem`, it will be ignored by git.
+8. create a PAT with package_read permissions on the entire organization. This will be used to pull images from all the namespaces.
 
 Create a client secret for each of the OAuth apps.
 
@@ -71,6 +72,7 @@ export action_runner_github_app_installation_id=<application_installation_id_for
 export action_runner_github_app_private_key_file_path=./github_action_runner_app.pem
 export group_sync_github_app_id=<application_id_for_group_sync-operator>
 export group_sync_operator_github_app_key_file_path=./group-sync-operator-app-key.pem
+export package_puller_pat=<pat_token>
 ```
 
 now you can source the file and populate the environment variables any time:
@@ -93,6 +95,7 @@ oc new-project actions-runner-system
 oc create secret generic controller-manager -n actions-runner-system --from-literal=github_app_id=${action-runner-github_app_id} --from-literal=github_app_installation_id=${action-runner-github_app_installation_id} --from-file=github_app_private_key=${action-runner-github_app_private_key_file_path}
 oc new-project group-sync-operator
 oc create secret generic github-group-sync -n group-sync-operator --from-literal=appId=${group_sync_github_app_id} --from-file=privateKey=${group_sync_operator_github_app_key_file_path}
+oc create secret docker-registry ghcr-puller --docker-server=ghcr.io --docker-username=org_puller --docker-password=${package_puller_pat} --docker-email=org_puller@example.com -n openshift-config
 ```
 
 To improve the demo experience and have some data pre-populated, you can optionally fork these repos to the new organization:
