@@ -46,10 +46,10 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: Patch
 metadata:
   name: letsencrypt-issuer
-  namespace: openshift-gitops
+  namespace: openshift-config
 spec:
   serviceAccountRef:
-    name: openshift-gitops-argocd-application-controller
+    name: default
   patch:
     targetObjectRef:
       apiVersion: cert-manager.io/v1

@@ -2,10 +2,10 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: Patch
 metadata:
   name: openshift-config-argocd-app-patch
-  namespace: openshift-gitops
+  namespace: openshift-config
 spec:
   serviceAccountRef:
-    name: openshift-gitops-argocd-server
+    name: default
   patch:
     targetObjectRef:
       apiVersion: argoproj.io/v1alpha1
