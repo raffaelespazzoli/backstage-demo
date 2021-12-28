@@ -1,13 +1,13 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
-kind: ResourceLocker
+kind: Patch
 metadata:
   name: github-ocp-oauth-provider
   namespace: openshift-config
 spec:
   serviceAccountRef:
     name: default
-  patches:
-  - targetObjectRef:
+  patch:
+    targetObjectRef:
       apiVersion: config.openshift.io/v1
       kind: OAuth
       name: cluster
@@ -24,7 +24,7 @@ spec:
           mappingMethod: claim 
           type: GitHub
           github:
-            clientID: {{ "{{" }} (index . 0).data.client_id | b64dec {{ "}}" }} 
+            clientID: {{ "{{" }} (index . 1).data.client_id | b64dec {{ "}}" }} 
             clientSecret: 
               name: ocp-github-app-credentials
             organizations: 
@@ -35,5 +35,4 @@ spec:
     - apiVersion: v1
       kind: Secret
       name: ocp-github-app-credentials
-      namespace: openshift-config     
-    id: gitlab-ocp-oauth-provider
+      namespace: openshift-config

@@ -43,15 +43,15 @@ spec:
           hostedZoneID: dummy
 ---          
 apiVersion: redhatcop.redhat.io/v1alpha1
-kind: ResourceLocker
+kind: Patch
 metadata:
   name: letsencrypt-issuer
   namespace: openshift-gitops
 spec:
   serviceAccountRef:
     name: openshift-gitops-argocd-application-controller
-  patches:
-  - targetObjectRef:
+  patch:
+    targetObjectRef:
       apiVersion: cert-manager.io/v1
       kind: ClusterIssuer
       name: letsencrypt-issuer
@@ -61,9 +61,9 @@ spec:
           solvers:
           - dns01:
               route53:
-                accessKeyID: {{ "{{" }} (index . 0).data.aws_access_key_id | b64dec {{ "}}" }}
-                region: {{ "{{" }} (index . 1).status.platformStatus.aws.region {{ "}}" }}
-                hostedZoneID: {{ "{{" }} (index . 2).spec.publicZone.id {{ "}}" }}
+                accessKeyID: {{ "{{" }} (index . 1).data.aws_access_key_id | b64dec {{ "}}" }}
+                region: {{ "{{" }} (index . 2).status.platformStatus.aws.region {{ "}}" }}
+                hostedZoneID: {{ "{{" }} (index . 3).spec.publicZone.id {{ "}}" }}
                 secretAccessKeySecretRef:
                   name: cert-manager-dns-credentials
                   key: aws_secret_access_key
@@ -78,5 +78,4 @@ spec:
       name: cluster
     - apiVersion: config.openshift.io/v1
       kind: DNS
-      name: cluster      
-    id: letsencrypt-issuer           
+      name: cluster           

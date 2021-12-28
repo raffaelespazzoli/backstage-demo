@@ -1,13 +1,13 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
-kind: ResourceLocker
+kind: Patch
 metadata:
   name: action-runner-app-patch
   namespace: openshift-gitops
 spec:
   serviceAccountRef:
     name: openshift-gitops-argocd-server
-  patches:
-  - targetObjectRef:
+  patch:
+    targetObjectRef:
       apiVersion: argoproj.io/v1alpha1
       kind: Application
       namespace: openshift-gitops
@@ -19,4 +19,3 @@ spec:
             values: |
               base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
     patchType: application/merge-patch+json
-    id: base-domain-patch
