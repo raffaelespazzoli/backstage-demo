@@ -8,6 +8,13 @@ spec:
   name: patch-operator 
   source: community-operators
   sourceNamespace: openshift-marketplace
+  config:
+    resources:
+      limits:
+        memory: 1000Mi
+      requests:
+        cpu: 100m
+        memory: 500Mi 
 ---
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
