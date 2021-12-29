@@ -22,5 +22,5 @@ spec:
             organization: {{ "{{" }} (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec {{ "}}" }}  
             url: 'https://api.github.com/'
             v4url: 'https://api.github.com/graphql'          
-            name: github
+          name: github
     patchType: application/merge-patch+json
