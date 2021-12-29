@@ -15,12 +15,12 @@ spec:
     patchTemplate: |
       spec:
         providers:
-        - name: github
-          github:
+        - github:
             credentialsSecret:
               name: github-group-sync
               namespace: group-sync-operator
+            organization: {{ "{{" }} (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec {{ "}}" }}  
             url: 'https://api.github.com/'
             v4url: 'https://api.github.com/graphql'          
-            organization: {{ "{{" }} (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec {{ "}}" }}
+            name: github
     patchType: application/merge-patch+json
