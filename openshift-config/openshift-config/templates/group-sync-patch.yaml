@@ -17,5 +17,10 @@ spec:
         providers:
         - name: github
           github:
+            credentialsSecret:
+              name: github-group-sync
+              namespace: group-sync-operator
+            url: 'https://api.github.com/'
+            v4url: 'https://api.github.com/graphql'          
             organization: {{ "{{" }} (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec {{ "}}" }}
     patchType: application/merge-patch+json

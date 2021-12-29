@@ -7,7 +7,9 @@ spec:
   providers:
   - name: github
     github:
-      organization: dummy
       credentialsSecret:
         name: github-group-sync
         namespace: group-sync-operator
+      organization: dummy
+      url: 'https://api.github.com/'
+      v4url: 'https://api.github.com/graphql'
