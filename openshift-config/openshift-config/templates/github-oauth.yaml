@@ -27,8 +27,8 @@ spec:
             clientID: {{ "{{" }} (index . 1).data.client_id | b64dec {{ "}}" }} 
             clientSecret: 
               name: ocp-github-app-credentials
-            organizations: 
-            - raf-backstage-demo
+            organizations:
+            - {{ "{{" }} (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec {{ "}}" }}
             teams: []            
     patchType: application/merge-patch+json
     sourceObjectRefs:

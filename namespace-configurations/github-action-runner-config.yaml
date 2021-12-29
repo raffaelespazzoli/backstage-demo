@@ -27,7 +27,7 @@ spec:
                 - "{{ .Labels.app }}"
                 - self-hosted
                 - buildah
-              organization: raf-backstage-demo
+              organization: {{ (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec }}
               resources: 
                 requests: 
                   cpu: "200m"
@@ -61,7 +61,7 @@ spec:
                 - "{{ .Labels.app }}"
                 - self-hosted
                 - java
-              organization: raf-backstage-demo
+              organization: {{ (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec }}
               resources: 
                 requests: 
                   cpu: "200m"

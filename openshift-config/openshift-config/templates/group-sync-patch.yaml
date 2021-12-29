@@ -1,0 +1,21 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Patch
+metadata:
+  name: group-sync-patch
+  namespace: openshift-config
+spec:
+  serviceAccountRef:
+    name: default
+  patch:
+    targetObjectRef:
+      apiVersion: redhatcop.redhat.io/v1alpha1
+      kind: GroupSync
+      namespace: group-sync-operator
+      name: github-group-sync-configuration
+    patchTemplate: |
+      spec:
+        providers:
+        - name: github
+          github:
+            organization: {{ (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec }}
+    patchType: application/merge-patch+json

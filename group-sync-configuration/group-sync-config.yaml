@@ -7,7 +7,7 @@ spec:
   providers:
   - name: github
     github:
-      organization: raf-backstage-demo
+      organization: dummy
       credentialsSecret:
         name: github-group-sync
         namespace: group-sync-operator
