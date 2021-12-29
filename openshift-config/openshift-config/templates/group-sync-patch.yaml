@@ -17,5 +17,5 @@ spec:
         providers:
         - name: github
           github:
-            organization: {{ (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec }}
+            organization: {{ "{{" }} (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec {{ "}}" }}
     patchType: application/merge-patch+json
