@@ -41,11 +41,6 @@ spec:
         cert: {{ "{{" }} (index (index . 1).data "tls.crt") {{ "}}" }}
         key: {{ "{{" }} (index (index . 1).data "tls.key") {{ "}}" }}
     patchType: application/merge-patch+json
-    sourceObjectRefs:
-    - apiVersion: v1
-      kind: Secret
-      name: lets-encrypt-certs-tls
-      namespace: openshift-ingress
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: Patch
