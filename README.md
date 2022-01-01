@@ -22,14 +22,14 @@ The onboarding time is the first time a developer experience the platform that c
 2. Application onboarding. An application is declared to exist and belong to a team. This application is given a set of namespace for its SDLC. This process is not defined yet.
 3. Component onboarding. A software component which resides in a repo is onboarded to the system. It will be pre-configured to work with Code ready workspace and to be deployed by the pipelines to the previously defined namespace. This happens via the scaffolder feature of Backstage
 
-## Coding time
+## Code time
 
 The purpose of the coding time experience is to provide a comfortable environment for developers to code and to run their inner loop. Ideally setting up the workspace should be immediate and the inner loop should be very fast (no more than ~30 seconds) while at the same time running the software components in an environment that is as close as possible as to what production will be.
 In this demo the coding is done in Code Ready Workspaces. Each developer gets one or more workspaces for their software components which are easily accessible from Backstage.
 
 ## Build time
 
-The purpose of the build time experience is to keep running pipeline simple for the developers while at the same time allowing for pipelines rich of functionalities. This can be done with the concept of pipeline as a service by which we mean that a central team manages one or more pipelines and developer *invoke* those pipelines as is they were service, passing some parameters.
+The purpose of the build time experience is to keep running pipeline simple for the developers while at the same time allowing for pipelines rich of functionalities. This can be done with the concept of pipeline as a service by which we mean that a central team manages one or more pipelines and developer *invoke* those pipelines as is they were a service, passing some parameters.
 In this demo pipelines are implemented with github workflows and the concept of pipeline as a service is implemented using the shared workflow features.
 When new components are created via scaffholder, also the pipeline is configured, so in theory a component is ready to be deployed to production right away after being created.
 

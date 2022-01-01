@@ -1,0 +1,86 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Patch
+metadata:
+  name: 
+  namespace: openshift-config
+spec:
+  serviceAccountRef:
+    name: default
+  patches:
+    openshift-config-argocd-app-patch:
+      targetObjectRef:
+        apiVersion: argoproj.io/v1alpha1
+        kind: Application
+        namespace: openshift-gitops
+        name: openshift-config
+      patchTemplate: |
+        spec:
+          source:
+            helm:
+              values: |
+                base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
+      patchType: application/merge-patch+json
+    group-sync-patch:
+      targetObjectRef:
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: GroupSync
+        namespace: group-sync-operator
+        name: github-group-sync-configuration
+      patchTemplate: |
+        spec:
+          providers:
+          - github:
+              credentialsSecret:
+                name: github-group-sync
+                namespace: group-sync-operator
+              organization: {{ "{{" }} (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec {{ "}}" }}  
+              url: 'https://api.github.com/'
+              v4url: 'https://api.github.com/graphql'          
+            name: github
+      patchType: application/merge-patch+json 
+    puller-secret-service-account-patch:
+      targetObjectRef:
+        apiVersion: v1
+        kind: ServiceAccount
+        name: default
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Namespace
+        name: '{{ "{{" }} .metadata.namespace {{ "}}" }}'
+      # gives gch-puller to all default service accounts in namespaces with the app label.   
+      patchTemplate: |
+        imagePullSecrets:
+        {{ "{{-" }} if and (hasKey (index . 1).metadata.labels "app") (not (has (dict "name" "ghcr-puller") (index . 0).imagePullSecrets)) {{ "}}" }}      
+        {{ "{{" }} append (index . 0).imagePullSecrets (dict "name" "ghcr-puller") | toYaml | indent 2 {{ "}}" }}
+        {{ "{{-" }} else {{ "}}" }}
+        {{ "{{" }} (index . 0).imagePullSecrets | toYaml | indent 2 {{ "}}" }}
+        {{ "{{-" }} end {{ "}}" }}
+      patchType: application/merge-patch+json
+    backstag-app-patch:       
+      targetObjectRef:
+        apiVersion: argoproj.io/v1alpha1
+        kind: Application
+        namespace: openshift-gitops
+        name: backstage
+      patchTemplate: |
+        spec:
+          source:
+            helm:
+              values: |
+                base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
+      patchType: application/merge-patch+json
+    action-runner-app-patch:
+      targetObjectRef:
+        apiVersion: argoproj.io/v1alpha1
+        kind: Application
+        namespace: openshift-gitops
+        name: github-action-runner
+      patchTemplate: |
+        spec:
+          source:
+            helm:
+              values: |
+                base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
+      patchType: application/merge-patch+json      
+
+ 
