@@ -1,7 +1,7 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: Patch
 metadata:
-  name: 
+  name: config-patches
   namespace: openshift-config
 spec:
   serviceAccountRef:
