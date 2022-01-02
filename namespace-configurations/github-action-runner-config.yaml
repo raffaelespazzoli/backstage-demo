@@ -11,10 +11,10 @@ spec:
         apiVersion: actions.summerwind.dev/v1alpha1
         kind: RunnerDeployment
         metadata:
-          name: "{{ .Labels.app }}-buildah-runner"
+          name: "{{ .Labels.app }}-build-runner"
           namespace: "{{ .Name }}"
         spec:
-          replicas: 1
+          replicas: 2
           selector: null
           template:
             metadata: {}
@@ -22,11 +22,10 @@ spec:
               dockerEnabled: false
               dockerdContainerResources: {}
               ephemeral: true
-              image: quay.io/redhat-github-actions/buildah-runner:v1.3
+              image: ''
               labels:
                 - "{{ .Labels.app }}"
                 - self-hosted
-                - buildah
               organization: {{ (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec }}
               resources: 
                 requests: 
@@ -41,37 +40,3 @@ spec:
         - .status	
         - .spec.replicas	
         - .metadata
-    - objectTemplate: |
-        apiVersion: actions.summerwind.dev/v1alpha1
-        kind: RunnerDeployment
-        metadata:
-          name: "{{ .Labels.app }}-java-runner"
-          namespace: "{{ .Name }}"
-        spec:
-          replicas: 1
-          selector: null
-          template:
-            metadata: {}
-            spec:
-              dockerEnabled: false
-              dockerdContainerResources: {}
-              ephemeral: true
-              image: quay.io/redhat-github-actions/java-runner-11:v1.3
-              labels:
-                - "{{ .Labels.app }}"
-                - self-hosted
-                - java
-              organization: {{ (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec }}
-              resources: 
-                requests: 
-                  cpu: "200m"
-                  memory: "1Gi"
-      excludedPaths:
-        - .spec.template.metadata
-        - .spec.template.spec.image
-        - .spec.template.spec.resources
-        - .spec.template.spec.dockerdContainerResources
-        - .spec.selector
-        - .status	
-        - .spec.replicas	
-        - .metadata        
