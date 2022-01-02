@@ -36,3 +36,17 @@ spec:
         - kind: ServiceAccount
           name: default
           namespace: "{{ index .Labels "build-namespace" }}"
+    - objectTemplate: |
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: "{{ .Labels.team }}-build-sa-anyuid"
+          namespace: "{{ .Name }}"
+        roleRef:
+          apiGroup: rbac.authorization.k8s.io
+          kind: ClusterRole
+          name: system:openshift:scc:anyuid
+        subjects:          
+        - kind: ServiceAccount
+          name: default
+          namespace: "{{ index .Labels "build-namespace" }}"          
