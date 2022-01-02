@@ -1,0 +1,12 @@
+apiVersion: config.openshift.io/v1
+kind: Build
+metadata:
+  annotations:
+    release.openshift.io/create-only: "true"
+  name: cluster
+spec:
+  buildDefaults:
+    resources:
+      requests:
+        cpu: 200m
+        memory: 500Mi
