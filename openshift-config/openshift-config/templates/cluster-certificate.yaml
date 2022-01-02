@@ -20,44 +20,4 @@ spec:
     kind: ClusterIssuer
     # This is optional since cert-manager will default to this value however
     # if you are using an external issuer, change this to that issuer group.
-    group: cert-manager.io
----
-apiVersion: redhatcop.redhat.io/v1alpha1
-kind: Patch
-metadata:
-  name: letsencrypt-certs
-  namespace: openshift-config
-spec:
-  serviceAccountRef:
-    name: default
-  patch:
-    targetObjectRef:
-      apiVersion: v1
-      kind: Secret
-      name: lets-encrypt-certs-tls
-      namespace: openshift-ingress
-    patchTemplate: |
-      data:
-        cert: {{ "{{" }} (index (index . 0).data "tls.crt") {{ "}}" }}
-        key: {{ "{{" }} (index (index . 0).data "tls.key") {{ "}}" }}
-    patchType: application/merge-patch+json
----
-apiVersion: redhatcop.redhat.io/v1alpha1
-kind: Patch
-metadata:
-  name: letsencrypt-ingress-operator
-  namespace: openshift-config
-spec:
-  serviceAccountRef:
-    name: default
-  patch:
-    targetObjectRef:
-      apiVersion: operator.openshift.io/v1
-      kind: IngressController
-      name: default
-      namespace: openshift-ingress-operator
-    patchTemplate: |
-      spec:
-        defaultCertificate:
-          name: lets-encrypt-certs-tls
-    patchType: application/merge-patch+json    
+    group: cert-manager.io   

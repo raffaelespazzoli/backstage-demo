@@ -50,12 +50,30 @@ spec:
       # gives gch-puller to all default service accounts in namespaces with the app label.   
       patchTemplate: |
         imagePullSecrets:
-        {{ "{{-" }} if and (hasKey (index . 1).metadata.labels "app") (not (has (dict "name" "ghcr-puller") (index . 0).imagePullSecrets)) {{ "}}" }}      
+        {{ "{{-" }} if and (and (hasKey (index . 1).metadata.labels "app") (not eq (index . 1).metadata.labels.environment "build") (not (has (dict "name" "ghcr-puller") (index . 0).imagePullSecrets)) {{ "}}" }}      
         {{ "{{" }} append (index . 0).imagePullSecrets (dict "name" "ghcr-puller") | toYaml | indent 2 {{ "}}" }}
         {{ "{{-" }} else {{ "}}" }}
         {{ "{{" }} (index . 0).imagePullSecrets | toYaml | indent 2 {{ "}}" }}
         {{ "{{-" }} end {{ "}}" }}
       patchType: application/merge-patch+json
+    pusher-secret-service-account-patch:
+      targetObjectRef:
+        apiVersion: v1
+        kind: ServiceAccount
+        name: default
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Namespace
+        name: '{{ "{{" }} .metadata.namespace {{ "}}" }}'
+      # gives gch-puller to all default service accounts in namespaces with the app label.   
+      patchTemplate: |
+        imagePullSecrets:
+        {{ "{{-" }} if and (and (hasKey (index . 1).metadata.labels "app") (eq (index . 1).metadata.labels.environment "build")) (not (has (dict "name" "ghcr-pusher") (index . 0).imagePullSecrets)) {{ "}}" }}      
+        {{ "{{" }} append (index . 0).imagePullSecrets (dict "name" "ghcr-pusher") | toYaml | indent 2 {{ "}}" }}
+        {{ "{{-" }} else {{ "}}" }}
+        {{ "{{" }} (index . 0).imagePullSecrets | toYaml | indent 2 {{ "}}" }}
+        {{ "{{-" }} end {{ "}}" }}
+      patchType: application/merge-patch+json      
     backstag-app-patch:       
       targetObjectRef:
         apiVersion: argoproj.io/v1alpha1
@@ -81,6 +99,58 @@ spec:
             helm:
               values: |
                 base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
-      patchType: application/merge-patch+json      
+      patchType: application/merge-patch+json
+    letsencrypt-ingress-operator:
+      targetObjectRef:
+        apiVersion: operator.openshift.io/v1
+        kind: IngressController
+        name: default
+        namespace: openshift-ingress-operator
+      patchTemplate: |
+        spec:
+          defaultCertificate:
+            name: lets-encrypt-certs-tls
+      patchType: application/merge-patch+json
+    letsencrypt-certs:
+      targetObjectRef:
+        apiVersion: v1
+        kind: Secret
+        name: lets-encrypt-certs-tls
+        namespace: openshift-ingress
+      patchTemplate: |
+        data:
+          cert: {{ "{{" }} (index (index . 0).data "tls.crt") {{ "}}" }}
+          key: {{ "{{" }} (index (index . 0).data "tls.key") {{ "}}" }}
+      patchType: application/merge-patch+json
+    github-ocp-oauth-provider             :
+      targetObjectRef:
+        apiVersion: config.openshift.io/v1
+        kind: OAuth
+        name: cluster
+      patchTemplate: |
+        spec:
+          identityProviders:
+          - name: my_htpasswd_provider 
+            mappingMethod: claim 
+            type: HTPasswd
+            htpasswd:
+              fileData:
+                name: htpass-secret
+          - name: backstage-demo-github 
+            mappingMethod: claim 
+            type: GitHub
+            github:
+              clientID: {{ "{{" }} (index . 1).data.client_id | b64dec {{ "}}" }} 
+              clientSecret: 
+                name: ocp-github-app-credentials
+              organizations:
+              - {{ "{{" }} (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec {{ "}}" }}
+              teams: []            
+      patchType: application/merge-patch+json
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        name: ocp-github-app-credentials
+        namespace: openshift-config    
 
  

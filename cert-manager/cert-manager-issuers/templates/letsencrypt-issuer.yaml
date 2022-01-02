@@ -40,42 +40,4 @@ spec:
             name: cert-manager-dns-credentials
             key: aws_secret_access_key
           region: dummy
-          hostedZoneID: dummy
----          
-apiVersion: redhatcop.redhat.io/v1alpha1
-kind: Patch
-metadata:
-  name: letsencrypt-issuer
-  namespace: openshift-config
-spec:
-  serviceAccountRef:
-    name: default
-  patch:
-    targetObjectRef:
-      apiVersion: cert-manager.io/v1
-      kind: ClusterIssuer
-      name: letsencrypt-issuer
-    patchTemplate: |
-      spec:
-        acme:
-          solvers:
-          - dns01:
-              route53:
-                accessKeyID: {{ "{{" }} (index . 1).data.aws_access_key_id | b64dec {{ "}}" }}
-                region: {{ "{{" }} (index . 2).status.platformStatus.aws.region {{ "}}" }}
-                hostedZoneID: {{ "{{" }} (index . 3).spec.publicZone.id {{ "}}" }}
-                secretAccessKeySecretRef:
-                  name: cert-manager-dns-credentials
-                  key: aws_secret_access_key
-    patchType: application/merge-patch+json
-    sourceObjectRefs:
-    - apiVersion: v1
-      kind: Secret
-      namespace: {{ .Release.Namespace }}
-      name: cert-manager-dns-credentials
-    - apiVersion: config.openshift.io/v1
-      kind: Infrastructure
-      name: cluster
-    - apiVersion: config.openshift.io/v1
-      kind: DNS
-      name: cluster           
+          hostedZoneID: dummy         
