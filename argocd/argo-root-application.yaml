@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
-    targetRevision: HEAD
+    repoURL: https://github.com/l0rd/backstage-demo.git
+    targetRevision: eclipse-che
     path: argo-applications
     directory:
       include: "*.yaml"

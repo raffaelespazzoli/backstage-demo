@@ -47,7 +47,7 @@ It requires some manual preparation steps for tasks that do not seem automate-ab
 
 1. create a new organization or reuse an existing one.
 2. create an Oauth app in this organization for backstage. The call back url should be `https://backstage.apps.${based_domain}/api/auth/github`
-3. create an Oauth app in this organization for Code Ready Workspaces. The call back url should be `https://codeready-openshift-workspaces.apps.${based_domain}/auth/realms/codeready/broker/github/endpoint`
+3. create an Oauth app in this organization for Code Ready Workspaces. The call back url should be `https://codeready-eclipse-che.apps.${based_domain}/auth/realms/codeready/broker/github/endpoint`
 4. create an Oauth app in this organization for OpenShift. The call back url should be `https://oauth-openshift.apps.${based_domain}/oauth2callback/backstage-demo-github/`
 5. create a Personal Access Token (PAT) with an account that is administrator to the chosen organization.
 6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${based_domain}`. The webhook secret is hardcoded to `ciao`.
@@ -85,10 +85,10 @@ source ./secrets.sh
 Run the following commands to populate the Kubernetes secrets with the previously generated values (this is fine for a demo, it might not be fine for a production environment):
 
 ```shell
-oc create namespace openshift-workspaces
-oc create secret generic github-oauth-config --from-literal=id=${crw_github_client_id} --from-literal=secret=${crw_github_client_secret} -n openshift-workspaces
-oc label secret github-oauth-config -n openshift-workspaces --overwrite=true app.kubernetes.io/part-of=che.eclipse.org app.kubernetes.io/component=oauth-scm-configuration
-oc annotate secret github-oauth-config -n openshift-workspaces --overwrite=true che.eclipse.org/oauth-scm-server=github
+oc new-project eclipse-che
+oc create secret generic github-oauth-config --from-literal=id=${crw_github_client_id} --from-literal=secret=${crw_github_client_secret} -n eclipse-che
+oc label secret github-oauth-config -n eclipse-che --overwrite=true app.kubernetes.io/part-of=che.eclipse.org app.kubernetes.io/component=oauth-scm-configuration
+oc annotate secret github-oauth-config -n eclipse-che --overwrite=true che.eclipse.org/oauth-scm-server=github
 oc create secret generic ocp-github-app-credentials -n openshift-config --from-literal=client_id=${ocp_github_client_id} --from-literal=clientSecret=${ocp_github_client_secret}
 oc new-project backstage
 oc create secret generic github-credentials -n backstage --from-literal=AUTH_GITHUB_CLIENT_ID=${backstage_github_client_id} --from-literal=AUTH_GITHUB_CLIENT_SECRET=${backstage_github_client_secret} --from-literal=GITHUB_TOKEN=${org_admin_pat} --from-literal=GITHUB_ORG=${github_organization}
@@ -119,6 +119,24 @@ oc apply -f ./argocd/argo-root-application.yaml
 This should be all to setup the demo.
 
 Start enjoying the demo from here `https://backstage.apps.${based_domain}`.
+
+## Cleanup
+
+```shell
+oc delete -n openshift-config secret ocp-github-app-credentials
+oc delete -n openshift-config secret ghcr-puller
+oc delete -n openshift-config secret ghcr-pusher
+
+oc delete -n eclipse-che secret github-oauth-config
+oc delete -n backstage secret github-credentials
+oc delete -n actions-runner-system secret controller-manager
+oc delete -n group-sync-operator secret github-group-sync
+
+oc delete project eclipse-che
+oc delete project backstage
+oc delete project actions-runner-system
+oc delete project group-sync-operator
+```
 
 ## Notes
 

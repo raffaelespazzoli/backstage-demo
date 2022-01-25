@@ -1,18 +1,33 @@
 apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: eclipse-che-preview
+  namespace: openshift-operators
+spec:
+  sourceType: grpc
+  image: quay.io/eclipse/eclipse-che-openshift-opm-catalog:next
+  updateStrategy:
+    registryPoll:
+      interval: 5m
+---
+apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: codeready-workspaces
+  name: eclipse-che-next
 spec:
-  channel: latest
+  channel: next
   installPlanApproval: Automatic
-  name: codeready-workspaces
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
+  name: eclipse-che
+  source: eclipse-che-preview
+  sourceNamespace: openshift-operators
 --- 
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
-  name: codeready-workspaces
+  name: eclipse-che
 spec:
   targetNamespaces:
-  - openshift-workspaces  
+  - openshift-operators
+
+
+
