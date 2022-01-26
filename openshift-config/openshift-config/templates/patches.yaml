@@ -162,7 +162,7 @@ spec:
           acme:
           - dns01:
               route53:
-                accessKeyID: {{ "{{" }} (lookup "v1" "Secret" .metadata.namespace "cert-manager-dns-credentials").data.aws_access_key_id | b64dec {{ "}}" }}
+                accessKeyID: {{ "{{" }} (lookup "v1" "Secret" "cert-manager" "cert-manager-dns-credentials").data.aws_access_key_id | b64dec {{ "}}" }}
                 secretAccessKeySecretRef:
                   name: cert-manager-dns-credentials
                   key: aws_secret_access_key
