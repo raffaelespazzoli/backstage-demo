@@ -13,7 +13,7 @@ spec:
       include: instance.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: openshift-workspaces
+    namespace: eclipse-che
   syncPolicy:
     # automated:
     #   prune: true

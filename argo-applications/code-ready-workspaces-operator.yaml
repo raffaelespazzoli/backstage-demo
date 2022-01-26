@@ -6,14 +6,14 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
-    targetRevision: HEAD
+    repoURL: https://github.com/l0rd/backstage-demo.git
+    targetRevision: eclipse-che
     path: code-ready-workspaces
     directory:
       include: operator.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: openshift-workspaces
+    namespace: openshift-operators
   syncPolicy:
     automated:
       prune: true
