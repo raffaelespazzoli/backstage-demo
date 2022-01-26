@@ -132,4 +132,24 @@ at the moment is still unclear what creates namespaces. regardless of that, name
 - `environment`: the purpose of the namespace. If environment equals build, an action runner for that app will be deployed. Other special behaviors related to environment might added in the future.
 
 
+Open Questions/challenges:
 
+Processes:
+
+1. what is the system of records of applications (aggregation of components)?
+2. what is the system of records of environments (from which namespaces can be derived)?
+3. what is the best approach for inner loop?
+
+Tech:
+
+1. how to generate and rotate credentials for the git repo, registry and other ci/cd tools.
+2. building images on OCP is still too hard
+3. CRW still does not have a good inner loop. perhaps integrate tilt?
+
+
+Demo next steps
+
+- Integrate pelorus and monitoring of ci/cd metrics in backstage
+- implement the chain github app - Vault+github secret engine - vault-config-operator - short-lived narrow-scoped pull secrets.
+- implement the inner loop in CRW, improve workspace boot time, update to CRW new operator?
+- integrate monitoring of applicaiton metrics (SLO/SLI?) and display of metrics in backstage
