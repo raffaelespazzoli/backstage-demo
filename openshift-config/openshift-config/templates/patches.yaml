@@ -122,7 +122,7 @@ spec:
           cert: {{ "{{" }} (index (index . 0).data "tls.crt") {{ "}}" }}
           key: {{ "{{" }} (index (index . 0).data "tls.key") {{ "}}" }}
       patchType: application/merge-patch+json
-    github-ocp-oauth-provider             :
+    github-ocp-oauth-provider:
       targetObjectRef:
         apiVersion: config.openshift.io/v1
         kind: OAuth
@@ -151,6 +151,23 @@ spec:
       - apiVersion: v1
         kind: Secret
         name: ocp-github-app-credentials
-        namespace: openshift-config    
+        namespace: openshift-config   
+    letsencrypt-issues:
+      targetObjectRef:
+        apiVersion: cert-manager.io/v1
+        kind: ClusterIssuer
+        name: letsencrypt-issuer
+      patchTemplate: | 
+        spec:
+          acme:
+          - dns01:
+              route53:
+                accessKeyID: {{ "{{" }} (lookup "v1" "Secret" .metadata.namespace "cert-manager-dns-credentials").data.aws_access_key_id | b64dec {{ "}}" }}
+                secretAccessKeySecretRef:
+                  name: cert-manager-dns-credentials
+                  key: aws_secret_access_key
+                region: {{ "{{" }} (lookup "config.openshift.io/v1" "Infrastructure" "" "cluster").status.platformStatus.aws.region {{ "}}" }}
+                hostedZoneID: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.publicZone.id {{ "}}" }}
+      patchType: application/merge-patch+json                    
 
  
