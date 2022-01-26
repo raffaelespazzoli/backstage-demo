@@ -160,14 +160,15 @@ spec:
       patchTemplate: | 
         spec:
           acme:
-          - dns01:
-              route53:
-                accessKeyID: {{ "{{" }} (lookup "v1" "Secret" "cert-manager" "cert-manager-dns-credentials").data.aws_access_key_id | b64dec {{ "}}" }}
-                secretAccessKeySecretRef:
-                  name: cert-manager-dns-credentials
-                  key: aws_secret_access_key
-                region: {{ "{{" }} (lookup "config.openshift.io/v1" "Infrastructure" "" "cluster").status.platformStatus.aws.region {{ "}}" }}
-                hostedZoneID: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.publicZone.id {{ "}}" }}
+            solvers:
+            - dns01:
+                route53:
+                  accessKeyID: {{ "{{" }} (lookup "v1" "Secret" "cert-manager" "cert-manager-dns-credentials").data.aws_access_key_id | b64dec {{ "}}" }}
+                  secretAccessKeySecretRef:
+                    name: cert-manager-dns-credentials
+                    key: aws_secret_access_key
+                  region: {{ "{{" }} (lookup "config.openshift.io/v1" "Infrastructure" "" "cluster").status.platformStatus.aws.region {{ "}}" }}
+                  hostedZoneID: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.publicZone.id {{ "}}" }}
       patchType: application/merge-patch+json                    
 
  
