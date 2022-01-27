@@ -99,6 +99,19 @@ spec:
             helm:
               values: |
                 base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
+    vault-app-patch:
+      targetObjectRef:
+        apiVersion: argoproj.io/v1alpha1
+        kind: Application
+        namespace: openshift-gitops
+        name: vault
+      patchTemplate: |
+        spec:
+          source:
+            helm:
+              values: |
+                base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
+      patchType: application/merge-patch+json                
       patchType: application/merge-patch+json
     letsencrypt-ingress-operator:
       targetObjectRef:
