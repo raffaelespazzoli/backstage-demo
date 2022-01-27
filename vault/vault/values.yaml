@@ -208,7 +208,7 @@ vault:
                       path "/*" {
                         capabilities = ["create", "read", "update", "delete", "list","sudo"]
                       }
-                      EOF 
+                    EOF 
                   else 
                     echo vault admin already configured
                     sleep 5
