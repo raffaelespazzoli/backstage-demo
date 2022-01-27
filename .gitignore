@@ -1,3 +1,4 @@
 secrets.sh
 github_action_runner_app.pem
 group-sync-operator-app-key.pem
+vault-github-app-key.pem

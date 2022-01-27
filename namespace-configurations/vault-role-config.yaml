@@ -1,0 +1,57 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: NamespaceConfig
+metadata:
+  name: vault-role
+spec:
+  labelSelector:
+    matchExpressions:
+      - key: team
+        operator: Exists
+  templates:     
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: KubernetesAuthEngineRole
+        metadata:
+          name: {{ .Name }}-vault-role
+          namespace: vault-admin
+        spec:
+          # Add fields here
+          authentication: 
+            path: kubernetes
+            role: policy-admin
+          path: kubernetes
+          policies:
+            - github-read-token
+          targetNamespaces:
+            targetNamespaceSelector:
+              matchLabels:
+                team: {{ .annotations.team }}
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: Policy
+        metadata:
+          name: github-read-token
+          namespace: vault-admin
+        spec:
+          # Add fields here
+          authentication: 
+            path: kubernetes
+            role: policy-admin
+          policy: |
+            # create tokens
+            path "github/token/{{ .Name }}" {
+              capabilities = ["read"]
+            }
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: GitHubSecretEngineRole
+        metadata:
+          name: {{ .Name }}
+          namespace: vault-admin
+        spec:
+          authentication: 
+            path: kubernetes
+            role: policy-admin
+          path: github
+          # TODO filter down repos
+          repositories: []                                  

@@ -165,7 +165,7 @@ spec:
         kind: Secret
         name: ocp-github-app-credentials
         namespace: openshift-config   
-    letsencrypt-issues:
+    letsencrypt-issuer:
       targetObjectRef:
         apiVersion: cert-manager.io/v1
         kind: ClusterIssuer
@@ -182,6 +182,16 @@ spec:
                     key: aws_secret_access_key
                   region: {{ "{{" }} (lookup "config.openshift.io/v1" "Infrastructure" "" "cluster").status.platformStatus.aws.region {{ "}}" }}
                   hostedZoneID: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.publicZone.id {{ "}}" }}
-      patchType: application/merge-patch+json                    
+      patchType: application/merge-patch+json
+    github-vault-secret-engine:
+      targetObjectRef:
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: GitHubSecretEngineConfig
+        name: github
+      patchTemplate: | 
+        spec:
+          applicationID: {{ "{{" }} (lookup "v1" "Secret" "vault-admin" "vault-github-plugin-creds").data.github_app_id | b64dec {{ "}}" }}
+          organizationName: {{ "{{" }} (lookup "v1" "Secret" "vault-admin" "vault-github-plugin-creds").data.github_org | b64dec {{ "}}" }}
+      patchType: application/merge-patch+json                          
 
  
