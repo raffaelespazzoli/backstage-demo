@@ -43,5 +43,11 @@ spec:
     name: openshift-config
     jsonPointers:
     - /spec/source/helm/values
+  - group: argoproj.io
+    kind: Application
+    namespace: openshift-gitops
+    name: vault
+    jsonPointers:
+    - /spec/source/helm/values    
 
     
