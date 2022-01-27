@@ -179,6 +179,11 @@ vault:
                 echo root token not initialized yet    
               fi    
             done
+        volumeMounts:
+          - name: plugins
+            mountPath: /usr/local/libexec/vault
+          - name: vault-root-token
+            mountPath: /vault-root-token             
       - name: vault-admin-initializer
         image: registry.connect.redhat.com/hashicorp/vault:1.9.2-ubi
         env: 
@@ -214,9 +219,7 @@ vault:
               else 
                 echo root token not initialized yet    
               fi    
-            done          
+            done      
         volumeMounts:
-          - name: plugins
-            mountPath: /usr/local/libexec/vault
           - name: vault-root-token
-            mountPath: /vault-root-token  
+            mountPath: /vault-root-token                
