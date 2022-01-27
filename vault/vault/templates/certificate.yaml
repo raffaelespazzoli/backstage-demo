@@ -1,0 +1,23 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "vault.fullname" . }}
+  labels:
+    {{- include "vault.labels" . | nindent 4 }}  
+spec:
+  # Secret names are always required.
+  secretName: {{ include "vault.fullname" . }}-tls
+  usages:
+    - server auth 
+  dnsNames:
+  - {{ include "vault.fullname" . }}.apps.{{ .Values.base_domain }}
+  duration: 168h0m0s
+  renewBefore: 1h0m0s
+  issuerRef:
+    name: letsencrypt-issuer
+    # We can reference ClusterIssuers by changing the kind here.
+    # The default value is Issuer (i.e. a locally namespaced Issuer)
+    kind: ClusterIssuer
+    # This is optional since cert-manager will default to this value however
+    # if you are using an external issuer, change this to that issuer group.
+    group: cert-manager.io
