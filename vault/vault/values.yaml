@@ -200,7 +200,7 @@ vault:
               if [[ -f /vault-root-token/root_token ]]; then
                 export VAULT_TOKEN=$(cat /vault-root-token/root_token)
                 if [[ $(vault status | grep "Sealed" | grep "false") ]]; then
-                  if [[ $(vault policies list | grep vault-admin) ]]; then
+                  if [[ ! $(vault policies list | grep vault-admin) ]]; then
                     vault auth enable kubernetes
                     vault write auth/kubernetes/config token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" kubernetes_host=https://kubernetes.default.svc:443 kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt 
                     vault write auth/kubernetes/role/policy-admin bound_service_account_names=default bound_service_account_namespaces=vault-admin policies=vault-admin ttl=1h
@@ -208,7 +208,7 @@ vault:
                       path "/*" {
                         capabilities = ["create", "read", "update", "delete", "list","sudo"]
                       }
-                    EOF 
+            EOF 
                   else 
                     echo vault admin already configured
                     sleep 5
