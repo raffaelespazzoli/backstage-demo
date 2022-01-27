@@ -112,6 +112,7 @@ The rest of the demo should be deployed by the gitops operator following the ste
 ```shell
 oc apply -f ./argocd/operator.yaml
 oc apply -f ./argocd/rbac.yaml
+# wait a couple of minutes...
 oc apply -f ./argocd/argocd.yaml
 oc apply -f ./argocd/argo-root-application.yaml
 ```
