@@ -15,5 +15,5 @@ spec:
   port:
     targetPort: 8200
   tls:
-    termination: edge
+    termination: reencrypt
   wildcardPolicy: None
