@@ -12,7 +12,7 @@ spec:
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: KubernetesAuthEngineRole
         metadata:
-          name: {{ .Name }}-vault-role
+          name: {{ .Labels.team }}-vault-role
           namespace: vault-admin
         spec:
           # Add fields here
@@ -32,7 +32,7 @@ spec:
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: Policy
         metadata:
-          name: {{ .Name }}-github-read-token
+          name: {{ .Labels.team }}-github-read-token
           namespace: vault-admin
         spec:
           # Add fields here
@@ -41,14 +41,14 @@ spec:
             role: policy-admin
           policy: |
             # create tokens
-            path "github/token/{{ .Name }}" {
+            path "github/token/{{ .Labels.team }}" {
               capabilities = ["read"]
             }
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: GitHubSecretEngineRole
         metadata:
-          name: {{ .Name }}
+          name: {{ .Labels.team }}
           namespace: vault-admin
         spec:
           authentication: 
