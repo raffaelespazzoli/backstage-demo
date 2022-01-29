@@ -76,5 +76,5 @@ spec:
             name: github-pull-secret
             stringData:
               .dockerconfigjson: |
-                {"auths":{"ghcr.io":{"username":"team_puller","password":"{{ "{{" }} .githubtoken.token {{ "}}" }}","email":"team_puller@example.com","auth":"{{ "{{" }} list "team_puller:" .githubtoken.token | join "" | base64 {{ "}}" }}"}}}
+                {"auths":{"ghcr.io":{"username":"team_puller","password":"{{ "{{" }} .githubtoken.token {{ "}}" }}","email":"team_puller@example.com","auth":"{{ "{{" }} list "team_puller:" .githubtoken.token | join "" | b64enc {{ "}}" }}"}}}
             type: kubernetes.io/dockerconfigjson
