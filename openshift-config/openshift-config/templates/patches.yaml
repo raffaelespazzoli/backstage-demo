@@ -47,33 +47,15 @@ spec:
       - apiVersion: v1
         kind: Namespace
         name: '{{ "{{" }} .metadata.namespace {{ "}}" }}'
-      # gives gch-puller to all default service accounts in namespaces with the app label.   
+      # gives github-pull-secret to all default service accounts in namespaces with the app label.   
       patchTemplate: |
         imagePullSecrets:
-        {{ "{{-" }} if and (and (hasKey (index . 1).metadata.labels "app") (not (eq ((index . 1).metadata.labels.environment | toString) "build"))) (not (has (dict "name" "ghcr-puller") (index . 0).imagePullSecrets)) {{ "}}" }}      
-        {{ "{{" }} append (index . 0).imagePullSecrets (dict "name" "ghcr-puller") | toYaml | indent 2 {{ "}}" }}
+        {{ "{{-" }} if and (and (hasKey (index . 1).metadata.labels "app") (not (eq ((index . 1).metadata.labels.environment | toString) "build"))) (not (has (dict "name" "github-pull-secret") (index . 0).imagePullSecrets)) {{ "}}" }}      
+        {{ "{{" }} append (index . 0).imagePullSecrets (dict "name" "github-pull-secret") | toYaml | indent 2 {{ "}}" }}
         {{ "{{-" }} else {{ "}}" }}
         {{ "{{" }} (index . 0).imagePullSecrets | toYaml | indent 2 {{ "}}" }}
         {{ "{{-" }} end {{ "}}" }}
-      patchType: application/merge-patch+json
-    # pusher-secret-service-account-patch:
-    #   targetObjectRef:
-    #     apiVersion: v1
-    #     kind: ServiceAccount
-    #     name: default
-    #   sourceObjectRefs:
-    #   - apiVersion: v1
-    #     kind: Namespace
-    #     name: '{{ "{{" }} .metadata.namespace {{ "}}" }}'
-    #   # gives gch-puller to all default service accounts in namespaces with the app label.   
-    #   patchTemplate: |
-    #     imagePullSecrets:
-    #     {{ "{{-" }} if and (and (hasKey (index . 1).metadata.labels "app") (eq ((index . 1).metadata.labels.environment | toString) "build")) (not (has (dict "name" "ghcr-pusher") (index . 0).imagePullSecrets)) {{ "}}" }}      
-    #     {{ "{{" }} append (index . 0).imagePullSecrets (dict "name" "ghcr-pusher") | toYaml | indent 2 {{ "}}" }}
-    #     {{ "{{-" }} else {{ "}}" }}
-    #     {{ "{{" }} (index . 0).imagePullSecrets | toYaml | indent 2 {{ "}}" }}
-    #     {{ "{{-" }} end {{ "}}" }}
-    #   patchType: application/merge-patch+json      
+      patchType: application/merge-patch+json     
     backstag-app-patch:       
       targetObjectRef:
         apiVersion: argoproj.io/v1alpha1
