@@ -103,7 +103,7 @@ oc create secret generic github-group-sync -n group-sync-operator --from-literal
 oc create secret docker-registry ghcr-puller --docker-server=ghcr.io --docker-username=org_puller --docker-password=${package_puller_pat} --docker-email=org_puller@example.com -n openshift-config
 oc create secret docker-registry ghcr-pusher --docker-server=ghcr.io --docker-username=org_pusher --docker-password=${package_pusher_pat} --docker-email=org_pusher@example.com -n openshift-config
 oc new-project vault-admin
-oc create secret generic vault-github-plugin-creds --from-literal=github_app_id=${vault_github_app_id} --from-file=privateKey=${vault_github_app_private_key_file_path} --from-literal=github_org=${github_organization} -n vault-admin
+oc create secret generic vault-github-plugin-creds --from-literal=github_app_id=${vault_github_app_id} --from-file=ssh-privatekey=${vault_github_app_private_key_file_path} --from-literal=github_org=${github_organization} -n vault-admin
 ```
 
 To improve the demo experience and have some data pre-populated, you can optionally fork these repos to the new organization:
