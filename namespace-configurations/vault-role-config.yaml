@@ -62,6 +62,7 @@ spec:
         kind: VaultSecret
         metadata:
           name: github-pull-secret
+          namespace: {{ .Name }}
         spec:
           vaultSecretDefinitions:
           - authentication:
@@ -76,6 +77,3 @@ spec:
             stringData:
               .dockerconfigjson: {"auths":{"ghcr.io":{"username":"team_puller","password":"{{ "{{" }} githubtoken.token {{ "}}" }}","email":"team_puller@example.com","auth":"{{ "{{" }} list 'team_puller:' githubtoken.token | join "" | base64 {{ "}}" }}"}}}
             type: kubernetes.io/dockerconfigjson
-
-
-                                                      
