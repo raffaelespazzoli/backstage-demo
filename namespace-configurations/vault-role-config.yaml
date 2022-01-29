@@ -21,7 +21,7 @@ spec:
             role: policy-admin
           path: kubernetes
           policies:
-            - github-read-token
+            - {{ .Labels.team }}-github-read-token
           targetNamespaces:
             targetNamespaceSelector:
               matchLabels:
