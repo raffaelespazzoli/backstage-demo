@@ -26,6 +26,8 @@ spec:
             targetNamespaceSelector:
               matchLabels:
                 team: {{ .Labels.team }}
+          targetServiceAccounts:
+          - default      
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: Policy
