@@ -1,7 +1,7 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
 metadata:
-  name: vault-role
+  name: team-github-vault-role
 spec:
   labelSelector:
     matchExpressions:
@@ -30,7 +30,7 @@ spec:
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: Policy
         metadata:
-          name: github-read-token
+          name: {{ .Name }}-github-read-token
           namespace: vault-admin
         spec:
           # Add fields here
