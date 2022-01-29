@@ -41,7 +41,7 @@ spec:
             role: policy-admin
           policy: |
             # create tokens
-            path "github/token/{{ .Labels.team }}" {
+            path "/github/token/{{ .Labels.team }}" {
               capabilities = ["read"]
             }
     - objectTemplate: |
