@@ -56,4 +56,26 @@ spec:
             role: policy-admin
           path: github
           # TODO filter down repos
-          repositories: []                                  
+          repositories: []
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: VaultSecret
+        metadata:
+          name: github-pull-secret
+        spec:
+          vaultSecretDefinitions:
+          - authentication:
+              path: kubernetes
+              role: {{ .Labels.team }}-vault-role
+              serviceAccount:
+                name: default
+            name: githubtoken
+            path: github/token/{{ .Labels.team }}
+          output:
+            name: github-pull-secret
+            stringData:
+              .dockerconfigjson: {"auths":{"ghcr.io":{"username":"team_puller","password":"{{ "{{" }} githubtoken.token {{ "}}" }}","email":"team_puller@example.com","auth":"{{ "{{" }} list 'team_puller:' githubtoken.token | join "" | base64 {{ "}}" }}"}}}
+            type: kubernetes.io/dockerconfigjson
+
+
+                                                      
