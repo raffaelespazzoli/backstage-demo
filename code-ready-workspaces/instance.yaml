@@ -46,7 +46,7 @@ spec:
     pluginRegistryIngress: {}
     cheServerRoute: {}
     devfileRegistryIngress: {}
-    cheHost: dummy
+    cheHost: https://codeready-openshift-workspaces.apps.control-cluster-raffa.demo.red-chesterfield.com
     selfSignedCert: false
     cheServerIngress: {}
     cheDebug: 'false'
