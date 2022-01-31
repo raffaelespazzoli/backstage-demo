@@ -53,8 +53,6 @@ It requires some manual preparation steps for tasks that do not seem automate-ab
 6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${based_domain}`. The webhook secret is hardcoded to `ciao`.
 7. create a GitHub Application for the group-sync-operator following the instructions [here](https://github.com/redhat-cop/group-sync-operator#as-a-github-app). Store the ssh key pem in a file called `group-sync-operator-app-key.pem`, it will be ignored by git.
 8. create a GitHub Application for the vault-config-operator. Store the ssh key pem in a file called `vault-github-app-key.pem`, it will be ignored by git.
-9. create a PAT with package_read permissions on the entire organization. This will be used to pull images from all the namespaces.
-10. create a PAT with package_write/read permissions on the entire organization. This will be used to push images from the build namespaces.
 
 Create a client secret for each of the OAuth apps.
 
@@ -74,8 +72,6 @@ export action_runner_github_app_installation_id=<application_installation_id_for
 export action_runner_github_app_private_key_file_path=./github_action_runner_app.pem
 export group_sync_github_app_id=<application_id_for_group_sync-operator>
 export group_sync_operator_github_app_key_file_path=./group-sync-operator-app-key.pem
-export package_puller_pat=<pat_token>
-export package_pusher_pat=<pat_token>
 export vault_github_app_id=<application_id_for_vault>
 export vault_github_app_private_key_file_path=./vault-github-app-key.pem
 ```
@@ -100,8 +96,6 @@ oc new-project actions-runner-system
 oc create secret generic controller-manager -n actions-runner-system --from-literal=github_app_id=${action_runner_github_app_id} --from-literal=github_app_installation_id=${action_runner_github_app_installation_id} --from-file=github_app_private_key=${action_runner_github_app_private_key_file_path}
 oc new-project group-sync-operator
 oc create secret generic github-group-sync -n group-sync-operator --from-literal=appId=${group_sync_github_app_id} --from-file=privateKey=${group_sync_operator_github_app_key_file_path}
-oc create secret docker-registry ghcr-puller --docker-server=ghcr.io --docker-username=org_puller --docker-password=${package_puller_pat} --docker-email=org_puller@example.com -n openshift-config
-oc create secret docker-registry ghcr-pusher --docker-server=ghcr.io --docker-username=org_pusher --docker-password=${package_pusher_pat} --docker-email=org_pusher@example.com -n openshift-config
 oc new-project vault-admin
 oc create secret generic vault-github-plugin-creds --from-literal=github_app_id=${vault_github_app_id} --from-file=ssh-privatekey=${vault_github_app_private_key_file_path} --from-literal=github_org=${github_organization} -n vault-admin
 ```
@@ -147,14 +141,12 @@ Processes:
 
 Tech:
 
-1. how to generate and rotate credentials for the git repo, registry and other ci/cd tools.
-2. building images on OCP is still too hard
-3. CRW still does not have a good inner loop. perhaps integrate tilt?
+1. building images on OCP is still too hard
+2. CRW still does not have a good inner loop. perhaps integrate tilt?
 
 
 Demo next steps
 
 - Integrate pelorus and monitoring of ci/cd metrics in backstage
-- implement the chain github app - Vault+github secret engine - vault-config-operator - short-lived narrow-scoped pull secrets.
 - implement the inner loop in CRW, improve workspace boot time, update to CRW new operator?
 - integrate monitoring of applicaiton metrics (SLO/SLI?) and display of metrics in backstage
