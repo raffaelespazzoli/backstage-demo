@@ -185,7 +185,7 @@ spec:
       patchTemplate: |
         spec:
           server:
-            cheHost: https://codeready-openshift-workspaces.apps.{{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }} 
+            cheHost: codeready-openshift-workspaces.apps.{{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }} 
       patchType: application/merge-patch+json          
 
 
