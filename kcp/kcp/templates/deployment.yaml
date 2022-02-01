@@ -45,12 +45,12 @@ spec:
             httpGet:
               path: readyz
               port: http
-              scheme: https
+              scheme: HTTPS
           readinessProbe:
             httpGet:
               path: readyz
               port: http
-              scheme: https
+              scheme: HTTPS
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
