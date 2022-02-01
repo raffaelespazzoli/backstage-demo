@@ -41,16 +41,16 @@ spec:
             - name: http
               containerPort: 6443
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: readyz
-              port: http
-              scheme: HTTPS
-          readinessProbe:
-            httpGet:
-              path: readyz
-              port: http
-              scheme: HTTPS
+          # livenessProbe:
+          #   httpGet:
+          #     path: readyz
+          #     port: http
+          #     scheme: HTTPS
+          # readinessProbe:
+          #   httpGet:
+          #     path: readyz
+          #     port: http
+          #     scheme: HTTPS
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
