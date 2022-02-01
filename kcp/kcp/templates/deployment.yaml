@@ -39,16 +39,18 @@ spec:
           - ./tmp/.kcp
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8443
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: readyz
               port: http
+              scheme: https
           readinessProbe:
             httpGet:
-              path: /
+              path: readyz
               port: http
+              scheme: https
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
