@@ -39,7 +39,7 @@ spec:
           - ./tmp/.kcp
           ports:
             - name: http
-              containerPort: 8443
+              containerPort: 6443
               protocol: TCP
           livenessProbe:
             httpGet:
