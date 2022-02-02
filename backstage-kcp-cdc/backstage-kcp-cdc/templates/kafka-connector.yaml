@@ -6,12 +6,12 @@ metadata:
     strimzi.io/use-connector-resources: "true"
 spec:
   version: 3.0.0
-  replicas: 2
+  replicas: 1
   bootstrapServers: cdc-kafka:9092
   build:
     output:
       type: docker
-      image: "image-registry.openshift-image-registry.svc:5000/streams/kafka-connect-build:latest"
+      image: "image-registry.openshift-image-registry.svc:5000/{{ .Release.Namespace }}/kafka-connect-build:latest"
     plugins:
       - name: debezium-connector-postgres
         artifacts:
