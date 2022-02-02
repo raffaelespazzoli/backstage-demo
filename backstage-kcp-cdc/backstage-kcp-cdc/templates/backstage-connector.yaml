@@ -15,5 +15,5 @@ spec:
     #database.dbname: "InternationalDB"
     #database.server.name: "mssql-server-linux"
     table.whitelist: "dbo.Orders"
-    database.history.kafka.bootstrap.servers: "cdc-kafka:9092"
+    database.history.kafka.bootstrap.servers: "cdc-kafka-kafka-bootstrap:9092"
     database.history.kafka.topic: "backstage.entities"  
