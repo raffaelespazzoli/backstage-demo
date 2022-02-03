@@ -12,6 +12,17 @@ spec:
     helm:
       values: | 
         base_domain: "dummy"
+        postgresql:
+          securityContext:
+            fsGroup: dummy 
+          containerSecurityContext:
+            runAsUser: dummy 
+          volumePermissions:
+            securityContext:
+              runAsUser: dummy 
+          metrics:
+            securityContext:
+              runAsUser: dummy
   destination:
     server: https://kubernetes.default.svc
     namespace: backstage

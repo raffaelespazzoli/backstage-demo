@@ -14,6 +14,6 @@ spec:
     database.password: "postgres!"
     #database.dbname: "InternationalDB"
     #database.server.name: "mssql-server-linux"
-    table.whitelist: "dbo.Orders"
+    table.whitelist: "final_entities"
     database.history.kafka.bootstrap.servers: "cdc-kafka-kafka-bootstrap:9092"
     database.history.kafka.topic: "backstage.entities"  
