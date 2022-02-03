@@ -70,15 +70,15 @@ spec:
                 base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
                 postgresql:
                   securityContext:
-                    fsGroup: {{ "{{" }} index (lookup "v1" "Namespace" "" "backstage").annotations "openshift.io/sa.scc.supplemental-groups" | splitList "/" | index 0 {{ "}}" }} 
+                    fsGroup: {{ "{{" }} index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.supplemental-groups" | splitList "/" | index 0 {{ "}}" }} 
                   containerSecurityContext:
-                    runAsUser: {{ "{{" }} index (lookup "v1" "Namespace" "" "backstage").annotations "openshift.io/sa.scc.uid-range" | splitList "/" | index 0 {{ "}}" }} 
+                    runAsUser: {{ "{{" }} index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.uid-range" | splitList "/" | index 0 {{ "}}" }} 
                   volumePermissions:
                     securityContext:
-                      runAsUser: {{ "{{" }} index (lookup "v1" "Namespace" "" "backstage").annotations "openshift.io/sa.scc.uid-range" | splitList "/" | index 0 {{ "}}" }} 
+                      runAsUser: {{ "{{" }} index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.uid-range" | splitList "/" | index 0 {{ "}}" }} 
                   metrics:
                     securityContext:
-                      runAsUser: {{ "{{" }} index (lookup "v1" "Namespace" "" "backstage").annotations "openshift.io/sa.scc.uid-range" | splitList "/" | index 0 {{ "}}" }}                
+                      runAsUser: {{ "{{" }} index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.uid-range" | splitList "/" | index 0 {{ "}}" }}                
       patchType: application/merge-patch+json
     action-runner-app-patch:
       targetObjectRef:
