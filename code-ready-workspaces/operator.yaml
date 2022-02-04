@@ -18,7 +18,7 @@ metadata:
   name: devworkspace-operator
   namespace: openshift-operators
 spec:
-  channel: fast
+  channel: next
   installPlanApproval: Automatic
   name: devworkspace-operator
   source: devworkspace-operator-catalog
