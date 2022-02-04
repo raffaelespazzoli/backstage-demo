@@ -47,10 +47,4 @@ spec:
   name: eclipse-che-preview-openshift
   source: eclipse-che-preview
   sourceNamespace: openshift-marketplace
----
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
-metadata:
-  name: eclipse-che
-spec:
-  targetNamespaces: []
+
