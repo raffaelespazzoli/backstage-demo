@@ -8,9 +8,9 @@ spec:
   class: io.debezium.connector.postgresql.PostgresConnector
   tasksMax: 1
   config:
-    database.hostname: "postgresql.backstage.svc"
+    database.hostname: "backstage-postgresql.backstage.svc"
     database.port: "5432"
-    database.user: "backstage-postgresql"
+    database.user: "postgres"
     database.password: "changeit"
     #database.dbname: "InternationalDB"
     #database.server.name: "mssql-server-linux"
