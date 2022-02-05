@@ -26,19 +26,19 @@ data:
         methods: [GET, POST, PUT, DELETE]
         credentials: true
       database:
-        # client: sqlite3
-        # connection: ':memory:'
+        client: sqlite3
+        connection: ':memory:'
      # config options: https://node-postgres.com/api/client
-        client: pg
-        connection:
-          host: {{ include "backstage.fullname" . }}-postgresql.{{ .Release.Namespace }}.svc
-          port: 5432
-          user: postgres
-          password: changeit
-          # https://node-postgres.com/features/ssl
-          ssl: require 
-          # see https://www.postgresql.org/docs/current/libpq-ssl.html Table 33.1. SSL Mode Descriptions (e.g. require)
-            ca: $file: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+        # client: pg
+        # connection:
+        #   host: {{ include "backstage.fullname" . }}-postgresql.{{ .Release.Namespace }}.svc
+        #   port: 5432
+        #   user: postgres
+        #   password: changeit
+        #   # https://node-postgres.com/features/ssl
+        #   ssl: require 
+        #   # see https://www.postgresql.org/docs/current/libpq-ssl.html Table 33.1. SSL Mode Descriptions (e.g. require)
+        #     ca: $file: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
       cache:
         store: memory
       # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
