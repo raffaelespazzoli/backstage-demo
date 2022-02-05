@@ -72,7 +72,8 @@ postgresql:
     certFilename: "tls.crt"
     certKeyFilename: "tls.key"
   auth:
-    existingSecret: postgresql-admin-password
+    postgresPassword: changeit
+    #existingSecret: postgresql-admin-password
   
   primary:
     extraEnvVars:
