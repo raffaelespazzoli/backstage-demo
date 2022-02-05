@@ -81,7 +81,7 @@ postgresql:
         value: logical   
 
   volumePermissions:
-    enabled: true
+    #enabled: true
     securityContext:
       runAsUser: "auto"
   securityContext:
