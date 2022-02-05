@@ -10,10 +10,12 @@ spec:
   config:
     database.hostname: "postgresql.backstage.svc"
     database.port: "5432"
-    database.user: "postgres"
-    database.password: "postgres!"
+    database.user: "backstage-postgresql"
+    database.password: "changeit"
     #database.dbname: "InternationalDB"
     #database.server.name: "mssql-server-linux"
     table.whitelist: "final_entities"
     database.history.kafka.bootstrap.servers: "cdc-kafka-kafka-bootstrap:9092"
-    database.history.kafka.topic: "backstage.entities"  
+    database.history.kafka.topic: "backstage.entities"
+    database.sslmode: require
+    database.sslrootcert: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
