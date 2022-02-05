@@ -67,7 +67,7 @@ affinity: {}
 
 postgresql:
   image:
-    registry: docker.io latest
+    registry: docker.io
     repository: debezium/postgres
     tag: latest
   tls:
