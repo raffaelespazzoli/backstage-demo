@@ -68,17 +68,17 @@ spec:
             helm:
               values: |
                 base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
-                postgresql:
-                  securityContext:
-                    fsGroup: {{ "{{" }} index (index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.supplemental-groups" | splitList "/") 0 {{ "}}" }} 
-                  containerSecurityContext:
-                    runAsUser: {{ "{{" }} index (index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.uid-range" | splitList "/") 0 {{ "}}" }} 
-                  volumePermissions:
-                    securityContext:
-                      runAsUser: {{ "{{" }} index (index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.uid-range" | splitList "/") 0 {{ "}}" }} 
-                  metrics:
-                    securityContext:
-                      runAsUser: {{ "{{" }} index (index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.uid-range" | splitList "/") 0 {{ "}}" }}                
+# postgresql:
+#   securityContext:
+#     fsGroup: {{ "{{" }} index (index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.supplemental-groups" | splitList "/") 0 {{ "}}" }} 
+#   containerSecurityContext:
+#     runAsUser: {{ "{{" }} index (index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.uid-range" | splitList "/") 0 {{ "}}" }} 
+#   volumePermissions:
+#     securityContext:
+#       runAsUser: {{ "{{" }} index (index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.uid-range" | splitList "/") 0 {{ "}}" }} 
+#   metrics:
+#     securityContext:
+#       runAsUser: {{ "{{" }} index (index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.uid-range" | splitList "/") 0 {{ "}}" }}                
       patchType: application/merge-patch+json
     action-runner-app-patch:
       targetObjectRef:

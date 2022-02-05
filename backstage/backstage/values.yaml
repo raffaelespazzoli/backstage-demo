@@ -66,8 +66,6 @@ tolerations: []
 affinity: {}
 
 postgresql:
-  volumePermissions:  
-    enabled: true
   tls:
     enabled: true
     certificatesSecret: postgresql-tls-secret
@@ -80,4 +78,16 @@ postgresql:
   primary:
     extraEnvVars:
       - name: POSTGRESQL_WAL_LEVEL
-        value: logical      
+        value: logical   
+
+  volumePermissions:
+    enabled: true
+    securityContext:
+      runAsUser: "auto"
+  securityContext:
+    enabled: false
+  containerSecurityContext:
+    enabled: false
+  shmVolume: 
+    chmod:
+      enabled: false            
