@@ -77,3 +77,6 @@ postgresql:
   service:
     annotations:
       service.beta.openshift.io/serving-cert-secret-name: postgresql-tls-secret
+  primary:
+    configuration: |
+      wal_level = logical
