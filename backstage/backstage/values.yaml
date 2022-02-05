@@ -66,6 +66,10 @@ tolerations: []
 affinity: {}
 
 postgresql:
+  image:
+    registry: docker.io latest
+    repository: debezium/postgres
+    tag: latest
   tls:
     enabled: true
     certificatesSecret: postgresql-tls-secret
