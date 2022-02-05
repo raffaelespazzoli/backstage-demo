@@ -38,8 +38,7 @@ data:
           # https://node-postgres.com/features/ssl
           ssl: require 
           # see https://www.postgresql.org/docs/current/libpq-ssl.html Table 33.1. SSL Mode Descriptions (e.g. require)
-            ca: # if you have a CA file and want to verify it you can uncomment this section
-            $file: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+            ca: $file: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
       cache:
         store: memory
       # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
