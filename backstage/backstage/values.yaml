@@ -82,7 +82,7 @@ postgresql:
     service:
         annotations:
           service.beta.openshift.io/serving-cert-secret-name: postgresql-tls-secret         
-
+  postgresqlSharedPreloadLibraries: pgaudit,decoderbufs
   volumePermissions:
     enabled: true
     securityContext:
