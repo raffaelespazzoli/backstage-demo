@@ -12,7 +12,7 @@ spec:
     database.port: "5432"
     database.user: "postgres"
     database.password: "changeit"
-    database.dbname: "backstage"
+    database.dbname: "backstage_plugin_catalog"
     database.server.name: "backstage"
     table.whitelist: "final_entities"
     database.history.kafka.bootstrap.servers: "cdc-kafka-kafka-bootstrap:9092"
