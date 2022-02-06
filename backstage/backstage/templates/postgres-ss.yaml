@@ -52,7 +52,7 @@ spec:
       serviceAccount: default
   volumes:
   - name: config
-      configMap:
+    configMap:
       # Provide the name of the ConfigMap containing the files you want
       # to add to the container
       name: {{ include "backstage.fullname" . }}-postgresql-config
