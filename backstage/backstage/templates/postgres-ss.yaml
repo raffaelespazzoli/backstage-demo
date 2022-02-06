@@ -26,10 +26,7 @@ spec:
             - name: POSTGRES_USER
               value: postgres  
             - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: backstage-postgresql
-                  key: postgres-password
+              value: changeit
             - name: POSTGRES_DB
               value: backstage
             - name: PGDATA
