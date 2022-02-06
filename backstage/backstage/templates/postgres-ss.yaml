@@ -1,0 +1,73 @@
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: {{ include "backstage.fullname" . }}-postgresql
+  labels:
+    {{- include "backstage.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: postgresql
+      app.kubernetes.io/instance: backstage
+      app.kubernetes.io/name: postgresql
+  template:
+    metadata:
+      name: backstage-postgresql
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/component: postgresql
+        app.kubernetes.io/instance: backstage
+        app.kubernetes.io/name: postgresql
+    spec:
+      containers:
+        - name: postgresql
+          env:
+            - name: POSTGRES_USER
+              value: postgres  
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-postgresql
+                  key: postgres-password
+            - name: POSTGRES_DB
+              value: backstage
+            - name: PGDATA
+              value: /var/lib/pgdata
+          args:
+            - config_file=/etc/postgresql/postgresql.conf
+          securityContext:
+            runAsUser: 1001
+          ports:
+            - name: tcp-postgresql
+              containerPort: 5432
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/pgdata
+            - name: config
+              mountPath: /etc/postgresql   
+          terminationMessagePolicy: File
+          image: 'docker.io/debezium/postgres:14'
+      serviceAccount: default
+  volumes:
+  - name: config
+      configMap:
+      # Provide the name of the ConfigMap containing the files you want
+      # to add to the container
+      name: {{ include "backstage.fullname" . }}-postgresql-config
+  volumeClaimTemplates:
+    - kind: PersistentVolumeClaim
+      apiVersion: v1
+      metadata:
+        name: data
+        creationTimestamp: null
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 8Gi
+        volumeMode: Filesystem
+  serviceName: postgres-{{ include "backstage.fullname" . }}
+

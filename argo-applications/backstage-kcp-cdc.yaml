@@ -11,7 +11,7 @@ spec:
     path: backstage-kcp-cdc/backstage-kcp-cdc
   destination:
     server: https://kubernetes.default.svc
-    namespace: backstage
+    namespace: kcp
   syncPolicy:
     automated: 
       prune: true

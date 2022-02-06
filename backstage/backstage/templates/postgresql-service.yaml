@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-{{ include "backstage.fullname" . }}
+  labels:
+    {{- include "backstage.labels" . | nindent 4 }}
+spec:
+  clusterIP: None
+  ports:
+    - name: tcp-postgresql
+      protocol: TCP
+      port: 5432
+      targetPort: tcp-postgresql
+  selector:
+    app.kubernetes.io/component: postgresql
+    app.kubernetes.io/instance: backstage
+    app.kubernetes.io/name: postgresql
