@@ -1,0 +1,21 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: akhq
+  # annotations:
+  #   global-load-balancer-operator.redhat-cop.io/load-balancing-policy: Latency
+  #   global-load-balancer-operator.redhat-cop.io/health-check: '{"httpGet":{"path":"/ui","port":443,"scheme":"HTTPS"},"timeoutSeconds":1,"periodSeconds":10,"successThreshold":1,"failureThreshold":3}'
+  # labels:
+  #   route-type: global    
+spec:
+  # host: akhq.${global_base_domain}
+  port:
+    targetPort: 8080
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: akhq
+    weight: 100
+  wildcardPolicy: None 

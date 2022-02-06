@@ -1,0 +1,21 @@
+akhq:
+  configuration:
+    akhq:
+      connections:
+        kafka-cluster:
+          properties:
+            bootstrap.servers: "cdc-kafka-kafka-bootstrap:9092"
+            # security.protocol: SSL
+            # ssl.truststore.type: JKS
+            # ssl.truststore.location: /certs/truststore.jks
+            # ssl.truststore.password: changeit
+            # ssl.endpoint.identification.algorithm: ""
+
+  extraVolumes:
+  - name: certs
+    secret:
+      secretName: akhq-tls
+
+  extraVolumeMounts:
+  - mountPath: /certs
+    name: certs  
