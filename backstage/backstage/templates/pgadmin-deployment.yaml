@@ -31,7 +31,7 @@ spec:
         - name: pgadmin
           env:
           - name: PGADMIN_LISTEN_PORT
-            value: 8080
+            value: "8080"
           - name: PGADMIN_DEFAULT_EMAIL
             value: admin@example.com
           - name: PGADMIN_DEFAULT_PASSWORD
