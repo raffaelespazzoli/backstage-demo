@@ -25,11 +25,11 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "backstage.serviceAccountName" . }}
-      securityContext:
-        runAsUser: 5050
-        runAsGroup: 5050
       containers:
         - name: pgadmin
+          securityContext:
+            runAsUser: 5050
+            runAsGroup: 5050        
           env:
           - name: PGADMIN_LISTEN_PORT
             value: "8080"
