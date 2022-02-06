@@ -10,7 +10,7 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "backstage.selectorLabels" . | nindent 6 }}
+      app: pgadmin
   template:
     metadata:
       {{- with .Values.podAnnotations }}
