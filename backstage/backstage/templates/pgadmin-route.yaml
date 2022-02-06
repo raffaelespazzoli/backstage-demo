@@ -1,0 +1,17 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: pgadmin-{{ include "backstage.fullname" . }}
+  labels:
+    {{- include "backstage.labels" . | nindent 4 }}
+spec:
+  host: pgadmin-{{ include "backstage.fullname" . }}.apps.{{ .Values.base_domain }}
+  to:
+    kind: Service
+    name: pgadmin-{{ include "backstage.fullname" . }}
+    weight: 100
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+  wildcardPolicy: None
