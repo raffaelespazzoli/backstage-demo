@@ -26,7 +26,8 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "backstage.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        runAsUser: 5050
+        runAsGroup: 5050
       containers:
         - name: pgadmin
           env:
@@ -36,8 +37,6 @@ spec:
             value: admin@example.com
           - name: PGADMIN_DEFAULT_PASSWORD
             value: admin       
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "docker.io/dpage/pgadmin4"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
