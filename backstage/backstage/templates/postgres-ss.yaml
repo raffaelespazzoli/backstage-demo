@@ -31,6 +31,12 @@ spec:
               value: backstage
             - name: PGDATA
               value: /var/lib/pgdata
+          command: 
+            - /bin/bash
+            - c
+            - | 
+              ls /etc/postgresql
+              /usr/local/bin/docker-entrypoint.sh
           args:
             - config_file=/etc/postgresql/postgresql.conf
           securityContext:
