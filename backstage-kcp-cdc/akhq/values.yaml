@@ -11,11 +11,11 @@ akhq:
             # ssl.truststore.password: changeit
             # ssl.endpoint.identification.algorithm: ""
 
-  extraVolumes:
-  - name: certs
-    secret:
-      secretName: akhq-tls
+  # extraVolumes:
+  # - name: certs
+  #   secret:
+  #     secretName: akhq-tls
 
-  extraVolumeMounts:
-  - mountPath: /certs
-    name: certs  
+  # extraVolumeMounts:
+  # - mountPath: /certs
+  #   name: certs  
