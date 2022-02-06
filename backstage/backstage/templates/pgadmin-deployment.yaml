@@ -35,10 +35,7 @@ spec:
           - name: PGADMIN_DEFAULT_EMAIL
             value: admin@example.com
           - name: PGADMIN_DEFAULT_PASSWORD
-            value: admin            
-          envFrom:
-          - secretRef:
-              name: github-credentials        
+            value: admin       
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "docker.io/dpage/pgadmin4"
