@@ -34,8 +34,6 @@ spec:
           args:
             - -c
             - config_file=/etc/postgresql/postgresql.conf
-          securityContext:
-            runAsUser: 1001
           ports:
             - name: tcp-postgresql
               containerPort: 5432
