@@ -33,7 +33,7 @@ spec:
               value: /var/lib/pgdata
           command: 
             - /bin/bash
-            - c
+            - -c
             - | 
               ls /etc/postgresql
               /usr/local/bin/docker-entrypoint.sh
