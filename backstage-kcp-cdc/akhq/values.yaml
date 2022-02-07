@@ -4,7 +4,7 @@ akhq:
       connections:
         kafka-cluster:
           properties:
-            bootstrap.servers: "cdc-kafka-kafka-bootstrap:9092"
+            bootstrap.servers: "cdc-kafka-kafka-bootstrap.kcp.svc:9092"
             # security.protocol: SSL
             # ssl.truststore.type: JKS
             # ssl.truststore.location: /certs/truststore.jks

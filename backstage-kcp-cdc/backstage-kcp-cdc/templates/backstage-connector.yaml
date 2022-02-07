@@ -15,7 +15,7 @@ spec:
     database.dbname: "backstage_plugin_catalog"
     database.server.name: "backstage"
     table.whitelist: "final_entities"
-    database.history.kafka.bootstrap.servers: "cdc-kafka-kafka-bootstrap:9092"
+    database.history.kafka.bootstrap.servers: "cdc-kafka-kafka-bootstrap.kcp.svc:9092"
     database.history.kafka.topic: "backstage.entities"
     # database.sslmode: require
     # database.sslrootcert: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
