@@ -2,6 +2,8 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
   name: cdc-kafka
+  labels:
+    {{- include "backstage-kcp-cdc.labels" . | nindent 4 }}  
 spec:
   kafka:
     config:

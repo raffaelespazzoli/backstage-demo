@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: backstage-kcp-sink
   labels:
-    {{- include "backstage.labels" . | nindent 4 }}
+    {{- include "backstage-kcp-cdc.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:

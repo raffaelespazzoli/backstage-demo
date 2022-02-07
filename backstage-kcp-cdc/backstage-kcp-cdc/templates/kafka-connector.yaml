@@ -4,6 +4,8 @@ metadata:
   name: cdc-debezium
   annotations:
     strimzi.io/use-connector-resources: "true"
+  labels:
+    {{- include "backstage-kcp-cdc.labels" . | nindent 4 }}    
 spec:
   version: 3.0.0
   replicas: 1
