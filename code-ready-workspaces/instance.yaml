@@ -55,7 +55,7 @@ spec:
     pluginRegistryRoute: {}
     devfileRegistryRoute: {}
     externalPluginRegistry: false
-    workspaceNamespaceDefault: <username>-codeready
+    workspaceNamespaceDefault: <username>-che
     serverExposureStrategy: single-host
     gitSelfSignedCert: false
     useInternalClusterSVCNames: false
