@@ -20,8 +20,8 @@ spec:
           - type: tgz
             url: https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/1.8.0.Final/debezium-connector-postgres-1.8.0.Final-plugin.tar.gz
             #sha512sum: 82542ed190ec0b7245d0e6554dacec1bb1c65dd3e14e837cdc5898a789482b54af9736d719a9ff50731e61dd9b6a0e741c3ba6f71993e38416dde2753d74f460
-          - type: zip
-            url: https://maven.repository.redhat.com/ga/io/debezium/debezium-scripting/1.7.2.Final/debezium-scripting-1.7.2.Final.zip
+          # - type: zip
+          #   url: https://maven.repository.redhat.com/ga/io/debezium/debezium-scripting/1.7.2.Final-redhat-00003/debezium-scripting-1.7.2.Final-redhat-00003.zip
       # - name: debezium-connector-postgres
       #   artifacts:
       #   - type: zip 
