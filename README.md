@@ -132,11 +132,13 @@ oc delete -n eclipse-che secret github-oauth-config
 oc delete -n backstage secret github-credentials
 oc delete -n actions-runner-system secret controller-manager
 oc delete -n group-sync-operator secret github-group-sync
+oc delete -n vault-admin secret vault-github-plugin-creds
 
 oc delete project eclipse-che
 oc delete project backstage
 oc delete project actions-runner-system
 oc delete project group-sync-operator
+oc delete project vault-admin
 ```
 
 ## Notes

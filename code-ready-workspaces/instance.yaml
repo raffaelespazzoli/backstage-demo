@@ -56,10 +56,11 @@ spec:
     devfileRegistryRoute: {}
     externalPluginRegistry: false
     workspaceNamespaceDefault: <username>-che
-    serverExposureStrategy: single-host
     gitSelfSignedCert: false
     useInternalClusterSVCNames: false
     cheFlavor: che
+  devWorkspace:
+    enable: true
   # storage:
   #   preCreateSubPaths: true
   #   pvcClaimSize: 10Gi
