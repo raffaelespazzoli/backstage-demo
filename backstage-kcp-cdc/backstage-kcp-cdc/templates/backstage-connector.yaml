@@ -15,9 +15,11 @@ spec:
     database.password: "changeit"
     database.dbname: "backstage_plugin_catalog"
     database.server.name: "backstage"
+    schema.include.list: public
     table.whitelist: "public.final_entities"
     database.include.list: "public.final_entities"
     database.history.kafka.bootstrap.servers: "cdc-kafka-kafka-bootstrap.kcp.svc:9092"
     database.history.kafka.topic: "backstage.entities"
+    plugin.name: decoderbufs
     # database.sslmode: require
     # database.sslrootcert: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
