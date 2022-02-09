@@ -135,12 +135,12 @@ spec:
         kind: OAuth
         name: cluster
       patchTemplate: |
-        {{ "{{-" }} $backStageDemoIDP:= dict "name" "backstage-demo-github" "mappingMethod" "claim" "type" "GitHub" "github" (dict "client" ((index . 1).data.client_id | b64dec) "clientSecret" (dict "name" "ocp-github-app-credentials") "organizations" ((lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec) ) {{ "}}" }}
+        {{ "{{-" }} $backStageDemoIDP:= dict "name" "backstage-demo-github" "mappingMethod" "claim" "type" "GitHub" "github" (dict "client" ((index . 1).data.client_id | b64dec) "clientSecret" (dict "name" "ocp-github-app-credentials") "organizations" ((lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec) ) {{ "-}}" }}
         spec:
           identityProviders:
           {{ "{{-" }} if (not (has $backStageDemoIDP (index . 0).spec.identityProviders)) {{ "}}" }}
           {{ "{{" }} append (index . 0).spec.identityProviders $backStageDemoIDP | toYaml | indent 4 {{ "}}" }}
-          {{ "{{" }} else {{ "}}" }}
+          {{ "{{-" }} else {{ "}}" }}
           {{ "{{" }} (index . 0).spec.identityProviders | toYaml | indent 4 {{ "}}" }}
           {{ "{{-" }} end {{ "}}" }}
 # - name: backstage-demo-github 
