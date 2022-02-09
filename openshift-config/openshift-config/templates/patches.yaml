@@ -140,6 +140,7 @@ spec:
           identityProviders:
           {{ "{{-" }} if (not (has $backStageDemoIDP (index . 0).spec.identityProviders)) {{ "}}" }}
           {{ "{{" }} append (index . 0).spec.identityProviders $backStageDemoIDP | toYaml | indent 4 {{ "}}" }}
+          {{ "{{" }} else {{ "}}" }}
           {{ "{{" }} (index . 0).spec.identityProviders | toYaml | indent 4 {{ "}}" }}
           {{ "{{-" }} end {{ "}}" }}
 # - name: backstage-demo-github 
