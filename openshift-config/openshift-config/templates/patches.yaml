@@ -186,17 +186,6 @@ spec:
           applicationID: {{ "{{" }} (lookup "v1" "Secret" "vault-admin" "vault-github-plugin-creds").data.github_app_id | b64dec {{ "}}" }}
           organizationName: {{ "{{" }} (lookup "v1" "Secret" "vault-admin" "vault-github-plugin-creds").data.github_org | b64dec {{ "}}" }}
       patchType: application/merge-patch+json    
-    crw-hostname-patch:
-      targetObjectRef:
-        apiVersion: org.eclipse.che/v1
-        kind: CheCluster
-        namespace: openshift-workspaces
-        name: codeready-workspaces
-      patchTemplate: |
-        spec:
-          server:
-            cheHost: codeready-openshift-workspaces.apps.{{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }} 
-      patchType: application/merge-patch+json          
 
 
  
