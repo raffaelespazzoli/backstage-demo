@@ -15,4 +15,4 @@ metadata:
   name: codeready-workspaces
 spec:
   targetNamespaces:
-  - openshift-workspaces  
+  - openshift-workspaces

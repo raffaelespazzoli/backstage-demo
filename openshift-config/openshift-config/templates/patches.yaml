@@ -105,7 +105,6 @@ spec:
             helm:
               values: |
                 base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
-      patchType: application/merge-patch+json                
       patchType: application/merge-patch+json
     letsencrypt-ingress-operator:
       targetObjectRef:
@@ -135,7 +134,7 @@ spec:
         kind: OAuth
         name: cluster
       patchTemplate: |
-        {{ "{{-" }} $backStageDemoIDP:= dict "name" "backstage-demo-github" "mappingMethod" "claim" "type" "GitHub" "github" (dict "client" ((index . 1).data.client_id | b64dec) "clientSecret" (dict "name" "ocp-github-app-credentials") "organizations" ((lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec) ) {{ "-}}" }}
+        {{ "{{-" }} $backStageDemoIDP:= dict "name" "backstage-demo-github" "mappingMethod" "claim" "type" "GitHub" "github" (dict "clientID" ((index . 1).data.client_id | b64dec) "clientSecret" (dict "name" "ocp-github-app-credentials") "organizations" ((lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec) ) {{ "-}}" }}
         spec:
           identityProviders:
           {{ "{{-" }} if (not (has $backStageDemoIDP (index . 0).spec.identityProviders)) {{ "}}" }}
@@ -187,17 +186,3 @@ spec:
           applicationID: {{ "{{" }} (lookup "v1" "Secret" "vault-admin" "vault-github-plugin-creds").data.github_app_id | b64dec {{ "}}" }}
           organizationName: {{ "{{" }} (lookup "v1" "Secret" "vault-admin" "vault-github-plugin-creds").data.github_org | b64dec {{ "}}" }}
       patchType: application/merge-patch+json    
-    crw-hostname-patch:
-      targetObjectRef:
-        apiVersion: org.eclipse.che/v1
-        kind: CheCluster
-        namespace: openshift-workspaces
-        name: codeready-workspaces
-      patchTemplate: |
-        spec:
-          server:
-            cheHost: codeready-openshift-workspaces.apps.{{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }} 
-      patchType: application/merge-patch+json          
-
-
- 

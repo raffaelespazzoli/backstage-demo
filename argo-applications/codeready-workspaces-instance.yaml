@@ -1,19 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: code-ready-workspaces-instance
+  name: codeready-workspaces-instance
   namespace: openshift-gitops
 spec:
   project: default
   source:
     repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
     targetRevision: HEAD
-    path: code-ready-workspaces
+    path: codeready-workspaces/eclipse-che
     directory:
       include: instance.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: openshift-workspaces
+    namespace: eclipse-che
   syncPolicy:
     # automated:
     #   prune: true
