@@ -1,18 +1,50 @@
 apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  name: devworkspace-operator-catalog
+  namespace: openshift-marketplace
+spec:
+  sourceType: grpc
+  image: quay.io/devfile/devworkspace-operator-index:next
+  publisher: Red Hat
+  displayName: DevWorkspace Operator Catalog
+  updateStrategy:
+    registryPoll:
+      interval: 5m
+---
+apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
-  name: codeready-workspaces
+  name: devworkspace-operator
+  namespace: openshift-operators
 spec:
-  channel: latest
+  channel: next
   installPlanApproval: Automatic
-  name: codeready-workspaces
-  source: redhat-operators
+  name: devworkspace-operator
+  source: devworkspace-operator-catalog
   sourceNamespace: openshift-marketplace
---- 
-apiVersion: operators.coreos.com/v1
-kind: OperatorGroup
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
 metadata:
-  name: codeready-workspaces
+  name: eclipse-che-preview
+  namespace: openshift-marketplace
 spec:
-  targetNamespaces:
-  - openshift-workspaces
+  sourceType: grpc
+  image: quay.io/eclipse/eclipse-che-openshift-opm-catalog:next
+  updateStrategy:
+    registryPoll:
+      interval: 5m
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: eclipse-che-preview-openshift
+  namespace: openshift-operators
+spec:
+  channel: next
+  installPlanApproval: Automatic
+  name: eclipse-che-preview-openshift
+  source: eclipse-che-preview
+  sourceNamespace: openshift-marketplace
+

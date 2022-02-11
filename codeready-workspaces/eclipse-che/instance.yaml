@@ -1,8 +1,8 @@
 apiVersion: org.eclipse.che/v1
 kind: CheCluster
 metadata:
-  name: codeready-workspaces
-  namespace: openshift-workspaces
+  name: eclipse-che
+  namespace: eclipse-che
 spec:  
   # auth:
   #   identityProviderURL: >-
@@ -46,7 +46,6 @@ spec:
     pluginRegistryIngress: {}
     cheServerRoute: {}
     devfileRegistryIngress: {}
-    cheHost: codeready-openshift-workspaces.apps.control-cluster-raffa.demo.red-chesterfield.com
     selfSignedCert: false
     cheServerIngress: {}
     cheDebug: 'false'
@@ -56,11 +55,11 @@ spec:
     pluginRegistryRoute: {}
     devfileRegistryRoute: {}
     externalPluginRegistry: false
-    workspaceNamespaceDefault: <username>-codeready
-    serverExposureStrategy: single-host
+    workspaceNamespaceDefault: <username>-che
     gitSelfSignedCert: false
     useInternalClusterSVCNames: false
-    cheFlavor: codeready
+  devWorkspace:
+    enable: true
   # storage:
   #   preCreateSubPaths: true
   #   pvcClaimSize: 10Gi
