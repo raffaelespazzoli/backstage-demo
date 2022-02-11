@@ -3,42 +3,7 @@ kind: CheCluster
 metadata:
   name: eclipse-che
   namespace: eclipse-che
-spec:  
-  # auth:
-  #   identityProviderURL: >-
-  #     https://keycloak-openshift-workspaces.apps.tmp-raffa.demo.red-chesterfield.com/auth
-  #   identityProviderRealm: codeready
-  #   updateAdminPassword: false
-  #   identityProviderIngress: {}
-  #   oAuthSecret: egCxCWxRn13v
-  #   oAuthClientName: codeready-workspaces-openshift-identity-provider-sta3z4
-  #   initialOpenShiftOAuthUser: true
-  #   identityProviderContainerResources:
-  #     limits: {}
-  #     request: {}
-  #   identityProviderClientId: codeready-public
-  #   identityProviderPostgresSecret: che-identity-postgres-secret
-  #   identityProviderRoute: {}
-  #   externalIdentityProvider: false
-  #   identityProviderSecret: che-identity-secret
-  #   openShiftoAuth: true
-  # database:
-  #   chePostgresContainerResources:
-  #     limits: {}
-  #     request: {}
-  #   chePostgresDb: dbche
-  #   chePostgresHostName: postgres
-  #   chePostgresPort: '5432'
-  #   chePostgresSecret: che-postgres-secret
-  #   externalDb: false
-  # devWorkspace:
-  #   enable: false
-  # imagePuller:
-  #   enable: false
-  #   spec: {}
-  # k8s: {}
-  # metrics:
-  #   enable: true
+spec:
   server:
     cheLogLevel: INFO
     dashboardIngress: {}
@@ -60,7 +25,3 @@ spec:
     useInternalClusterSVCNames: false
   devWorkspace:
     enable: true
-  # storage:
-  #   preCreateSubPaths: true
-  #   pvcClaimSize: 10Gi
-  #   pvcStrategy: common

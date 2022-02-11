@@ -186,6 +186,3 @@ spec:
           applicationID: {{ "{{" }} (lookup "v1" "Secret" "vault-admin" "vault-github-plugin-creds").data.github_app_id | b64dec {{ "}}" }}
           organizationName: {{ "{{" }} (lookup "v1" "Secret" "vault-admin" "vault-github-plugin-creds").data.github_org | b64dec {{ "}}" }}
       patchType: application/merge-patch+json    
-
-
- 

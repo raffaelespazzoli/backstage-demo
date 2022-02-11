@@ -47,7 +47,7 @@ It requires some manual preparation steps for tasks that do not seem automate-ab
 
 1. create a new organization or reuse an existing one.
 2. create an Oauth app in this organization for backstage. The call back url should be `https://backstage.apps.${based_domain}/api/auth/github`
-3. create an Oauth app in this organization for Code Ready Workspaces. The call back url should be `https://codeready-eclipse-che.apps.${based_domain}/auth/realms/codeready/broker/github/endpoint`
+3. create an Oauth app in this organization for Code Ready Workspaces. The call back url should be `https://che-eclipse-che.apps.${based_domain}/auth/realms/codeready/broker/github/endpoint`
 4. create an Oauth app in this organization for OpenShift. The call back url should be `https://oauth-openshift.apps.${based_domain}/oauth2callback/backstage-demo-github/`
 5. create a Personal Access Token (PAT) with an account that is administrator to the chosen organization.
 6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${based_domain}`. The webhook secret is hardcoded to `ciao`.
