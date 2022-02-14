@@ -57,7 +57,7 @@ spec:
             - name: data
               mountPath: /etcddata            
         - name: admin-secret
-          image: bitnami/kubectl:latest
+          image: registry.redhat.io/openshift4/ose-cli:4.9
           command: 
           - /bin/bash
           - -c
@@ -65,8 +65,8 @@ spec:
               while true; do
                 sleep 5
                 if [[ -f /etcddata/admin.kubeconfig ]]; then
-                  kubectl delete secret kcp-init -n kcp
-                  kubectl create secret generic kcp-init -n kcp --from-file=kubeconfig=/etcddata/admin.kubeconfig
+                  oc -s https://kubernetes.default.svc:443 --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token --insecure-skip-tls-verify delete secret kcp-init -n kcp
+                  oc -s https://kubernetes.default.svc:443 --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token --insecure-skip-tls-verify create secret generic kcp-init -n kcp --from-file=kubeconfig=/etcddata/admin.kubeconfig
                 else
                   sleep 5
                 fi    
