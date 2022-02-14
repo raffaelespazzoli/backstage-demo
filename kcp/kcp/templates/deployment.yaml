@@ -65,8 +65,8 @@ spec:
               while true; do
                 sleep 5
                 if [[ -f /etcddata/admin.kubeconfig ]]; then
-                  ocp delete secret kcp-init -n kcp
-                  ocp create secret generic kcp-init -n kcp --from-file=kubeconfig=/etcddata/admin.kubeconfig
+                  oc delete secret kcp-init -n kcp
+                  oc create secret generic kcp-init -n kcp --from-file=kubeconfig=/etcddata/admin.kubeconfig
                 else
                   sleep 5
                 fi    
