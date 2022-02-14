@@ -57,7 +57,7 @@ spec:
             - name: data
               mountPath: /etcddata            
         - name: admin-secret
-          image: registry.redhat.io/openshift4/ose-cli:4.9
+          image: registry.redhat.io/openshift4/ose-cli:v4.9
           command: 
           - /bin/bash
           - -c
