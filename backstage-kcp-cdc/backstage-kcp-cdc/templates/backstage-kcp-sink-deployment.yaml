@@ -1,20 +1,22 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: backstage-kcp-sink
-#   labels:
-#     {{- include "backstage-kcp-cdc.labels" . | nindent 4 }}
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: backstage-kcp-sink
-#   template:
-#     metadata:
-#       labels:
-#         app: backstage-kcp-sink
-#     spec:
-#       containers:
-#         - name: backstage-kcp-sink 
-#           imagePullPolicy: Always
-#           image: quay.io/raffaelespazzoli/backstage-kcp-sink:1.0
+{{ if .Values.deploySink }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backstage-kcp-sink
+  labels:
+    {{- include "backstage-kcp-cdc.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backstage-kcp-sink
+  template:
+    metadata:
+      labels:
+        app: backstage-kcp-sink
+    spec:
+      containers:
+        - name: backstage-kcp-sink 
+          imagePullPolicy: Always
+          image: quay.io/raffaelespazzoli/backstage-kcp-sink:1.0
+{{ end }}          
