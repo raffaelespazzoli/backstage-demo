@@ -36,7 +36,7 @@ spec:
           args:
           - start
           - --root-directory
-          - ./tmp/.kcp
+          - ./etcddata
           ports:
             - name: http
               containerPort: 6443
@@ -53,6 +53,31 @@ spec:
           #     scheme: HTTPS
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /etcddata            
+        - name: admin-secret
+          image: registry.redhat.io/openshift4/ose-cli:v4.9
+          command: 
+          - /bin/bash
+          - -c
+          - | 
+              while true; do
+                sleep 5
+                if [[ -f /etcddata/admin.kubeconfig ]]; then
+                  ocp delete secret kcp-init -n kcp
+                  ocp create secret generic kcp-init -n kcp --from-file=kubeconfig=/etcddata/admin.kubeconfig
+                else
+                  sleep 5
+                fi    
+              done
+          volumeMounts:
+            - name: data
+              mountPath: /etcddata
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "kcp.fullname" . }}-data                         
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

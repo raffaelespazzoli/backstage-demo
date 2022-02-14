@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "kcp.serviceAccountName" . }}-edit
+  labels:
+    {{- include "kcp.labels" . | nindent 4 }}   
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+- kind: ServiceAccount
+  name: {{ include "kcp.fullname" . }}
+  namespace: {{ .Release.Namespace }}
