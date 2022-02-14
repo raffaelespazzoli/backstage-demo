@@ -65,9 +65,15 @@ spec:
               while true; do
                 sleep 5
                 if [[ -f /etcddata/admin.kubeconfig ]]; then
-                  oc -s https://kubernetes.default.svc:443 --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) --insecure-skip-tls-verify delete secret kcp-init -n kcp
-                  oc -s https://kubernetes.default.svc:443 --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) --insecure-skip-tls-verify create secret generic kcp-init -n kcp --from-file=kubeconfig=/etcddata/admin.kubeconfig
+                  if [[ !$(oc -s https://kubernetes.default.svc:443 --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) --insecure-skip-tls-verify get secret kcp-init -n kcp) ]]; then 
+                    oc -s https://kubernetes.default.svc:443 --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) --insecure-skip-tls-verify delete secret kcp-init -n kcp
+                    oc -s https://kubernetes.default.svc:443 --token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) --insecure-skip-tls-verify create secret generic kcp-init -n kcp --from-file=kubeconfig=/etcddata/admin.kubeconfig
+                  else 
+                    echo kcp-init secret already exists
+                    sleep 5
+                  fi  
                 else
+                  echo /etcddata/admin.kubeconfig not ready yet
                   sleep 5
                 fi    
               done
