@@ -4,7 +4,7 @@ metadata:
   name: 'system-openshift-scc-nonroot'
 subjects:
   - kind: ServiceAccount
-    name: default
+    name: fairwind-goldilocks-controller
     namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
