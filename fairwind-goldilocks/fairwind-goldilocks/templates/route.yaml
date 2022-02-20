@@ -1,0 +1,17 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: {{- define "goldilock.fullname" -}}
+  labels:
+    {{- include "goldilock.labels" . | nindent 4 }}
+spec:
+  host: {{- define "goldilock.fullname" -}}.apps.{{ .Values.base_domain }}
+  to:
+    kind: Service
+    name: {{- define "goldilock.fullname" -}}-dashboard
+    weight: 100
+  port:
+    targetPort: 80
+  tls:
+    termination: edge
+  wildcardPolicy: None
