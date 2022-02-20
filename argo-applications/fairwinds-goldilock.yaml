@@ -11,7 +11,7 @@ spec:
     path: goldilock/goldilock
   destination:
     server: https://kubernetes.default.svc
-    namespace: goldilocks
+    namespace: goldilock
   syncPolicy:
     automated: 
       prune: true
