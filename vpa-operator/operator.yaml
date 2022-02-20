@@ -14,4 +14,5 @@ kind: OperatorGroup
 metadata:
   name: vertical-pod-autoscaler
 spec:
-  targetNamespaces: openshift-vertical-pod-autoscaler
+  targetNamespaces:
+  - openshift-vertical-pod-autoscaler
