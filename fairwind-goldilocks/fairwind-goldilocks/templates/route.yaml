@@ -5,7 +5,6 @@ metadata:
   labels:
     {{- include "goldilock.labels" . | nindent 4 }}
 spec:
-  host: {{- define "goldilock.fullname" -}}.apps.{{ .Values.base_domain }}
   to:
     kind: Service
     name: {{- define "goldilock.fullname" -}}-dashboard
