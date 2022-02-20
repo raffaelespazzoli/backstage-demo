@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: fairwind-goldilock
+  name: fairwind-goldilocks
   namespace: openshift-gitops
 spec:
   project: default
   source:
     repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
     targetRevision: HEAD
-    path: fairwind-goldilock/fairwind-goldilock
+    path: fairwind-goldilocks/fairwind-goldilocks
   destination:
     server: https://kubernetes.default.svc
-    namespace: fairwind-goldilock
+    namespace: fairwind-goldilocks
   syncPolicy:
     automated: 
       prune: true
