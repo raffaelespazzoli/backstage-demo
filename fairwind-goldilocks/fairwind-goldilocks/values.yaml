@@ -1,0 +1,6 @@
+goldilocks:
+  controller:
+    resources:
+      requests:
+        cpu: 25m
+        memory: 250Mi
