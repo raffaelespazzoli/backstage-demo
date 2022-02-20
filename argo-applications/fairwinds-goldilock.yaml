@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: goldilock
+  name: fairwind-goldilock
   namespace: openshift-gitops
 spec:
   project: default
   source:
     repoURL: https://charts.fairwinds.com/stable
     targetRevision: HEAD
-    path: goldilock/goldilock
+    path: fairwind-goldilock/fairwind-goldilock
   destination:
     server: https://kubernetes.default.svc
-    namespace: goldilock
+    namespace: fairwind-goldilock
   syncPolicy:
     automated: 
       prune: true

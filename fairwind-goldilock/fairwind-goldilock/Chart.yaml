@@ -1,5 +1,5 @@
 apiVersion: v2
-name: goldilock
+name: fairwind-goldilock
 description: A Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
