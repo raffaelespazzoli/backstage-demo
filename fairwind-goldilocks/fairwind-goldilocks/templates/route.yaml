@@ -1,9 +1,7 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: {{- define "goldilock.fullname" -}}
-  labels:
-    {{- include "goldilock.labels" . | nindent 4 }}
+  name: fairwind-goldilocks-dashboard
 spec:
   to:
     kind: Service
