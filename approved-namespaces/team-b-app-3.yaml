@@ -9,6 +9,7 @@ metadata:
     build-namespace: app-3-build
     size: medium
     environment: build
+    goldilocks.fairwinds.com/enabled: "true"
 ---
 apiVersion: v1
 kind: Namespace
@@ -20,6 +21,7 @@ metadata:
     build-namespace: app-3-build
     size: medium
     environment: dev
+    goldilocks.fairwinds.com/enabled: "true"
 ---
 apiVersion: v1
 kind: Namespace
@@ -31,6 +33,7 @@ metadata:
     build-namespace: app-3-build
     size: medium
     environment: qa
+    goldilocks.fairwinds.com/enabled: "true"
 ---
 apiVersion: v1
 kind: Namespace
@@ -42,3 +45,4 @@ metadata:
     build-namespace: app-3-build
     size: medium
     environment: prod
+    goldilocks.fairwinds.com/enabled: "true"
