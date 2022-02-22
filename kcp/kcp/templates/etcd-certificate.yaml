@@ -10,10 +10,14 @@ spec:
     - server auth
     - client auth  
   dnsNames:
-    - etcd-0.etcd-kcp-headless.{{ .Release.Namespace }}.svc
-    - etcd-0.etcd-kcp-headless.{{ .Release.Namespace }}.svc.cluster.local
-    - etcd-kcp.{{ .Release.Namespace }}.svc
-    - etcd-kcp.{{ .Release.Namespace }}.cluster.local    
+    - kcp-etcd-0.kcp-etcd-headless.{{ .Release.Namespace }}.svc
+    - kcp-etcd-0.kcp-etcd-headless.{{ .Release.Namespace }}.svc.cluster.local
+    - kcp-etcd-1.kcp-etcd-headless.{{ .Release.Namespace }}.svc
+    - kcp-etcd-1.kcp-etcd-headless.{{ .Release.Namespace }}.svc.cluster.local
+    - kcp-etcd-2.kcp-etcd-headless.{{ .Release.Namespace }}.svc
+    - kcp-etcd-2.kcp-etcd-headless.{{ .Release.Namespace }}.svc.cluster.local        
+    - kcp-etcd.{{ .Release.Namespace }}.svc
+    - kcp-etcd.{{ .Release.Namespace }}.cluster.local    
   duration: 8760h
   renewBefore: 1h
   issuerRef:
