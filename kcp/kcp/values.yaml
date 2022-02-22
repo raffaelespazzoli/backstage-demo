@@ -71,10 +71,10 @@ etcd:
       secureTransport: true
       certFilename: tls.crt
       certKeyFilename: tls.key
-      #caFilename: ca.crt
+      caFilename: ca.crt
     client:
       existingSecret: etcd-tls
       secureTransport: true
       certFilename: tls.crt
       certKeyFilename: tls.key
-      #caFilename: ca.crt   
+      caFilename: ca.crt   
