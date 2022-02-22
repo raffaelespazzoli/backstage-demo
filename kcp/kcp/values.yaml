@@ -70,8 +70,8 @@ etcd:
     client:
       existingSecret: etcd-tls
       secureTransport: true
-      certFilename: tls.crt
-      certKeyFilename: tls.key
+      certFilename: /opt/bitnami/etcd/certs/client/tls.crt
+      certKeyFilename: /opt/bitnami/etcd/certs/client/tls.key
       caFilename: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
   service:
     annotations:
