@@ -46,7 +46,7 @@ spec:
           - --etcd-cafile
           - /etcd-certs/ca.crt
           - --etcd-servers
-          - https://kcp-etcd-0.kcp-etcd-headless.kcp.svc:2379
+          - https://kcp-etcd-0.kcp-etcd-headless.kcp.svc:2379,https://kcp-etcd-1.kcp-etcd-headless.kcp.svc:2379,https://kcp-etcd-2.kcp-etcd-headless.kcp.svc:2379
           ports:
             - name: http
               containerPort: 6443
