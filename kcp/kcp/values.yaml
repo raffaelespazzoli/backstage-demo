@@ -57,3 +57,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+etcd:
+  containerSecurityContext:
+    enabled: false
