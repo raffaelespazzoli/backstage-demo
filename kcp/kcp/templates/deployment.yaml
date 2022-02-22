@@ -37,6 +37,10 @@ spec:
           - start
           - --root-directory
           - ./etcddata
+          - --tls-cert-file
+          - /certs/tls.crt
+          - --tls-private-key-file
+          - /certs/tls.key
           ports:
             - name: http
               containerPort: 6443
@@ -55,7 +59,9 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: data
-              mountPath: /etcddata            
+              mountPath: /etcddata
+            - name: certs
+              mountPath: /certs                        
         - name: admin-secret
           image: registry.redhat.io/openshift4/ose-cli:v4.9
           command: 
@@ -82,7 +88,10 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: {{ include "kcp.fullname" . }}-data                         
+            claimName: {{ include "kcp.fullname" . }}-data
+        - name: certs
+          secret:
+            secretName: kcp-tls                                     
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

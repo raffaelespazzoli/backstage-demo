@@ -4,6 +4,8 @@ metadata:
   name: {{ include "kcp.fullname" . }}
   labels:
     {{- include "kcp.labels" . | nindent 4 }}
+  annotations:
+    service.beta.openshift.io/serving-cert-secret-name: kcp-tls  
 spec:
   type: {{ .Values.service.type }}
   ports:
