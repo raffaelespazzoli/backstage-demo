@@ -185,4 +185,14 @@ spec:
         spec:
           applicationID: {{ "{{" }} (lookup "v1" "Secret" "vault-admin" "vault-github-plugin-creds").data.github_app_id | b64dec {{ "}}" }}
           organizationName: {{ "{{" }} (lookup "v1" "Secret" "vault-admin" "vault-github-plugin-creds").data.github_org | b64dec {{ "}}" }}
-      patchType: application/merge-patch+json    
+      patchType: application/merge-patch+json
+    kcp-secret-argocd:
+      targetObjectRef:
+        apiVersion: v1
+        kind: Secret
+        name: kcp-secret
+        namespace: openshift-gitops
+      patchTemplate: | 
+        data:
+          config: {{ "{{" }} printf '{"bearerToken": %s, "tlsClientConfig": { "insecure": true }}' ((lookup "v1" "Secret" "kcp" "kcp-init").token | b64dec) | b64enc {{ "}}" }}
+      patchType: application/merge-patch+json      

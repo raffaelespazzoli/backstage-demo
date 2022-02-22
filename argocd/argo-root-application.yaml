@@ -48,6 +48,12 @@ spec:
     namespace: openshift-gitops
     name: vault
     jsonPointers:
-    - /spec/source/helm/values    
+    - /spec/source/helm/values
+  - group: ""
+    kind: Secret
+    namespace: openshift-gitops
+    name: kcp-secret
+    jsonPointers:
+    - /data/config  
 
     
