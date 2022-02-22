@@ -63,3 +63,13 @@ etcd:
     enabled: false
   podSecurityContext:
     enabled: false
+  auth:
+    peer: 
+      useAutoTLS: true
+      secureTransport: true
+    client:
+      existingSecret: etcd-tls
+      secureTransport: true
+      certFilename: tls.crt
+      certKeyFilename: tls.key
+      caFilename: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
