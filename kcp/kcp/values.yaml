@@ -70,9 +70,8 @@ etcd:
     client:
       existingSecret: etcd-tls
       secureTransport: true
-      certFilename: /opt/bitnami/etcd/certs/client/tls.crt
-      certKeyFilename: /opt/bitnami/etcd/certs/client/tls.key
-      caFilename: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+      certFilename: tls.crt
+      certKeyFilename: tls.key
   service:
     annotations:
       service.beta.openshift.io/serving-cert-secret-name: etcd-tls    
