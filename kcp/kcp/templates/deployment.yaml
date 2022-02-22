@@ -42,9 +42,9 @@ spec:
           - --tls-private-key-file
           - /certs/tls.key
           - --etcd-cafile
-          - /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+          - /etcd-certs/ca.crt
           - --etcd-servers
-          - https://kcp-etcd.kcp.svc:2379
+          - https://kcp-etcd-0.kcp-etcd-headless.kcp.svc:2379
           ports:
             - name: http
               containerPort: 6443
@@ -65,7 +65,9 @@ spec:
             - name: data
               mountPath: /etcddata
             - name: certs
-              mountPath: /certs                        
+              mountPath: /certs
+            - name: etcd-certs
+              mountPath: /etcd-certs                                      
         - name: admin-secret
           image: registry.redhat.io/openshift4/ose-cli:v4.9
           command: 
@@ -95,7 +97,10 @@ spec:
             claimName: {{ include "kcp.fullname" . }}-data
         - name: certs
           secret:
-            secretName: kcp-tls                                     
+            secretName: kcp-tls
+        - name: etcd-certs
+          secret:
+            secretName: etcd-tls                                                 
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
