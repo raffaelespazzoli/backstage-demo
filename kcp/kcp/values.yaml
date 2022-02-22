@@ -65,13 +65,15 @@ etcd:
     enabled: false
   auth:
     peer: 
-      useAutoTLS: true
+      useAutoTLS: false
+      existingSecret: etcd-tls
       secureTransport: true
+      certFilename: tls.crt
+      certKeyFilename: tls.key
+      caFilename: ca.crt
     client:
       existingSecret: etcd-tls
       secureTransport: true
       certFilename: tls.crt
       certKeyFilename: tls.key
-  service:
-    annotations:
-      service.beta.openshift.io/serving-cert-secret-name: etcd-tls    
+      caFilename: ca.crt   

@@ -41,6 +41,10 @@ spec:
           - /certs/tls.crt
           - --tls-private-key-file
           - /certs/tls.key
+          - --etcd-cafile
+          - /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+          - --etcd-servers
+          - https://kcp-etcd.kcp.svc:2379
           ports:
             - name: http
               containerPort: 6443
