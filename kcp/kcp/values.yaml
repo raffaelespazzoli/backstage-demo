@@ -73,3 +73,6 @@ etcd:
       certFilename: tls.crt
       certKeyFilename: tls.key
       caFilename: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+  service:
+    podAnnotations:
+      service.beta.openshift.io/serving-cert-secret-name: etcd-tls    
