@@ -194,5 +194,5 @@ spec:
         namespace: openshift-gitops
       patchTemplate: | 
         data:
-          config: {{ "{{" }} printf '{"bearerToken": %s, "tlsClientConfig": { "insecure": true }}' ((lookup "v1" "Secret" "kcp" "kcp-init").token | b64dec) | b64enc {{ "}}" }}
+          config: {{ "{{" }} printf '{"bearerToken": "%s", "tlsClientConfig": { "insecure": true } }' ((lookup "v1" "Secret" "kcp" "kcp-init").token | b64dec) | b64enc {{ "}}" }}
       patchType: application/merge-patch+json      
