@@ -14,7 +14,7 @@ spec:
     - etcd-0.etcd-kcp-headless.{{ .Release.Namespace }}.svc.cluster.local
     - etcd-kcp.{{ .Release.Namespace }}.svc
     - etcd-kcp.{{ .Release.Namespace }}.cluster.local    
-  duration: 364d
+  duration: 8760h
   renewBefore: 1h
   issuerRef:
     name: local-issuer
