@@ -65,6 +65,9 @@ etcd:
   podSecurityContext:
     enabled: false
   auth:
+  rbac:
+    create: false
+    allowNoneAuthentication: true
     peer: 
       useAutoTLS: false
       existingSecret: etcd-tls
