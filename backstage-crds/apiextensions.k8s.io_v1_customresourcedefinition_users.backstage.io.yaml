@@ -31,7 +31,9 @@ spec:
             description: UserSpec defines the desired state of User
             properties:
               memberOf:
-                type: string
+                items:
+                  type: string
+                type: array
               profile:
                 properties:
                   displayName:
