@@ -193,7 +193,7 @@ spec:
         name: kcp-secret
         namespace: openshift-gitops
       patchTemplate: | 
-        {{ "{{-" }} $value:=dict "bearerToken" ((lookup "v1" "Secret" "kcp" "kcp-init").data.token | b64dec) "tlsClientConfig" ((dict "caData" (index ((lookup "v1" "Configmap" "openshift-gitops" "openshift-service-ca.crt").data) "service-ca.crt")) | b64enc) {{ "}}" }}
+        {{ "{{-" }} $value:=dict "bearerToken" ((lookup "v1" "Secret" "kcp" "kcp-init").data.token | toString | b64dec) "tlsClientConfig" ((dict "caData" (index ((lookup "v1" "Configmap" "openshift-gitops" "openshift-service-ca.crt").data) "service-ca.crt")) | b64enc) {{ "}}" }}
         data:
           config: {{ "{{" }} $value | toJson | b64enc {{ "}}" }}
       patchType: application/merge-patch+json      
