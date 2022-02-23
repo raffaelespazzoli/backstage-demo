@@ -59,7 +59,7 @@ tolerations: []
 affinity: {}
 
 etcd:
-  replicaCount: 3
+  replicaCount: 1
   containerSecurityContext:
     enabled: false
   podSecurityContext:
