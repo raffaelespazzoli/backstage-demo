@@ -67,6 +67,7 @@ etcd:
   auth:
   rbac:
     create: false
+    enabled: false
     allowNoneAuthentication: true
     peer: 
       useAutoTLS: false
