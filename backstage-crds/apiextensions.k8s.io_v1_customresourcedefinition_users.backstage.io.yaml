@@ -33,7 +33,14 @@ spec:
               memberOf:
                 type: string
               profile:
-                type: string
+                properties:
+                  displayName:
+                    type: string
+                  email:
+                    type: string
+                  picture:
+                    type: string
+                type: object
             type: object
           status:
             description: UserStatus defines the observed state of User

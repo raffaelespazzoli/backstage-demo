@@ -41,7 +41,14 @@ spec:
               parent:
                 type: string
               profile:
-                type: string
+                properties:
+                  displayName:
+                    type: string
+                  email:
+                    type: string
+                  picture:
+                    type: string
+                type: object
               type:
                 type: string
             type: object
