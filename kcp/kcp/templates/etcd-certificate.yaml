@@ -20,8 +20,8 @@ spec:
     - kcp-etcd-2.kcp-etcd-headless.{{ .Release.Namespace }}.svc.cluster.local        
     - kcp-etcd.{{ .Release.Namespace }}.svc
     - kcp-etcd.{{ .Release.Namespace }}.cluster.local    
-  duration: 8760h
-  renewBefore: 1h
+  duration: 8760h0m0s
+  renewBefore: 1h0m0s
   issuerRef:
     name: local-issuer
     # We can reference ClusterIssuers by changing the kind here.
