@@ -75,7 +75,7 @@ spec:
             - name: etcd-certs
               mountPath: /etcd-certs                                      
         - name: admin-secret
-          image: registry.redhat.io/openshift4/ose-cli:v4.9
+          image: registry.redhat.io/openshift4/ose-cli-alt-rhel8:v4.9
           command: 
           - /bin/bash
           - -c
