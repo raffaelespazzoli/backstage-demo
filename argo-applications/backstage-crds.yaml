@@ -13,7 +13,6 @@ spec:
       include: "*.yaml"
   destination:
     name: kcp
-    server: https://kcp.kcp.svc:6443
   syncPolicy:
     automated: 
       prune: true
