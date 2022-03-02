@@ -23,6 +23,13 @@ spec:
   name: devworkspace-operator
   source: devworkspace-operator-catalog
   sourceNamespace: openshift-marketplace
+  config:
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "1Gi"
 ---
 apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
