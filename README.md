@@ -97,7 +97,7 @@ oc create secret generic controller-manager -n actions-runner-system --from-lite
 oc new-project group-sync-operator
 oc create secret generic github-group-sync -n group-sync-operator --from-literal=appId=${group_sync_github_app_id} --from-file=privateKey=${group_sync_operator_github_app_key_file_path}
 oc new-project vault-admin
-oc create secret generic vault-github-plugin-creds --from-literal=github_app_id=${vault_github_app_id} --from-file=ssh-privatekey=${vault_github_app_private_key_file_path} --from-literal=github_org=${github_organization} -n vault-admin
+vault_github_app_private_key=$(cat ${vault_github_app_private_key_file_path}| sed 's/^/    /') envsubst < ./vault-github-plugin-creds-secret.yaml | oc apply -f - -n vault-admin
 ```
 
 To improve the demo experience and have some data pre-populated, you can optionally fork these repos to the new organization:
