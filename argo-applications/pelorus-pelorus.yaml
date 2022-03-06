@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pelorus-pelorus
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/konveyor/pelorus.git
+    targetRevision: v1.4.6
+    path: charts/pelorus
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: pelorus
+  syncPolicy:
+    automated: 
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    retry:
+      backoff:
+        duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+        factor: 2 # a factor to multiply the base duration after each failed retry
+        maxDuration: 10m # the maximum amount of time allowed for the backoff strategy
