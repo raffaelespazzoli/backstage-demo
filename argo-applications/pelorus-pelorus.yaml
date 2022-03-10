@@ -9,6 +9,24 @@ spec:
     repoURL: https://github.com/konveyor/pelorus.git
     targetRevision: HEAD
     path: charts/pelorus
+    helm:
+      values: | 
+        exporters:
+          instances:
+          - app_name: deploytime-exporter
+            source_context_dir: exporters/
+            extraEnv:
+            - name: APP_FILE
+              value: deploytime/app.py
+            source_url: https://github.com/redhat-cop/pelorus.git          
+          - app_name: committime-exporter
+            env_from_secrets: 
+            - github-secret
+            source_context_dir: exporters/
+            extraEnv:
+            - name: APP_FILE
+            value: committime/app.py
+            source_url: https://github.com/redhat-cop/pelorus.git        
   destination:
     server: https://kubernetes.default.svc
     namespace: pelorus
@@ -35,4 +53,5 @@ spec:
     name: deploytime-exporter
     namespace: pelorus
     jsonPointers:
-    - /spec/source/contextDir           
+    - /spec/source/contextDir
+    - /spec/triggers          
