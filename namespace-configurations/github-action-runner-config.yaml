@@ -31,6 +31,8 @@ spec:
                 requests: 
                   cpu: "200m"
                   memory: "1Gi"
+              securityContext:
+                runAsUser: 1000    
       excludedPaths:
         - .spec.template.metadata
         - .spec.template.spec.image
