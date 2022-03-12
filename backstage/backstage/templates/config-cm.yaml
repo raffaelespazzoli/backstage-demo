@@ -139,5 +139,10 @@ data:
           target: https://github.com/${GITHUB_ORG}
           
         - type: github-org
-          target: https://github.com/${GITHUB_ORG}      
+          target: https://github.com/${GITHUB_ORG}
+        # Systems discovery  
+        - type: github-discovery
+          target: https://github.com/${GITHUB_ORG}/approved-namespaces/blob/-/systems/*.yaml
+          rules:
+            - allow: [System]                   
 
