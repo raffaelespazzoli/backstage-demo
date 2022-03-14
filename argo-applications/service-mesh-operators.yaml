@@ -10,7 +10,7 @@ spec:
     targetRevision: HEAD
     path: service-mesh
     directory:
-      include: operator.yaml
+      include: operators.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-operators-redhat
