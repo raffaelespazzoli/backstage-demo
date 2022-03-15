@@ -53,6 +53,12 @@ spec:
     namespace: openshift-gitops
     name: kcp-secret
     jsonPointers:
-    - /data/config  
+    - /data/config
+  - group: argoproj.io
+    kind: Application
+    namespace: user-workload-grafana
+    name: vault
+    jsonPointers:
+    - /spec/source/helm/values      
 
     

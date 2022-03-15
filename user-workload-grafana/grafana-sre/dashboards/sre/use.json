@@ -817,7 +817,7 @@
           "text": "details.bookinfo.svc.cluster.local",
           "value": "details.bookinfo.svc.cluster.local"
         },
-        "datasource": "prometheus-istio-system",
+        "datasource": "prometheus",
         "definition": "label_values(destination_service)",
         "hide": 0,
         "includeAll": false,
@@ -842,7 +842,7 @@
           "text": "bookinfo",
           "value": "bookinfo"
         },
-        "datasource": "prometheus-istio-system",
+        "datasource": "prometheus",
         "definition": "query_result( sum(istio_requests_total{reporter=\"destination\", destination_service=\"$service\"}) by (destination_workload_namespace))",
         "hide": 0,
         "includeAll": false,
@@ -867,7 +867,7 @@
           "text": "details-v1",
           "value": "details-v1"
         },
-        "datasource": "prometheus-istio-system",
+        "datasource": "prometheus",
         "definition": "query_result( sum(istio_requests_total{reporter=\"destination\", destination_service=\"$service\", destination_workload_namespace=\"$dstns\"}) by (destination_workload))",
         "hide": 0,
         "includeAll": false,

@@ -9,6 +9,11 @@ spec:
     repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
     targetRevision: HEAD
     path: user-workload-grafana/grafana-sre
+    helm:
+      values: |
+        user-workload:
+          prometheus: 
+            bearer-token: dummy  
   destination:
     server: https://kubernetes.default.svc
     namespace: user-workload-grafana

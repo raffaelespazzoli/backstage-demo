@@ -24,7 +24,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus-istio-system",
+      "datasource": "prometheus",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -114,7 +114,7 @@
       }
     },
     {
-      "datasource": "prometheus-istio-system",
+      "datasource": "prometheus",
       "gridPos": {
         "h": 8,
         "w": 12,
@@ -171,7 +171,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus-istio-system",
+      "datasource": "prometheus",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -269,7 +269,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "prometheus-istio-system",
+      "datasource": "prometheus",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -361,7 +361,7 @@
           "text": "ratings.bookinfo.svc.cluster.local",
           "value": "ratings.bookinfo.svc.cluster.local"
         },
-        "datasource": "prometheus-istio-system",
+        "datasource": "prometheus",
         "definition": "label_values(istio_requests_total, destination_service)",
         "hide": 0,
         "includeAll": false,
@@ -471,7 +471,7 @@
           "text": "1",
           "value": "1"
         },
-        "datasource": "prometheus-istio-system",
+        "datasource": "prometheus",
         "definition": "label_values(istio_request_duration_seconds_bucket, le)",
         "hide": 0,
         "includeAll": false,

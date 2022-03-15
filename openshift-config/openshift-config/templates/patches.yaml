@@ -196,4 +196,19 @@ spec:
         {{ "{{-" }} $value:=dict "bearerToken" ((lookup "v1" "Secret" "kcp" "kcp-init").data.token | toString | b64dec) "tlsClientConfig" (dict "caData" (index ((lookup "v1" "ConfigMap" "openshift-gitops" "openshift-service-ca.crt").data) "service-ca.crt" | b64enc )) {{ "}}" }}
         data:
           config: {{ "{{" }} $value | toJson | b64enc {{ "}}" }}
-      patchType: application/merge-patch+json      
+      patchType: application/merge-patch+json
+    user-workload-grafana-app-patch:
+      targetObjectRef:
+        apiVersion: argoproj.io/v1alpha1
+        kind: Application
+        namespace: openshift-gitops
+        name: user-workload-grafana
+      patchTemplate: |
+        spec:
+          source:
+            helm:
+              values: |
+                user-workload:
+                  prometheus: 
+                    bearer-token: {{ (lookup ("v1" "Secret" "openshift-gitops" (lookup "v1" "ServiceAccount" "opensihft-gitops" "default").secrets[0].name).data.token | toString | b64dec }}
+      patchType: application/merge-patch+json

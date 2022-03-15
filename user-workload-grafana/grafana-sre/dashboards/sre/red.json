@@ -24,7 +24,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus-istio-system",
+      "datasource": "prometheus",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -113,7 +113,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus-istio-system",
+      "datasource": "prometheus",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -210,7 +210,7 @@
         "mode": "opacity"
       },
       "dataFormat": "tsbuckets",
-      "datasource": "prometheus-istio-system",
+      "datasource": "prometheus",
       "gridPos": {
         "h": 8,
         "w": 24,
@@ -274,7 +274,7 @@
           "text": "details.bookinfo.svc.cluster.local",
           "value": "details.bookinfo.svc.cluster.local"
         },
-        "datasource": "prometheus-istio-system",
+        "datasource": "prometheus",
         "definition": "label_values(destination_service)",
         "hide": 0,
         "includeAll": false,
