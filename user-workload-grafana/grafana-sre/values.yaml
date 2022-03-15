@@ -1,6 +1,6 @@
 name: sre-service-monitoring
 session:
   secret: ciao
-user-workload:
+userworkload:
   prometheus: 
-    bearer-token: dummy
+    bearertoken: dummy

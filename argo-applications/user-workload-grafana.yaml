@@ -11,9 +11,9 @@ spec:
     path: user-workload-grafana/grafana-sre
     helm:
       values: |
-        user-workload:
+        userworkload:
           prometheus: 
-            bearer-token: dummy  
+            bearertoken: dummy  
   destination:
     server: https://kubernetes.default.svc
     namespace: user-workload-grafana

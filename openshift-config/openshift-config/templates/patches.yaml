@@ -208,7 +208,7 @@ spec:
           source:
             helm:
               values: |
-                user-workload:
+                userworkload:
                   prometheus:
-                    bearer-token: {{ "{{" }} (lookup ("v1" "Secret" "openshift-gitops" (lookup "v1" "ServiceAccount" "opensihft-gitops" "default").secrets[0].name).data.token | toString | b64dec {{ "}}" }}
+                    bearertoken: {{ "{{" }} (lookup ("v1" "Secret" "openshift-gitops" (lookup "v1" "ServiceAccount" "opensihft-gitops" "default").secrets[0].name).data.token | toString | b64dec {{ "}}" }}
       patchType: application/merge-patch+json
