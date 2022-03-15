@@ -1,0 +1,25 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: istio-prometheus
+  namespace: istio-system
+spec:
+  endpoints:
+    - interval: 60s
+      port: http-prometheus
+      scheme: http
+      scrapeTimeout: 15s
+      tlsConfig:
+        insecureSkipVerify: true
+      path: "/federate"
+      honorLabels: true
+      params:
+        'match[]':
+          - '{job=~".+"}'
+  jobLabel: istio-metrics
+  namespaceSelector:
+    matchNames:
+      - istio-system
+  selector:
+    matchLabels:
+      app: prometheus
