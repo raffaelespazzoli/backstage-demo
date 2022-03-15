@@ -1,0 +1,8 @@
+name: sre-service-monitoring
+session:
+  secret: ciao
+prometheus_datasource:
+  openshift_monitoring:
+    password: "TODO"
+  istio_system:
+    password: "TODO"

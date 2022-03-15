@@ -1,0 +1,10 @@
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  name: grafana-dashboard-sre-use
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: grafana
+spec:
+  name: sre-use.json
+  json: {{ .Files.Get "dashboards/sre/use.json" | toPrettyJson }}
