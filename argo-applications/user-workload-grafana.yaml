@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
     targetRevision: HEAD
-    path: user-workload-grafana/user-workload-grafana
+    path: user-workload-grafana/grafana-sre
   destination:
     server: https://kubernetes.default.svc
     namespace: user-workload-grafana
