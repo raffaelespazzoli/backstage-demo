@@ -1,0 +1,20 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: NamespaceConfig
+metadata:
+  name: team-github-vault-role
+spec:
+  labelSelector:
+    matchExpressions:
+      - key: team
+        operator: Exists
+  templates:     
+    - objectTemplate: |
+        kind: ServiceMeshMember
+        apiVersion: maistra.io/v1
+        metadata:
+          name: default
+          namespace: {{ .Name }}
+        spec:
+          controlPlaneRef:
+            name: basic
+            namespace: istio-system
