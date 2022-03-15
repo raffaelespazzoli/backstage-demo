@@ -10,7 +10,7 @@ spec:
     targetRevision: HEAD
     path: user-workload-grafana
     directory:
-      include: operators.yaml
+      include: operator.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: user-workload-grafana
