@@ -5,7 +5,7 @@ metadata:
 spec:
   datasources:
     - access: proxy
-      editable: true
+      editable: false
       isDefault: true
       jsonData:
         httpHeaderName1: 'Authorization'

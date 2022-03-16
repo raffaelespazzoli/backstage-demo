@@ -8,7 +8,9 @@ spec:
     - interval: 60s
       port: http-prometheus
       scheme: https
-      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+      basicAuth:
+        username: internal
+        password: "{{ .Values.istio.prometheus.password }}"
       scrapeTimeout: 15s
       tlsConfig:
         insecureSkipVerify: true

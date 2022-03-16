@@ -4,3 +4,6 @@ session:
 userworkload:
   prometheus: 
     bearertoken: dummy
+istio:
+  prometheus:
+    password: dummy    
