@@ -7,7 +7,8 @@ spec:
   endpoints:
     - interval: 60s
       port: http-prometheus
-      scheme: http
+      scheme: https
+      bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
       scrapeTimeout: 15s
       tlsConfig:
         insecureSkipVerify: true
