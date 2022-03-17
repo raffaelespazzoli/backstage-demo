@@ -14,10 +14,7 @@ spec:
           key: rawPassword
         username:
           key: username
-          name: istio-prometheus-userame-secret  
-      bearerTokenSecret:
-        key: token
-        name: "{{ .Values.istio.serviceaccount.secret }}"
+          name: istio-prometheus-userame-secret
       scrapeTimeout: 15s
       tlsConfig:
         insecureSkipVerify: true
