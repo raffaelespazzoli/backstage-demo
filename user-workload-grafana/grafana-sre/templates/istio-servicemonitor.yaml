@@ -10,7 +10,7 @@ spec:
       scheme: https
       bearerTokenSecret:
         key: token
-        name: {{ .Values.}}
+        name: "{{ .Values.serviceaccount.secret }}"
       scrapeTimeout: 15s
       tlsConfig:
         insecureSkipVerify: true
