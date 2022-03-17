@@ -164,7 +164,7 @@ spec:
         namespace: backstage
         name: github-credentials        
       patchTemplate: |
-        {{ "{{-" }} $backStageDemoIDP:= dict "name" "backstage-demo-github" "mappingMethod" "claim" "type" "GitHub" "github" (dict "teams" (list) "clientID" ((index . 1).data.client_id | b64dec) "clientSecret" (dict "name" "ocp-github-app-credentials") "organizations" ((index . 2).data.GITHUB_ORG | b64dec) ) {{ "-}}" }}
+        {{ "{{-" }} $backStageDemoIDP:= dict "name" "backstage-demo-github" "mappingMethod" "claim" "type" "GitHub" "github" (dict "teams" (list) "clientID" ((index . 1).data.client_id | b64dec) "clientSecret" (dict "name" "ocp-github-app-credentials") "organizations" (list ((index . 2).data.GITHUB_ORG | b64dec)) ) {{ "-}}" }}
         spec:
           identityProviders:
           {{ "{{-" }} if (not (has $backStageDemoIDP (index . 0).spec.identityProviders)) {{ "}}" }}
