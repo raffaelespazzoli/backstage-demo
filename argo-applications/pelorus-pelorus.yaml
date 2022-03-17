@@ -22,7 +22,7 @@ spec:
           - app_name: committime-exporter
             env_from_secrets: 
             - github-secret
-            source_context_dir: exporters/
+            source_context_dir: exporters
             extraEnv:
             - name: APP_FILE
             value: committime/app.py
