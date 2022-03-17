@@ -25,7 +25,7 @@ spec:
             source_context_dir: exporters
             extraEnv:
             - name: APP_FILE
-            value: committime/app.py
+              value: committime/app.py
             source_url: https://github.com/redhat-cop/pelorus.git        
   destination:
     server: https://kubernetes.default.svc
