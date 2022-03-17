@@ -212,6 +212,6 @@ spec:
                   prometheus:
                     bearertoken: {{ "{{" }} (lookup "v1" "Secret" "openshift-config" (index (lookup "v1" "ServiceAccount" "openshift-config" "default").secrets 0).name).data.token | toString | b64dec {{ "}}" }}
                 istio:
-                  prometheus:
-                    password: {{ "{{" }} (index ((index (lookup "v1" "ConfigMap" "istio-system" "istio-grafana").data datasources.yaml) | toYaml).datasources 0).basicAuthPassword  {{ "}}" }}
+                  serviceaccount:
+                    secret: {{ "{{" }} lookup "v1" "ServiceAccount" istio-system" "grafana").secrets 0).name  {{ "}}" }}
       patchType: application/merge-patch+json

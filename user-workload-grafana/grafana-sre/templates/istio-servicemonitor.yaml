@@ -8,9 +8,9 @@ spec:
     - interval: 60s
       port: http-prometheus
       scheme: https
-      basicAuth:
-        username: internal
-        password: "{{ .Values.istio.prometheus.password }}"
+      bearerTokenSecret:
+        key: token
+        name: {{ .Values.}}
       scrapeTimeout: 15s
       tlsConfig:
         insecureSkipVerify: true

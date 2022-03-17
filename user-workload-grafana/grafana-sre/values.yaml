@@ -5,5 +5,5 @@ userworkload:
   prometheus: 
     bearertoken: dummy
 istio:
-  prometheus:
-    password: dummy    
+  serviceaccount:
+    secret: dummy    
