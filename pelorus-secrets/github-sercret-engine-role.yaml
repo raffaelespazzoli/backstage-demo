@@ -1,0 +1,51 @@
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: KubernetesAuthEngineRole
+metadata:
+  name: pelorus
+  namespace: vault-admin
+spec:
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+  path: kubernetes
+  policies:
+    - pelorus
+  targetNamespaces:
+    targetNamespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: pelorus
+  targetServiceAccounts:
+  - default
+---     
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Policy
+metadata:
+  name: pelorus
+  namespace: vault-admin
+spec:
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+  policy: |
+    # create tokens
+    path "/github/token/pelorus" {
+      capabilities = ["read"]
+    }
+---            
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: GitHubSecretEngineRole
+metadata:
+  name: pelorus
+  namespace: vault-admin
+spec:
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+  path: github
+  repositories: []
+  permissions: 
+    actions: read
+    contents: read
+    packages: read
+    metadata: read
