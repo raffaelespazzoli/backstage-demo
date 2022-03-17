@@ -3,7 +3,4 @@ session:
   secret: ciao
 userworkload:
   prometheus: 
-    bearertoken: dummy
-istio:
-  serviceaccount:
-    secret: dummy    
+    bearertoken: dummy   

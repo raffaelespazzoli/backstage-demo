@@ -211,7 +211,4 @@ spec:
                 userworkload:
                   prometheus:
                     bearertoken: {{ "{{" }} (lookup "v1" "Secret" "openshift-config" (index (lookup "v1" "ServiceAccount" "openshift-config" "default").secrets 0).name).data.token | toString | b64dec {{ "}}" }}
-                istio:
-                  serviceaccount:
-                    secret: {{ "{{" }} (index (lookup "v1" "ServiceAccount" "istio-system" "grafana").secrets 0).name  {{ "}}" }}
       patchType: application/merge-patch+json
