@@ -14,7 +14,7 @@ spec:
         exporters:
           instances:
           - app_name: deploytime-exporter
-            source_context_dir: exporters/
+            source_context_dir: exporters
             extraEnv:
             - name: APP_FILE
               value: deploytime/app.py
@@ -53,5 +53,10 @@ spec:
     name: deploytime-exporter
     namespace: pelorus
     jsonPointers:
-    - /spec/source/contextDir
-    - /spec/triggers          
+    - /spec/triggers
+  - group: build.openshift.io
+    kind: BuildConfig
+    name: committime-exporter
+    namespace: pelorus
+    jsonPointers:
+    - /spec/triggers              
