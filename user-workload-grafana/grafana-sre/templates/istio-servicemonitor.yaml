@@ -10,7 +10,7 @@ spec:
       scheme: https
       bearerTokenSecret:
         key: token
-        name: "{{ .Values.serviceaccount.secret }}"
+        name: "{{ .Values.istio.serviceaccount.secret }}"
       scrapeTimeout: 15s
       tlsConfig:
         insecureSkipVerify: true
