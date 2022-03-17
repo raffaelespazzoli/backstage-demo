@@ -56,8 +56,8 @@ spec:
     - /data/config
   - group: argoproj.io
     kind: Application
-    namespace: user-workload-grafana
-    name: vault
+    namespace: openshift-gitops
+    name: user-workload-grafana
     jsonPointers:
     - /spec/source/helm/values      
 

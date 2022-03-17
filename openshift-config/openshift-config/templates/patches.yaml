@@ -13,12 +13,16 @@ spec:
         kind: Application
         namespace: openshift-gitops
         name: openshift-config
+      sourceObjectRefs:
+      - apiVersion: config.openshift.io/v1
+        kind: DNS
+        name: cluster  
       patchTemplate: |
         spec:
           source:
             helm:
               values: |
-                base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
+                base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
       patchType: application/merge-patch+json
     group-sync-patch:
       targetObjectRef:
@@ -26,6 +30,11 @@ spec:
         kind: GroupSync
         namespace: group-sync-operator
         name: github-group-sync-configuration
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        namespace: backstage
+        name: github-credentials   
       patchTemplate: |
         spec:
           providers:
@@ -33,7 +42,7 @@ spec:
               credentialsSecret:
                 name: github-group-sync
                 namespace: group-sync-operator
-              organization: {{ "{{" }} (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec {{ "}}" }}  
+              organization: {{ "{{" }} (index . 1).data.GITHUB_ORG | b64dec {{ "}}" }}  
               url: 'https://api.github.com/'
               v4url: 'https://api.github.com/graphql'          
             name: github
@@ -62,12 +71,16 @@ spec:
         kind: Application
         namespace: openshift-gitops
         name: backstage
+      sourceObjectRefs:
+      - apiVersion: config.openshift.io/v1
+        kind: DNS
+        name: cluster        
       patchTemplate: |
         spec:
           source:
             helm:
               values: |
-                base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
+                base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
 # postgresql:
 #   securityContext:
 #     fsGroup: {{ "{{" }} index (index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.supplemental-groups" | splitList "/") 0 {{ "}}" }} 
@@ -86,12 +99,16 @@ spec:
         kind: Application
         namespace: openshift-gitops
         name: github-action-runner
+      sourceObjectRefs:
+      - apiVersion: config.openshift.io/v1
+        kind: DNS
+        name: cluster        
       patchTemplate: |
         spec:
           source:
             helm:
               values: |
-                base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
+                base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
       patchType: application/merge-patch+json                
     vault-app-patch:
       targetObjectRef:
@@ -99,12 +116,16 @@ spec:
         kind: Application
         namespace: openshift-gitops
         name: vault
+      sourceObjectRefs:
+      - apiVersion: config.openshift.io/v1
+        kind: DNS
+        name: cluster        
       patchTemplate: |
         spec:
           source:
             helm:
               values: |
-                base_domain: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.baseDomain {{ "}}" }}
+                base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
       patchType: application/merge-patch+json
     letsencrypt-ingress-operator:
       targetObjectRef:
@@ -134,57 +155,67 @@ spec:
         kind: OAuth
         name: cluster
       patchTemplate: |
-        {{ "{{-" }} $backStageDemoIDP:= dict "name" "backstage-demo-github" "mappingMethod" "claim" "type" "GitHub" "github" (dict "clientID" ((index . 1).data.client_id | b64dec) "clientSecret" (dict "name" "ocp-github-app-credentials") "organizations" ((lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec) ) {{ "-}}" }}
+        {{ "{{-" }} $backStageDemoIDP:= dict "name" "backstage-demo-github" "mappingMethod" "claim" "type" "GitHub" "github" (dict "clientID" ((index . 1).data.client_id | b64dec) "clientSecret" (dict "name" "ocp-github-app-credentials") "organizations" ((index . 2).data.GITHUB_ORG | b64dec) ) {{ "-}}" }}
         spec:
           identityProviders:
           {{ "{{-" }} if (not (has $backStageDemoIDP (index . 0).spec.identityProviders)) {{ "}}" }}
           {{ "{{" }} append (index . 0).spec.identityProviders $backStageDemoIDP | toYaml | indent 4 {{ "}}" }}
           {{ "{{-" }} else {{ "}}" }}
           {{ "{{" }} (index . 0).spec.identityProviders | toYaml | indent 4 {{ "}}" }}
-          {{ "{{-" }} end {{ "}}" }}
-# - name: backstage-demo-github 
-#   mappingMethod: claim 
-#   type: GitHub
-#   github:
-#     clientID: {{ "{{" }} (index . 1).data.client_id | b64dec {{ "}}" }} 
-#     clientSecret: 
-#       name: ocp-github-app-credentials
-#     organizations:
-#     - {{ "{{" }} (lookup "v1" "Secret" "backstage" "github-credentials").data.GITHUB_ORG | b64dec {{ "}}" }}
-#     teams: []            
+          {{ "{{-" }} end {{ "}}" }}            
       patchType: application/merge-patch+json
       sourceObjectRefs:
       - apiVersion: v1
         kind: Secret
         name: ocp-github-app-credentials
-        namespace: openshift-config   
+        namespace: openshift-config  
+      - apiVersion: v1
+        kind: Secret
+        namespace: backstage
+        name: github-credentials         
     letsencrypt-issuer:
       targetObjectRef:
         apiVersion: cert-manager.io/v1
         kind: ClusterIssuer
         name: letsencrypt-issuer
+      sourceObjectRefs:
+      - apiVersion: config.openshift.io/v1
+        kind: DNS
+        name: cluster
+      - apiVersion: config.openshift.io/v1
+        kind: Infrastructure
+        name: cluster
+      - apiVersion: v1
+        kind: Secret
+        namespace: cert-manager
+        name: cert-manager-dns-credentials                        
       patchTemplate: | 
         spec:
           acme:
             solvers:
             - dns01:
                 route53:
-                  accessKeyID: {{ "{{" }} (lookup "v1" "Secret" "cert-manager" "cert-manager-dns-credentials").data.aws_access_key_id | b64dec {{ "}}" }}
+                  accessKeyID: {{ "{{" }} (index . 3).data.aws_access_key_id | b64dec {{ "}}" }}
                   secretAccessKeySecretRef:
                     name: cert-manager-dns-credentials
                     key: aws_secret_access_key
-                  region: {{ "{{" }} (lookup "config.openshift.io/v1" "Infrastructure" "" "cluster").status.platformStatus.aws.region {{ "}}" }}
-                  hostedZoneID: {{ "{{" }} (lookup "config.openshift.io/v1" "DNS" "" "cluster").spec.publicZone.id {{ "}}" }}
+                  region: {{ "{{" }} (index . 2).status.platformStatus.aws.region {{ "}}" }}
+                  hostedZoneID: {{ "{{" }} (index . 1).spec.publicZone.id {{ "}}" }}
       patchType: application/merge-patch+json
     github-vault-secret-engine:
       targetObjectRef:
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: GitHubSecretEngineConfig
         name: github
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        namespace: vault-admin
+        name: vault-github-plugin-creds        
       patchTemplate: | 
         spec:
-          applicationID: {{ "{{" }} (lookup "v1" "Secret" "vault-admin" "vault-github-plugin-creds").data.github_app_id | b64dec {{ "}}" }}
-          organizationName: {{ "{{" }} (lookup "v1" "Secret" "vault-admin" "vault-github-plugin-creds").data.github_org | b64dec {{ "}}" }}
+          applicationID: {{ "{{" }} (index . 1).data.github_app_id | b64dec {{ "}}" }}
+          organizationName: {{ "{{" }} (index . 1).data.github_org | b64dec {{ "}}" }}
       patchType: application/merge-patch+json
     kcp-secret-argocd:
       targetObjectRef:
@@ -192,8 +223,17 @@ spec:
         kind: Secret
         name: kcp-secret
         namespace: openshift-gitops
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        namespace: kcp
+        name: kcp-init
+      - apiVersion: v1
+        kind: ConfigMap
+        namespace: openshift-gitops
+        name: openshift-service-ca.crt              
       patchTemplate: | 
-        {{ "{{-" }} $value:=dict "bearerToken" ((lookup "v1" "Secret" "kcp" "kcp-init").data.token | toString | b64dec) "tlsClientConfig" (dict "caData" (index ((lookup "v1" "ConfigMap" "openshift-gitops" "openshift-service-ca.crt").data) "service-ca.crt" | b64enc )) {{ "}}" }}
+        {{ "{{-" }} $value:=dict "bearerToken" ((index . 1).data.token | toString | b64dec) "tlsClientConfig" (dict "caData" (index ((index . 2).data) "service-ca.crt" | b64enc )) {{ "}}" }}
         data:
           config: {{ "{{" }} $value | toJson | b64enc {{ "}}" }}
       patchType: application/merge-patch+json
@@ -203,6 +243,11 @@ spec:
         kind: Application
         namespace: openshift-gitops
         name: user-workload-grafana
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: ServiceAccount
+        namespace: openshift-config
+        name: default        
       patchTemplate: |
         spec:
           source:
@@ -210,5 +255,5 @@ spec:
               values: |
                 userworkload:
                   prometheus:
-                    bearertoken: {{ "{{" }} (lookup "v1" "Secret" "openshift-config" (index (lookup "v1" "ServiceAccount" "openshift-config" "default").secrets 0).name).data.token | toString | b64dec {{ "}}" }}
+                    bearertoken: {{ "{{" }} (lookup "v1" "Secret" "openshift-config" (index (index . 1).secrets 0).name).data.token | toString | b64dec {{ "}}" }}
       patchType: application/merge-patch+json
