@@ -7,6 +7,10 @@ spec:
     matchExpressions:
       - key: team
         operator: Exists
+      - key: environment
+        operator: NotIn
+        values:
+        - build  
   templates:     
     - objectTemplate: |
         kind: ServiceMeshMember
