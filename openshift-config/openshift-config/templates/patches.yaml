@@ -154,16 +154,6 @@ spec:
         apiVersion: config.openshift.io/v1
         kind: OAuth
         name: cluster
-      patchTemplate: |
-        {{ "{{-" }} $backStageDemoIDP:= dict "name" "backstage-demo-github" "mappingMethod" "claim" "type" "GitHub" "github" (dict "clientID" ((index . 1).data.client_id | b64dec) "clientSecret" (dict "name" "ocp-github-app-credentials") "organizations" ((index . 2).data.GITHUB_ORG | b64dec) ) {{ "-}}" }}
-        spec:
-          identityProviders:
-          {{ "{{-" }} if (not (has $backStageDemoIDP (index . 0).spec.identityProviders)) {{ "}}" }}
-          {{ "{{" }} append (index . 0).spec.identityProviders $backStageDemoIDP | toYaml | indent 4 {{ "}}" }}
-          {{ "{{-" }} else {{ "}}" }}
-          {{ "{{" }} (index . 0).spec.identityProviders | toYaml | indent 4 {{ "}}" }}
-          {{ "{{-" }} end {{ "}}" }}            
-      patchType: application/merge-patch+json
       sourceObjectRefs:
       - apiVersion: v1
         kind: Secret
@@ -172,7 +162,18 @@ spec:
       - apiVersion: v1
         kind: Secret
         namespace: backstage
-        name: github-credentials         
+        name: github-credentials        
+      patchTemplate: |
+        {{ "{{-" }} $backStageDemoIDP:= dict "name" "backstage-demo-github" "mappingMethod" "claim" "type" "GitHub" "github" (dict "teams" (list) "clientID" ((index . 1).data.client_id | b64dec) "clientSecret" (dict "name" "ocp-github-app-credentials") "organizations" ((index . 2).data.GITHUB_ORG | b64dec) ) {{ "-}}" }}
+        spec:
+          identityProviders:
+          {{ "{{-" }} if (not (has $backStageDemoIDP (index . 0).spec.identityProviders)) {{ "}}" }}
+          {{ "{{" }} append (index . 0).spec.identityProviders $backStageDemoIDP | toYaml | indent 4 {{ "}}" }}
+          {{ "{{-" }} else {{ "}}" }}
+          {{ "{{" }} (index . 0).spec.identityProviders | toYaml | indent 4 {{ "}}" }}
+          {{ "{{-" }} end {{ "}}" }}            
+      patchType: application/merge-patch+json
+         
     letsencrypt-issuer:
       targetObjectRef:
         apiVersion: cert-manager.io/v1
