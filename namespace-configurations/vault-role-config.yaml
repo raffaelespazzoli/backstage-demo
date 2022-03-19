@@ -57,8 +57,10 @@ spec:
           path: github
           repositories: 
           - raffa-qrs5
-          permissions: 
+          permissions:
+            metadata: read 
             packages: read
+            contents: read
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
