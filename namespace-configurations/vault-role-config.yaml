@@ -60,9 +60,7 @@ spec:
           permissions: 
             contents: read
             packages: read
-            packages: write
             metadata: read
-            repo: ""
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
