@@ -55,8 +55,8 @@ spec:
             path: kubernetes
             role: policy-admin
           path: github
-          # TODO filter down repos
-          repositories: []
+          repositories: 
+          - raffa-qrs5
           permissions: 
             packages: read
     - objectTemplate: |
