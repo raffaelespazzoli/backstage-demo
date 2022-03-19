@@ -58,10 +58,7 @@ spec:
           # TODO filter down repos
           repositories: []
           permissions: 
-            contents: read
             packages: read
-            metadata: read
-            read: packages
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
