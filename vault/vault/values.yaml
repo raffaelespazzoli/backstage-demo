@@ -63,10 +63,11 @@ vault:
         - /bin/bash
         - -c
         - | 
+            export PLUGIN_VERSION=v2.0.0-rc.1
             cd /usr/local/libexec/vault
-            curl -L -o vault-plugin-secrets-github-linux-amd64 https://github.com/martinbaillie/vault-plugin-secrets-github/releases/download/v1.3.0/vault-plugin-secrets-github-linux-amd64 
+            curl -L -o vault-plugin-secrets-github-linux-amd64 https://github.com/martinbaillie/vault-plugin-secrets-github/releases/download/${PLUGIN_VERSION}/vault-plugin-secrets-github-linux-amd64 
             chmod +x vault-plugin-secrets-github-linux-amd64
-            curl -L -o SHA256SUMS https://github.com/martinbaillie/vault-plugin-secrets-github/releases/download/v1.3.0/SHA256SUMS
+            curl -L -o SHA256SUMS https://github.com/martinbaillie/vault-plugin-secrets-github/releases/download/${PLUGIN_VERSION}/SHA256SUMS
         volumeMounts:
           - name: plugins
             mountPath: /usr/local/libexec/vault
