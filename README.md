@@ -74,6 +74,9 @@ export group_sync_github_app_id=<application_id_for_group_sync-operator>
 export group_sync_operator_github_app_key_file_path=./group-sync-operator-app-key.pem
 export vault_github_app_id=<application_id_for_vault>
 export vault_github_app_private_key_file_path=./vault-github-app-key.pem
+export vault_quay_app_token=<quay app token>
+export quay_organization=<quay-organization> #we assume it's the same as github
+export vault_quay_app_username=<quay user name used to generate the token>
 ```
 
 now you can source the file and populate the environment variables any time:
@@ -97,7 +100,8 @@ oc create secret generic controller-manager -n actions-runner-system --from-lite
 oc new-project group-sync-operator
 oc create secret generic github-group-sync -n group-sync-operator --from-literal=appId=${group_sync_github_app_id} --from-file=privateKey=${group_sync_operator_github_app_key_file_path}
 oc new-project vault-admin
-vault_github_app_private_key=$(cat ${vault_github_app_private_key_file_path}| sed 's/^/    /') envsubst < ./vault-github-plugin-creds-secret.yaml | oc apply -f - -n vault-admin
+#vault_github_app_private_key=$(cat ${vault_github_app_private_key_file_path}| sed 's/^/    /') envsubst < ./vault-github-plugin-creds-secret.yaml | oc apply -f - -n vault-admin
+envsubst < ./vault-quay-plugin-creds-secret.yaml | oc apply -f - -n vault-admin
 ```
 
 To improve the demo experience and have some data pre-populated, you can optionally fork these repos to the new organization:
