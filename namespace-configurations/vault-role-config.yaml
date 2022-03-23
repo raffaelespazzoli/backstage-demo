@@ -36,7 +36,7 @@ spec:
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: Policy
         metadata:
-          name: {{ .Labels.team }}-github-read-token
+          name: {{ .Labels.team }}-read-token
           namespace: vault-admin
         spec:
           # Add fields here
