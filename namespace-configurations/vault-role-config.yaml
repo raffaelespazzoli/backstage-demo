@@ -122,7 +122,7 @@ spec:
             name: quay-pull-secret
             stringData:
               .dockerconfigjson: |
-                {"auths":{"quay.io":{"username":"team_puller","password":"{{ "{{" }} .quaytoken.token {{ "}}" }}","email":"team_puller@example.com","auth":"{{ "{{" }} list "team_puller:" .quaytoken.token | join "" | b64enc {{ "}}" }}"}}}
+                {"auths":{"quay.io":{"username":"{{ "{{" }} .quaytoken.username {{ "}}" }}","password":"{{ "{{" }} .quaytoken.password {{ "}}" }}","email":"{{ "{{" }} .quaytoken.username {{ "}}" }}@example.com","auth":"{{ "{{" }} list .quaytoken.username ":" .quaytoken.password | join "" | b64enc {{ "}}" }}"}}}
             type: kubernetes.io/dockerconfigjson   
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
@@ -173,5 +173,5 @@ spec:
             name: quay-push-secret
             stringData:
               .dockerconfigjson: |
-                {"auths":{"quay.io":{"username":"team_pusher","password":"{{ "{{" }} .quaytoken.token {{ "}}" }}","email":"team_pusher@example.com","auth":"{{ "{{" }} list "team_pusher:" .quaytoken.token | join "" | b64enc {{ "}}" }}"}}}
+                {"auths":{"quay.io":{"username":"{{ "{{" }} .quaytoken.username {{ "}}" }}","password":"{{ "{{" }} .quaytoken.token {{ "}}" }}","email":"{{ "{{" }} .quaytoken.username {{ "}}" }}@example.com","auth":"{{ "{{" }} list .quaytoken.username ":" .quaytoken.password | join "" | b64enc {{ "}}" }}"}}}
             type: kubernetes.io/dockerconfigjson                       
