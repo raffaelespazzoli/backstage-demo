@@ -151,6 +151,7 @@ spec:
             role: policy-admin
           path: quay
           namespaceName: raf-backstage-demo
+          namespaceType: organization
           defaultPermission: write
           createRepositories: true  
     - objectTemplate: |
