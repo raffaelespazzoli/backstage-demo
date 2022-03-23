@@ -47,23 +47,26 @@ spec:
               v4url: 'https://api.github.com/graphql'          
             name: github
       patchType: application/merge-patch+json 
-    puller-secret-service-account-patch:
+    pull-secret-service-account-patch:
       targetObjectRef:
         apiVersion: v1
         kind: ServiceAccount
         name: default
-      sourceObjectRefs:
-      - apiVersion: v1
-        kind: Namespace
-        name: '{{ "{{" }} .metadata.namespace {{ "}}" }}'
-      # gives github-pull-secret to all default service accounts in namespaces with the app label.   
+        labelSelector:
+          matchExpressions:
+            - key: team
+              operator: Exists
+            - key: environment
+              operator: NotIn
+              values:
+              - build   
       patchTemplate: |
         imagePullSecrets:
-        {{ "{{-" }} if and (and (hasKey (index . 1).metadata.labels "app") (not (eq ((index . 1).metadata.labels.environment | toString) "build"))) (not (has (dict "name" "github-pull-secret") (index . 0).imagePullSecrets)) {{ "}}" }}      
-        {{ "{{" }} append (index . 0).imagePullSecrets (dict "name" "github-pull-secret") | toYaml | indent 2 {{ "}}" }}
+        {{ "{{-" }} if (not (has (dict "name" "quay-pull-secret") (index . 0).imagePullSecrets)) {{ "}}" }}      
+        {{ "{{" }} append (index . 0).imagePullSecrets (dict "name" "quay-pull-secret") | toYaml | indent 2 {{ "}}" }}
         {{ "{{-" }} else {{ "}}" }}
         {{ "{{" }} (index . 0).imagePullSecrets | toYaml | indent 2 {{ "}}" }}
-        {{ "{{-" }} end {{ "}}" }}
+        {{ "{{-" }} end {{ "}}" }}        
       patchType: application/merge-patch+json     
     backstag-app-patch:       
       targetObjectRef:
@@ -173,7 +176,6 @@ spec:
         {{ "{{" }} (index . 0).spec.identityProviders | toYaml | indent 4 {{ "}}" }}
           {{ "{{-" }} end {{ "}}" }}            
       patchType: application/merge-patch+json
-         
     letsencrypt-issuer:
       targetObjectRef:
         apiVersion: cert-manager.io/v1
