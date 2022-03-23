@@ -7,6 +7,10 @@ spec:
     matchExpressions:
       - key: team
         operator: Exists
+      - key: environment
+        operator: NotIn
+        values:
+        - build        
   templates:     
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
@@ -44,6 +48,9 @@ spec:
             path "/github/token/{{ .Labels.team }}" {
               capabilities = ["read"]
             }
+            path "/quay/creds/{{ .Labels.team }}" {
+              capabilities = ["read"]
+            }            
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: GitHubSecretEngineRole
@@ -55,10 +62,22 @@ spec:
             path: kubernetes
             role: policy-admin
           path: github
-          repositories: 
-          - raffa-qrs5
+          repositories: []
           permissions: 
             packages: read
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: QuaySecretEngineRole
+        metadata:
+          name: {{ .Labels.team }}
+          namespace: vault-admin
+        spec:
+          authentication: 
+            path: kubernetes
+            role: policy-admin
+          path: quay
+          namespaceName: raf-backstage-demo
+          defaultPermission: read            
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
@@ -80,3 +99,24 @@ spec:
               .dockerconfigjson: |
                 {"auths":{"ghcr.io":{"username":"team_puller","password":"{{ "{{" }} .githubtoken.token {{ "}}" }}","email":"team_puller@example.com","auth":"{{ "{{" }} list "team_puller:" .githubtoken.token | join "" | b64enc {{ "}}" }}"}}}
             type: kubernetes.io/dockerconfigjson
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: VaultSecret
+        metadata:
+          name: quay-pull-secret
+          namespace: {{ .Name }}
+        spec:
+          vaultSecretDefinitions:
+          - authentication:
+              path: kubernetes
+              role: {{ .Labels.team }}-vault-role
+              serviceAccount:
+                name: default
+            name: quaytoken
+            path: quay/creds/{{ .Labels.team }}
+          output:
+            name: quay-pull-secret
+            stringData:
+              .dockerconfigjson: |
+                {"auths":{"quay.io":{"username":"team_puller","password":"{{ "{{" }} .quaytoken.token {{ "}}" }}","email":"team_puller@example.com","auth":"{{ "{{" }} list "team_puller:" .quaytoken.token | join "" | b64enc {{ "}}" }}"}}}
+            type: kubernetes.io/dockerconfigjson            
