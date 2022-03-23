@@ -220,8 +220,8 @@ vault:
                     echo vault-plugin-secrets-quay plugin already installed
                     sleep 5
                   else
-                    echo quay_SHA256SUM $(grep vault-plugin-secrets-quay-linux-amd64 /usr/local/libexec/vault/quay_SHA256SUMS | cut -d' ' -f1)
-                    vault plugin register -sha256=$(grep vault-plugin-secrets-quay-linux-amd64 /usr/local/libexec/vault/quay_SHA256SUMS | cut -d' ' -f1) -command=vault-plugin-secrets-quay-linux-amd64 -args="--tls-skip-verify=true" secret vault-plugin-secrets-quay
+                    echo quay_SHA256SUM $(grep -w vault-plugin-secrets-quay-linux-amd64 /usr/local/libexec/vault/quay_SHA256SUMS | cut -d' ' -f1)
+                    vault plugin register -sha256=$(grep -w vault-plugin-secrets-quay-linux-amd64 /usr/local/libexec/vault/quay_SHA256SUMS | cut -d' ' -f1) -command=vault-plugin-secrets-quay-linux-amd64 -args="--tls-skip-verify=true" secret vault-plugin-secrets-quay
                   fi
                 else
                   echo vault still sealed
