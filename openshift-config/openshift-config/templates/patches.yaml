@@ -130,7 +130,7 @@ spec:
               values: |
                 base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
       patchType: application/merge-patch+json
-    letsencrypt-ingress-operator:
+    ingress-operator-config:
       targetObjectRef:
         apiVersion: operator.openshift.io/v1
         kind: IngressController
@@ -140,6 +140,8 @@ spec:
         spec:
           defaultCertificate:
             name: lets-encrypt-certs-tls
+          routeAdmission:
+            wildcardPolicy: WildcardsAllowed              
       patchType: application/merge-patch+json
     letsencrypt-certs:
       targetObjectRef:
