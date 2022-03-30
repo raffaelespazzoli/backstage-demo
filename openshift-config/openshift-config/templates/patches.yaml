@@ -278,4 +278,20 @@ spec:
             helm:
               values: |
                 base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
-      patchType: application/merge-patch+json      
+      patchType: application/merge-patch+json
+    virtual-service-basedomain-patch:
+      targetObjectRef:
+        apiVersion: networking.istio.io/v1beta1
+        kind: VirtualService
+        labelSelector:
+          matches: 
+            replace_basedomain: "true"
+      sourceObjectRefs:
+      - apiVersion: config.openshift.io/v1
+        kind: DNS
+        name: cluster        
+      patchTemplate: |
+        spec:
+          hosts:
+            - {{ "{{" }} (index . 0).metadata.name {{ "}}" }}-{{ "{{" }} (index . 0).metadata.namespace {{ "}}" }}.mesh.apps.{{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
+      patchType: application/merge-patch+json            
