@@ -59,6 +59,12 @@ spec:
     namespace: openshift-gitops
     name: user-workload-grafana
     jsonPointers:
-    - /spec/source/helm/values      
+    - /spec/source/helm/values
+  - group: argoproj.io
+    kind: Application
+    namespace: openshift-gitops
+    name: service-mesh-ingress
+    jsonPointers:
+    - /spec/source/helm/values     
 
     

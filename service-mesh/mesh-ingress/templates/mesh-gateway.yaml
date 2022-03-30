@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: mesh-gateway
+  labels:
+    {{- include "mesh-ingress.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}   
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - hosts:
+        - '*/*.mesh.apps.{{ .Values.base_domain }}'
+      port:
+        name: http
+        number: 80
+        protocol: HTTP

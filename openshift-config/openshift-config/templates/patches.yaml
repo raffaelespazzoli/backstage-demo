@@ -262,3 +262,20 @@ spec:
                   prometheus:
                     bearertoken: {{ "{{" }} (lookup "v1" "Secret" "openshift-config" (index (index . 1).secrets 0).name).data.token | toString | b64dec {{ "}}" }}
       patchType: application/merge-patch+json
+    service-mesh-ingress-app-patch:
+      targetObjectRef:
+        apiVersion: argoproj.io/v1alpha1
+        kind: Application
+        namespace: openshift-gitops
+        name: service-mesh-ingress
+      sourceObjectRefs:
+      - apiVersion: config.openshift.io/v1
+        kind: DNS
+        name: cluster        
+      patchTemplate: |
+        spec:
+          source:
+            helm:
+              values: |
+                base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
+      patchType: application/merge-patch+json      

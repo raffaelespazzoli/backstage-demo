@@ -1,0 +1,20 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: mesh-route
+  labels:
+    {{- include "mesh-ingress.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}  
+spec:
+  host: a.mesh.apps.{{ .Values.base_domain }} 
+  path: /
+  to:
+    kind: Service
+    name: istio-ingressgateway
+    weight: 100
+  port:
+    targetPort: 8080
+  wildcardPolicy: Subdomain
