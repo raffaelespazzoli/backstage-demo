@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 17,
-  "iteration": 1589388725169,
+  "id": 3,
+  "iteration": 1648747459116,
   "links": [],
   "panels": [
     {
@@ -25,6 +25,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -50,9 +56,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.15",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -62,7 +69,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(increase(istio_request_duration_seconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",response_code!~\"5.*\",le=\"$latency\"}[$time_interval]))/sum(increase(istio_request_duration_seconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",le=\"+Inf\"}[$time_interval]))",
+          "exemplar": true,
+          "expr": "sum(increase(istio_request_duration_milliseconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",response_code!~\"5.*\",le=\"$latency\"}[$time_interval]))/sum(increase(istio_request_duration_milliseconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",le=\"+Inf\"}[$time_interval]))",
+          "interval": "",
           "legendFormat": "error budget",
           "refId": "A"
         },
@@ -115,24 +124,19 @@
     },
     {
       "datasource": "prometheus",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 0
-      },
-      "id": 6,
-      "options": {
-        "fieldOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "defaults": {
-            "decimals": 0,
-            "mappings": [],
-            "max": 1,
-            "min": 0,
-            "thresholds": [
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "displayName": "Error Budget",
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
               {
                 "color": "dark-red",
                 "value": null
@@ -141,23 +145,48 @@
                 "color": "dark-green",
                 "value": 0.95
               }
-            ],
-            "title": "Error Budget",
-            "unit": "percentunit"
+            ]
           },
-          "override": {},
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
           "values": false
         },
-        "orientation": "auto",
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "6.5.1",
+      "pluginVersion": "7.5.15",
       "repeat": "virtual_service",
       "repeatDirection": "h",
+      "scopedVars": {
+        "virtual_service": {
+          "selected": true,
+          "text": "raffa-qrs1.myapp-prod.svc.cluster.local",
+          "value": "raffa-qrs1.myapp-prod.svc.cluster.local"
+        }
+      },
       "targets": [
         {
-          "expr": "sum(increase(istio_request_duration_seconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",response_code!~\"5.*\",le=\"$latency\"}[$time_interval]))/sum(increase(istio_request_duration_seconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",le=\"+Inf\"}[$time_interval]))",
+          "exemplar": true,
+          "expr": "sum(increase(istio_request_duration_milliseconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",response_code!~\"5.*\",le=\"$latency\"}[$time_interval]))/sum(increase(istio_request_duration_milliseconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",le=\"+Inf\"}[$time_interval]))",
+          "interval": "",
+          "legendFormat": "",
           "refId": "A"
         }
       ],
@@ -172,6 +201,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -197,9 +232,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.15",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -209,12 +245,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "(100-$SLO)/100*sum(increase(istio_request_duration_seconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",response_code!~\"5.*\",le=\"$latency\"}[$time_interval]))",
+          "exemplar": true,
+          "expr": "(100-$SLO)/100*sum(increase(istio_request_duration_milliseconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",response_code!~\"5.*\",le=\"$latency\"}[$time_interval]))",
+          "interval": "",
           "legendFormat": "error budget",
           "refId": "A"
         },
         {
-          "expr": "(sum(increase(istio_request_duration_seconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",le=\"+Inf\"}[$time_interval]))-sum(increase(istio_request_duration_seconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",response_code!~\"5.*\",le=\"$latency\"}[$time_interval])))",
+          "exemplar": true,
+          "expr": "(sum(increase(istio_request_duration_milliseconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",le=\"+Inf\"}[$time_interval]))-sum(increase(istio_request_duration_milliseconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",response_code!~\"5.*\",le=\"$latency\"}[$time_interval])))",
+          "interval": "",
           "legendFormat": "failed requests",
           "refId": "B"
         }
@@ -270,6 +310,10 @@
         "#299c46"
       ],
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -279,7 +323,7 @@
         "thresholdMarkers": true
       },
       "gridPos": {
-        "h": 8,
+        "h": 9,
         "w": 12,
         "x": 12,
         "y": 8
@@ -301,7 +345,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -329,7 +372,10 @@
       "tableColumn": "",
       "targets": [
         {
-          "expr": "sum(increase(istio_request_duration_seconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",response_code!~\"5.*\",le=\"$latency\"}[$time_interval]))/sum(increase(istio_request_duration_seconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",le=\"+Inf\"}[$time_interval]))",
+          "exemplar": true,
+          "expr": "sum(increase(istio_request_duration_milliseconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",response_code!~\"5.*\",le=\"$latency\"}[$time_interval]))/sum(increase(istio_request_duration_milliseconds_bucket{connection_security_policy!=\"none\",destination_service=\"$virtual_service\",le=\"+Inf\"}[$time_interval]))",
+          "interval": "",
+          "legendFormat": "",
           "refId": "A"
         }
       ],
@@ -350,7 +396,7 @@
     }
   ],
   "refresh": "5s",
-  "schemaVersion": 21,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -358,18 +404,24 @@
       {
         "allValue": null,
         "current": {
-          "text": "ratings.bookinfo.svc.cluster.local",
-          "value": "ratings.bookinfo.svc.cluster.local"
+          "selected": false,
+          "text": "raffa-qrs1.myapp-prod.svc.cluster.local",
+          "value": "raffa-qrs1.myapp-prod.svc.cluster.local"
         },
         "datasource": "prometheus",
         "definition": "label_values(istio_requests_total, destination_service)",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Virtual Service",
         "multi": false,
         "name": "virtual_service",
         "options": [],
-        "query": "label_values(istio_requests_total, destination_service)",
+        "query": {
+          "query": "label_values(istio_requests_total, destination_service)",
+          "refId": "prometheus-virtual_service-Variable-Query"
+        },
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -388,6 +440,8 @@
           "text": "5m",
           "value": "5m"
         },
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Time Interval",
@@ -450,6 +504,8 @@
           "text": "95",
           "value": "95"
         },
+        "description": null,
+        "error": null,
         "hide": 0,
         "label": "Service Level Objective",
         "name": "SLO",
@@ -472,10 +528,12 @@
           "value": "1"
         },
         "datasource": "prometheus",
-        "definition": "label_values(istio_request_duration_seconds_bucket, le)",
+        "definition": "label_values(istio_request_duration_milliseconds_bucket, le)",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
-        "label": "latency in seconds",
+        "label": "latency in milliseconds",
         "multi": false,
         "name": "latency",
         "options": [
@@ -486,41 +544,11 @@
           },
           {
             "selected": false,
-            "text": "0.005",
-            "value": "0.005"
-          },
-          {
-            "selected": false,
-            "text": "0.01",
-            "value": "0.01"
-          },
-          {
-            "selected": false,
-            "text": "0.025",
-            "value": "0.025"
-          },
-          {
-            "selected": false,
-            "text": "0.05",
-            "value": "0.05"
-          },
-          {
-            "selected": false,
-            "text": "0.1",
-            "value": "0.1"
-          },
-          {
-            "selected": false,
-            "text": "0.25",
-            "value": "0.25"
-          },
-          {
-            "selected": false,
             "text": "0.5",
             "value": "0.5"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "1",
             "value": "1"
           },
@@ -531,16 +559,89 @@
           },
           {
             "selected": false,
-            "text": "2.5",
-            "value": "2.5"
+            "text": "100",
+            "value": "100"
+          },
+          {
+            "selected": true,
+            "text": "1000",
+            "value": "1000"
+          },
+          {
+            "selected": false,
+            "text": "10000",
+            "value": "10000"
+          },
+          {
+            "selected": false,
+            "text": "1800000",
+            "value": "1800000"
+          },
+          {
+            "selected": false,
+            "text": "25",
+            "value": "25"
+          },
+          {
+            "selected": false,
+            "text": "250",
+            "value": "250"
+          },
+          {
+            "selected": false,
+            "text": "2500",
+            "value": "2500"
+          },
+          {
+            "selected": false,
+            "text": "30000",
+            "value": "30000"
+          },
+          {
+            "selected": false,
+            "text": "300000",
+            "value": "300000"
+          },
+          {
+            "selected": false,
+            "text": "3600000",
+            "value": "3600000"
           },
           {
             "selected": false,
             "text": "5",
             "value": "5"
+          },
+          {
+            "selected": false,
+            "text": "50",
+            "value": "50"
+          },
+          {
+            "selected": false,
+            "text": "500",
+            "value": "500"
+          },
+          {
+            "selected": false,
+            "text": "5000",
+            "value": "5000"
+          },
+          {
+            "selected": false,
+            "text": "60000",
+            "value": "60000"
+          },
+          {
+            "selected": false,
+            "text": "600000",
+            "value": "600000"
           }
         ],
-        "query": "label_values(istio_request_duration_seconds_bucket, le)",
+        "query": {
+          "query": "label_values(istio_request_duration_milliseconds_bucket, le)",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 0,
         "regex": "",
         "skipUrlSync": false,
@@ -574,5 +675,5 @@
   "timezone": "",
   "title": "Error Budget",
   "uid": "AqEG4weWk",
-  "version": 7
+  "version": 3
 }

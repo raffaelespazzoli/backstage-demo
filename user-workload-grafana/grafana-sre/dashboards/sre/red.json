@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 22,
-  "iteration": 1589898502056,
+  "id": 4,
+  "iteration": 1648746819103,
   "links": [],
   "panels": [
     {
@@ -25,6 +25,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -50,9 +56,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.15",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -62,9 +69,19 @@
       "steppedLine": false,
       "targets": [
         {
+          "exemplar": true,
           "expr": "sum by (destination_workload) (rate(istio_requests_total{reporter=\"source\",destination_service=\"$service\"}[5m]))",
+          "interval": "",
           "legendFormat": "{{destination_workload}}",
           "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "istio_requests_total",
+          "hide": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
         }
       ],
       "thresholds": [],
@@ -114,6 +131,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -139,9 +162,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.15",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -151,7 +175,9 @@
       "steppedLine": false,
       "targets": [
         {
+          "exemplar": true,
           "expr": "sum by (destination_workload) (rate(istio_requests_total{reporter=\"source\",destination_service=\"$service\",response_code=~\"5.*\"}[5m]))",
+          "interval": "",
           "legendFormat": "{{destination_workload}}",
           "refId": "A"
         }
@@ -211,6 +237,10 @@
       },
       "dataFormat": "tsbuckets",
       "datasource": "prometheus",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 24,
@@ -224,14 +254,15 @@
       "legend": {
         "show": true
       },
-      "options": {},
       "pluginVersion": "6.5.1",
       "reverseYBuckets": false,
       "targets": [
         {
-          "expr": "sum by (le) (rate(istio_request_duration_seconds_bucket{destination_service=\"details.bookinfo.svc.cluster.local\"}[5m]))",
+          "exemplar": true,
+          "expr": "sum by (le) (rate(istio_request_duration_milliseconds_bucket{destination_service=\"$service\"}[5m]))",
           "format": "heatmap",
           "instant": false,
+          "interval": "",
           "legendFormat": "{{ le }}",
           "refId": "A"
         }
@@ -263,7 +294,7 @@
       "yBucketSize": null
     }
   ],
-  "schemaVersion": 21,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -271,18 +302,24 @@
       {
         "allValue": null,
         "current": {
-          "text": "details.bookinfo.svc.cluster.local",
-          "value": "details.bookinfo.svc.cluster.local"
+          "selected": true,
+          "text": "raffa-qrs1.myapp-prod.svc.cluster.local",
+          "value": "raffa-qrs1.myapp-prod.svc.cluster.local"
         },
         "datasource": "prometheus",
         "definition": "label_values(destination_service)",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Service",
         "multi": false,
         "name": "service",
         "options": [],
-        "query": "label_values(destination_service)",
+        "query": {
+          "query": "label_values(destination_service)",
+          "refId": "prometheus-service-Variable-Query"
+        },
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -316,5 +353,5 @@
   "timezone": "",
   "title": "Istio Service RED Method",
   "uid": "9BHlIQRMk",
-  "version": 4
+  "version": 2
 }

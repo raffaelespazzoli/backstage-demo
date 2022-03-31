@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 15,
-  "iteration": 1590355326514,
+  "id": 2,
+  "iteration": 1648747521774,
   "links": [],
   "panels": [
     {
@@ -24,7 +24,13 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus-openshift-monitoring",
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -50,9 +56,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.15",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -62,7 +69,10 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "pod:container_cpu_usage:sum{pod=~\"$dstn.*\"}",
+          "exemplar": true,
+          "expr": "pod:container_cpu_usage:sum{pod=~\"$dstn.*\", namespace=\"$dstns\"}",
+          "hide": false,
+          "interval": "",
           "legendFormat": "{{pod}}",
           "refId": "A"
         }
@@ -113,8 +123,14 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus-openshift-monitoring",
+      "datasource": null,
       "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -142,9 +158,10 @@
       "linewidth": 1,
       "nullPointMode": "null as zero",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.15",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -154,7 +171,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (pod,namespace) (rate(container_cpu_cfs_throttled_seconds_total{container!=\"\",pod=~\"$dstn.*\"}[5m]))\n",
+          "exemplar": true,
+          "expr": "sum by (pod,namespace) (rate(container_cpu_cfs_throttled_seconds_total{container!=\"\",pod=~\"$dstn.*\",namespace=\"$dstns\"}[5m]))\n",
+          "interval": "",
           "legendFormat": "{{ pod }}",
           "refId": "A"
         }
@@ -201,8 +220,11 @@
       }
     },
     {
-      "content": "\n\n<center> <h1> N/A </h1>  </center>\n\n\n",
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 8,
@@ -210,8 +232,11 @@
         "y": 0
       },
       "id": 6,
-      "mode": "html",
-      "options": {},
+      "options": {
+        "content": "\n\n<center> <h1> N/A </h1>  </center>\n\n\n",
+        "mode": "html"
+      },
+      "pluginVersion": "7.5.15",
       "timeFrom": null,
       "timeShift": null,
       "title": "CPU Error",
@@ -222,7 +247,13 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus-openshift-monitoring",
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -248,9 +279,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.15",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -260,8 +292,11 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "container_memory_working_set_bytes{container=\"\",pod=~\"$dstn.*\"}/(2^30)\n",
-          "legendFormat": "{{pod}}",
+          "exemplar": true,
+          "expr": "container_memory_working_set_bytes{pod=~\"$dstn.*\",namespace=\"$dstns\",container!=\"POD\",container=~\".+\"}/(2^30)\n",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{container}}",
           "refId": "A"
         }
       ],
@@ -312,6 +347,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -337,9 +378,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.15",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -349,7 +391,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "max by (pod) (container_memory_working_set_bytes{container!=\"\",pod=~\"$dstn.*\"}/ on (pod,container) label_join(kube_pod_container_resource_limits_memory_bytes{pod=~\"$dstn.*\"},\"container_name\", \"\", \"container\")) or vector(0)",
+          "exemplar": true,
+          "expr": "max by (pod) (container_memory_working_set_bytes{pod=~\"$dstn.*\",namespace=\"$dstns\",container!=\"POD\",container=~\".+\"}/ on (pod,container) label_join(cluster:namespace:pod_memory:active:kube_pod_container_resource_limits{pod=~\"$dstn.*\",namespace=\"$dstns\"},\"container_name\", \"\", \"container\")) or vector(0)",
+          "interval": "",
           "legendFormat": "{{pod}}",
           "refId": "A"
         }
@@ -400,7 +444,13 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "prometheus-openshift-monitoring",
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -426,9 +476,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.15",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -438,7 +489,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(container_memory_failures_total{pod=~\"$dstn.*\"}[5m])) by (pod)",
+          "exemplar": true,
+          "expr": "sum(rate(container_memory_failcnt{pod=~\"$dstn.*\",namespace=\"$dstns\"}[5m])) by (pod)",
+          "interval": "",
           "legendFormat": "{{pod}}",
           "refId": "A"
         }
@@ -490,6 +543,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -515,9 +574,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.15",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -574,8 +634,11 @@
       }
     },
     {
-      "content": "\n\n<center> <h1> N/A </h1>  </center>\n\n\n",
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 8,
@@ -583,8 +646,11 @@
         "y": 16
       },
       "id": 15,
-      "mode": "html",
-      "options": {},
+      "options": {
+        "content": "\n\n<center> <h1> N/A </h1>  </center>\n\n\n",
+        "mode": "html"
+      },
+      "pluginVersion": "7.5.15",
       "timeFrom": null,
       "timeShift": null,
       "title": "Network Saturation",
@@ -596,6 +662,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -623,9 +695,10 @@
       "linewidth": 1,
       "nullPointMode": "null as zero",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.15",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -687,6 +760,12 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "prometheus-openshift-monitoring",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -712,9 +791,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.15",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -771,8 +851,11 @@
       }
     },
     {
-      "content": "\n\n<center> <h1> N/A </h1>  </center>\n\n\n",
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 8,
@@ -780,16 +863,22 @@
         "y": 24
       },
       "id": 18,
-      "mode": "html",
-      "options": {},
+      "options": {
+        "content": "\n\n<center> <h1> N/A </h1>  </center>\n\n\n",
+        "mode": "html"
+      },
+      "pluginVersion": "7.5.15",
       "timeFrom": null,
       "timeShift": null,
       "title": "Disk Saturation",
       "type": "text"
     },
     {
-      "content": "\n\n<center> <h1> N/A </h1>  </center>\n\n\n",
       "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 8,
@@ -797,8 +886,11 @@
         "y": 24
       },
       "id": 19,
-      "mode": "html",
-      "options": {},
+      "options": {
+        "content": "\n\n<center> <h1> N/A </h1>  </center>\n\n\n",
+        "mode": "html"
+      },
+      "pluginVersion": "7.5.15",
       "timeFrom": null,
       "timeShift": null,
       "title": "Disk Saturation",
@@ -806,7 +898,7 @@
     }
   ],
   "refresh": "5s",
-  "schemaVersion": 21,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -814,18 +906,24 @@
       {
         "allValue": null,
         "current": {
-          "text": "details.bookinfo.svc.cluster.local",
-          "value": "details.bookinfo.svc.cluster.local"
+          "selected": false,
+          "text": "raffa-qrs1.myapp-prod.svc.cluster.local",
+          "value": "raffa-qrs1.myapp-prod.svc.cluster.local"
         },
         "datasource": "prometheus",
         "definition": "label_values(destination_service)",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Service",
         "multi": false,
         "name": "service",
         "options": [],
-        "query": "label_values(destination_service)",
+        "query": {
+          "query": "label_values(destination_service)",
+          "refId": "prometheus-service-Variable-Query"
+        },
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -839,18 +937,24 @@
       {
         "allValue": null,
         "current": {
-          "text": "bookinfo",
-          "value": "bookinfo"
+          "selected": false,
+          "text": "myapp-prod",
+          "value": "myapp-prod"
         },
         "datasource": "prometheus",
         "definition": "query_result( sum(istio_requests_total{reporter=\"destination\", destination_service=\"$service\"}) by (destination_workload_namespace))",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Destination Workloand Namespace",
         "multi": false,
         "name": "dstns",
         "options": [],
-        "query": "query_result( sum(istio_requests_total{reporter=\"destination\", destination_service=\"$service\"}) by (destination_workload_namespace))",
+        "query": {
+          "query": "query_result( sum(istio_requests_total{reporter=\"destination\", destination_service=\"$service\"}) by (destination_workload_namespace))",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 2,
         "regex": "/.*namespace=\"([^\"]*).*/",
         "skipUrlSync": false,
@@ -864,18 +968,24 @@
       {
         "allValue": null,
         "current": {
-          "text": "details-v1",
-          "value": "details-v1"
+          "selected": false,
+          "text": "raffa-qrs1",
+          "value": "raffa-qrs1"
         },
         "datasource": "prometheus",
         "definition": "query_result( sum(istio_requests_total{reporter=\"destination\", destination_service=\"$service\", destination_workload_namespace=\"$dstns\"}) by (destination_workload))",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Destination Workload Name",
         "multi": false,
         "name": "dstn",
         "options": [],
-        "query": "query_result( sum(istio_requests_total{reporter=\"destination\", destination_service=\"$service\", destination_workload_namespace=\"$dstns\"}) by (destination_workload))",
+        "query": {
+          "query": "query_result( sum(istio_requests_total{reporter=\"destination\", destination_service=\"$service\", destination_workload_namespace=\"$dstns\"}) by (destination_workload))",
+          "refId": "prometheus-dstn-Variable-Query"
+        },
         "refresh": 2,
         "regex": "/.*destination_workload=\"([^\"]*).*/",
         "skipUrlSync": false,
