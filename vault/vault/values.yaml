@@ -63,7 +63,8 @@ vault:
         - /bin/bash
         - -c
         - | 
-            export PLUGIN_VERSION=v2.0.0-rc.1
+            #export PLUGIN_VERSION=v2.0.0-rc.1
+            export PLUGIN_VERSION=v1.3.0
             cd /usr/local/libexec/vault
             curl -L -o vault-plugin-secrets-github-linux-amd64 https://github.com/martinbaillie/vault-plugin-secrets-github/releases/download/${PLUGIN_VERSION}/vault-plugin-secrets-github-linux-amd64 
             chmod +x vault-plugin-secrets-github-linux-amd64
