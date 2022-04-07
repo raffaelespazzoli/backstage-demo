@@ -3,11 +3,7 @@ kind: Gateway
 metadata:
   name: mesh-gateway
   labels:
-    {{- include "mesh-ingress.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}   
+    {{- include "mesh-ingress.labels" . | nindent 4 }}  
 spec:
   selector:
     istio: ingressgateway
