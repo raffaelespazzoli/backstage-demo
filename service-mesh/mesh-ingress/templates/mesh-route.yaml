@@ -3,11 +3,7 @@ apiVersion: route.openshift.io/v1
 metadata:
   name: mesh-route
   labels:
-    {{- include "mesh-ingress.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}  
+    {{- include "mesh-ingress.labels" . | nindent 4 }} 
 spec:
   host: a.mesh.apps.{{ .Values.base_domain }} 
   path: /
