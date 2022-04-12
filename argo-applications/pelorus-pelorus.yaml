@@ -23,13 +23,15 @@ spec:
             env_from_secrets: 
             - github-secret
             source_context_dir: exporters
-            source_ref: HEAD
+            #source_ref: HEAD
+            source_ref: more-commit-debug-logs
             extraEnv:
             - name: APP_FILE
               value: committime/app.py
             - name: LOG_LEVEL
               value: DEBUG
-            source_url: https://github.com/redhat-cop/pelorus.git        
+            #source_url: https://github.com/redhat-cop/pelorus.git  
+            source_url: https://github.com/KevinMGranger/pelorus.git      
   destination:
     server: https://kubernetes.default.svc
     namespace: pelorus
