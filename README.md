@@ -145,6 +145,29 @@ oc delete project group-sync-operator
 oc delete project vault-admin
 ```
 
+## Main Features of this demo
+
+In no particular order, these are the features that this demo intend to showcase.
+
+- all the dev platform set up is managed in a gitops way with argocd
+- process to create new apps with approval step from the platform team
+- process + golden path to create new components for an app (does not require approvals). Based on backstage template. The result is a ready to use git repo and component that can be deployed up to production.
+- automatic namespace configuration. When an app is created the needed namespace to support the app SLDC are created and configured. the configuration includes:
+  - quotas
+  - rbac
+  - pull-secret for run namespaces
+  - push-secret and git secret for build namespace
+  - service mesh membership
+  - vault access configuration for app secrets
+  - github action runner deployment for build namespaces
+- automatic group sync from github teams
+- product/app/service catalog via backstage
+- inner loop via CRW. each dev gets access to a namespace ein which they can stand up a theia/vscode/intellij instance pointing to the repo of their components and code immediately
+- outer loop via github action. A pipeline as a service model is implemented as part og the golden path. Dev can call that pipeline of write their own.
+- pipeline observability suite via Pelorus. Pelorus exposes the Accelerate metrics
+- runtime observability with RED,USE and Error budget dashboards/alerts
+- transparent service mesh onboarding
+
 ## Notes
 
 at the moment is still unclear what creates namespaces. regardless of that, namespace annotation are considered trusted and several security features revolve around them. These are the well known annotations:
@@ -160,18 +183,20 @@ Open Questions/challenges:
 
 Processes:
 
-1. what is the system of records of applications (aggregation of components)?
-2. what is the system of records of environments (from which namespaces can be derived)?
+1. what is the system of records of applications (aggregation of components)? Answer for now it is Backstage `System` object
+2. what is the system of records of environments (from which namespaces can be derived)? metadata of the System object
 3. what is the best approach for inner loop?
 
 Tech:
 
-1. building images on OCP is still too hard
-2. CRW still does not have a good inner loop. perhaps integrate tilt?
+1. CRW still does not have a good inner loop. perhaps integrate tilt?
 
 
 Demo next steps
 
 - Integrate pelorus and monitoring of ci/cd metrics in backstage
 - implement the inner loop in CRW, improve workspace boot time, update to CRW new operator?
-- integrate monitoring of applicaiton metrics (SLO/SLI?) and display of metrics in backstage
+- harden the pull/push secret scopes to exactly the repos needed by the app
+- create a git token secret for the ci/cd process (generalizes the approach when not using github action)
+- move to tekton when pipeline as a service is supported.
+- move to a share helm chart model
