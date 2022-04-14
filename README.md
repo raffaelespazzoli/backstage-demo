@@ -178,7 +178,6 @@ at the moment is still unclear what creates namespaces. regardless of that, name
 - `size`: determines the quota given to the namespace. Allowed values `small`, `medium`, `large`.
 - `environment`: the purpose of the namespace. If environment equals build, an action runner for that app will be deployed. Other special behaviors related to environment might added in the future.
 
-
 Open Questions/challenges:
 
 Processes:
@@ -199,4 +198,7 @@ Demo next steps
 - harden the pull/push secret scopes to exactly the repos needed by the app
 - create a git token secret for the ci/cd process (generalizes the approach when not using github action)
 - move to tekton when pipeline as a service is supported.
-- move to a share helm chart model
+- move to a shared helm chart model
+- add support for standard branching model and branch namespaces.
+- add support for gitops based CD.
+- add support for advanced deployment models (blue/green, canary, dark)
