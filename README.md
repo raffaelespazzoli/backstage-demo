@@ -164,6 +164,7 @@ In no particular order, these are the features that this demo intend to showcase
 - product/app/service catalog via backstage
 - inner loop via CRW. each dev gets access to a namespace ein which they can stand up a theia/vscode/intellij instance pointing to the repo of their components and code immediately
 - outer loop via github action. A pipeline as a service model is implemented as part og the golden path. Dev can call that pipeline of write their own.
+- PR checks implemented as ci
 - pipeline observability suite via Pelorus. Pelorus exposes the Accelerate metrics
 - runtime observability with RED,USE and Error budget dashboards/alerts
 - transparent service mesh onboarding
@@ -190,7 +191,6 @@ Tech:
 
 1. CRW still does not have a good inner loop. perhaps integrate tilt?
 
-
 Demo next steps
 
 - Integrate pelorus and monitoring of ci/cd metrics in backstage
@@ -198,7 +198,12 @@ Demo next steps
 - harden the pull/push secret scopes to exactly the repos needed by the app
 - create a git token secret for the ci/cd process (generalizes the approach when not using github action)
 - move to tekton when pipeline as a service is supported.
-- move to a shared helm chart model
 - add support for standard branching model and branch namespaces.
 - add support for gitops based CD.
 - add support for advanced deployment models (blue/green, canary, dark)
+- evidence, attestations, policies and enforcement. In general tssc.
+
+Missing automation that requires significant implementation:
+
+1. operator/automation that looks at Systems and components in backstage and creates annotation in namespaces to describe allowed repos
+2. operator/automation that looks at gitrepo branches and creates branch-dedicated namespaces (see this operator https://github.com/dmytrostriletskyi/stale-feature-branch-operator)
