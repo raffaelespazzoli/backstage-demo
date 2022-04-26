@@ -62,6 +62,7 @@ spec:
         kind: ConfigMap
         metadata:
           name: git-config
+          namespace: {{ .Name }}
           annotations:
             controller.devfile.io/mount-as: subpath
             controller.devfile.io/mount-path: /etc/
