@@ -65,12 +65,12 @@ spec:
           namespace: {{ .Name }}
           annotations:
             controller.devfile.io/mount-as: subpath
-            controller.devfile.io/mount-path: /etc/
+            controller.devfile.io/mount-path: "/etc/"
           labels:
             controller.devfile.io/mount-to-devworkspace: "true"
             controller.devfile.io/watch-configmap: "true"
         data:
           gitconfig: |
             [user]
-              email = {{ (lookup "user.openshift.io/v1" "Identity" "" (lookup "user.openshift.io/v1" "User" "" (index .Annotations "che.eclipse.org/username")).identities[0]).extra.email) }}
+              email = {{ (lookup "user.openshift.io/v1" "Identity" "" (index (lookup "user.openshift.io/v1" "User" "" (index .Annotations "che.eclipse.org/username")).identities 0)).extra.email) }}
               name = {{ index .Annotations "che.eclipse.org/username" }}                  
