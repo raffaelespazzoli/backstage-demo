@@ -2,7 +2,7 @@
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
 metadata:
-  name: team-vault-role
+  name: personal-workspace
 spec:
   labelSelector:
     matchExpressions:
