@@ -72,5 +72,5 @@ spec:
         data:
           gitconfig: |
             [user]
-              email = {{ (lookup user.openshift.io/v1 "Identity" "" (lookup "user.openshift.io/v1" "User" "" (index .Annotations "che.eclipse.org/username")).identities[0]).extra.email) }}
+              email = {{ (lookup "user.openshift.io/v1" "Identity" "" (lookup "user.openshift.io/v1" "User" "" (index .Annotations "che.eclipse.org/username")).identities[0]).extra.email) }}
               name = {{ index .Annotations "che.eclipse.org/username" }}                  
