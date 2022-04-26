@@ -1,0 +1,75 @@
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: NamespaceConfig
+metadata:
+  name: team-vault-role
+spec:
+  labelSelector:
+    matchExpressions:
+      - key: "app.kubernetes.io/component"
+        operator: In
+        values:
+        - workspaces-namespace        
+  templates:     
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: VaultSecret
+        metadata:
+          name: quay-pull-secret
+          namespace: {{ .Name }}
+        spec:
+          vaultSecretDefinitions:
+          - authentication:
+              path: kubernetes
+              role: personal-workspace
+              serviceAccount:
+                name: default
+            name: quaytoken
+            path: quay/creds/personal-workspace
+          output:
+            name: quay-pull-secret
+            stringData:
+              .dockerconfigjson: |
+                {"auths":{"quay.io":{"username":"{{ "{{" }} .quaytoken.username {{ "}}" }}","password":"{{ "{{" }} .quaytoken.password {{ "}}" }}","email":"{{ "{{" }} .quaytoken.username {{ "}}" }}@example.com","auth":"{{ "{{" }} list .quaytoken.username ":" .quaytoken.password | join "" | b64enc {{ "}}" }}"}}}
+            type: kubernetes.io/dockerconfigjson
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: VaultSecret
+        metadata:
+          name: git-pat
+          namespace: {{ .Name }}
+        spec:
+          vaultSecretDefinitions:
+          - authentication:
+              path: kubernetes
+              role: personal-workspace
+              serviceAccount:
+                name: default
+            name: git-pat
+            path: /github/token/personal-namespace
+          output:
+            name: git-credentials-secret
+            label: 
+              controller.devfile.io/git-credential: 'true'
+              controller.devfile.io/watch-secret: "true"
+            annotations:
+              controller.devfile.io/mount-path: /tmp/.git-credentials/  
+            stringData:
+              credentials: https://{{ index .Annotations "che.eclipse.org/username" }}:{{ "{{" }} .git-pat.token {{ "}}"}}@github.com
+            type: Opaque
+    - objectTemplate: |
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: git-config
+          annotations:
+            controller.devfile.io/mount-as: subpath
+            controller.devfile.io/mount-path: /etc/
+          labels:
+            controller.devfile.io/mount-to-devworkspace: "true"
+            controller.devfile.io/watch-configmap: "true"
+        data:
+          gitconfig: |
+            [user]
+              email = {{ (lookup user.openshift.io/v1 "Identity" "" (lookup "user.openshift.io/v1" "User" "" (index .Annotations "che.eclipse.org/username")).identities[0]).extra.email) }}
+              name = {{ index .Annotations "che.eclipse.org/username" }}                  

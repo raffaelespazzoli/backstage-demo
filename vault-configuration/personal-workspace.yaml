@@ -1,0 +1,64 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: KubernetesAuthEngineRole
+metadata:
+  name: personal-workspace
+  namespace: vault-admin
+spec:
+  # Add fields here
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+  path: kubernetes
+  policies:
+    - personal-namespace
+  targetNamespaces:
+    targetNamespaceSelector:
+      matchLabels:
+        "app.kubernetes.io/component": workspaces-namespace
+  targetServiceAccounts:
+  - default      
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Policy
+metadata:
+  name: personal-namespace
+  namespace: vault-admin
+spec:
+  # Add fields here
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+  policy: |
+    # create tokens
+    path "/github/token/personal-namespace" {
+      capabilities = ["read"]
+    }
+    path "/quay/creds/personal-namespace" {
+      capabilities = ["read"]
+    }
+--- 
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: QuaySecretEngineRole
+metadata:
+  name: personal-namespace
+  namespace: vault-admin
+spec:
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+  path: quay
+  namespaceName: raf-backstage-demo
+  defaultPermission: write
+--- 
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: GitHubSecretEngineRole
+metadata:
+  name: personal-namespace
+  namespace: vault-admin
+spec:
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+  path: github
+  repositories: []
+  permissions: [] 
