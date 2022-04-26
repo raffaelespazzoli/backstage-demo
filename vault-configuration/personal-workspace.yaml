@@ -61,4 +61,4 @@ spec:
     role: policy-admin
   path: github
   repositories: []
-  permissions: [] 
+  permissions: {}
