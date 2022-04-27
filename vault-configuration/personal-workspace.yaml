@@ -10,7 +10,7 @@ spec:
     role: policy-admin
   path: kubernetes
   policies:
-    - personal-namespace
+    - personal-workspace
   targetNamespaces:
     targetNamespaceSelector:
       matchLabels:
