@@ -46,7 +46,7 @@ spec:
               serviceAccount:
                 name: default
             name: gitpat
-            path: /github/token/personal-namespace
+            path: /github/token/personal-workspace
           output:
             name: git-pat
             labels: 
