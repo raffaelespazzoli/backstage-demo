@@ -45,10 +45,10 @@ spec:
               role: personal-workspace
               serviceAccount:
                 name: default
-            name: git-pat
+            name: gitpat
             path: /github/token/personal-namespace
           output:
-            name: gitpat
+            name: git-pat
             labels: 
               controller.devfile.io/git-credential: 'true'
               controller.devfile.io/watch-secret: "true"
