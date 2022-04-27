@@ -48,14 +48,14 @@ spec:
             name: git-pat
             path: /github/token/personal-namespace
           output:
-            name: git-credentials-secret
+            name: gitpat
             labels: 
               controller.devfile.io/git-credential: 'true'
               controller.devfile.io/watch-secret: "true"
             annotations:
               controller.devfile.io/mount-path: /tmp/.git-credentials/  
             stringData:
-              credentials: https://{{ index .Annotations "che.eclipse.org/username" }}:{{ "{{" }} .git-pat.token {{ "}}"}}@github.com
+              credentials: https://{{ index .Annotations "che.eclipse.org/username" }}:{{ "{{" }} .gitpat.token {{ "}}"}}@github.com
             type: Opaque
     - objectTemplate: |
         apiVersion: v1
