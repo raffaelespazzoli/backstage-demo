@@ -21,7 +21,7 @@ spec:
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: Policy
 metadata:
-  name: personal-namespace
+  name: personal-workspace
   namespace: vault-admin
 spec:
   # Add fields here
@@ -30,17 +30,17 @@ spec:
     role: policy-admin
   policy: |
     # create tokens
-    path "/github/token/personal-namespace" {
+    path "/github/token/personal-workspace" {
       capabilities = ["read"]
     }
-    path "/quay/creds/personal-namespace" {
+    path "/quay/creds/personal-workspace" {
       capabilities = ["read"]
     }
 --- 
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: QuaySecretEngineRole
 metadata:
-  name: personal-namespace
+  name: personal-workspace
   namespace: vault-admin
 spec:
   authentication: 
@@ -53,7 +53,7 @@ spec:
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: GitHubSecretEngineRole
 metadata:
-  name: personal-namespace
+  name: personal-workspace
   namespace: vault-admin
 spec:
   authentication: 
