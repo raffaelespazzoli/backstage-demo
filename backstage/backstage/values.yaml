@@ -93,4 +93,6 @@ postgresql:
     enabled: false
   shmVolume: 
     chmod:
-      enabled: false            
+      enabled: false  
+
+usePostgresql: false          

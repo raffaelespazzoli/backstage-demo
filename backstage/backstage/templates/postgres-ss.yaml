@@ -1,3 +1,4 @@
+{{ if .Values.usePostgresql }}
 kind: StatefulSet
 apiVersion: apps/v1
 metadata:
@@ -66,4 +67,5 @@ spec:
             storage: 8Gi
         volumeMode: Filesystem
   serviceName: {{ include "backstage.fullname" . }}-postgresql
+{{ end }}  
 

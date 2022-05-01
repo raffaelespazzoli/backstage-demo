@@ -1,3 +1,4 @@
+{{ if .Values.usePostgresql }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -21,3 +22,4 @@ data:
     #wal_keep_segments = 4          # in logfile segments, 16MB each; 0 disables
     #wal_sender_timeout = 60s       # in milliseconds; 0 disables
     max_replication_slots = 1       # max number of replication slots (change requires restart)
+{{ end }}    
