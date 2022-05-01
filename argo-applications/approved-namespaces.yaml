@@ -10,7 +10,7 @@ spec:
     targetRevision: HEAD
     #path: namespaces
     directory:
-      recourse: true
+      recurse: true
       include: "*.yaml"
   destination:
     server: https://kubernetes.default.svc
