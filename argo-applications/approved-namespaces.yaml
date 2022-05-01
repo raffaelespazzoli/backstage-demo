@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/raf-backstage-demo/approved-namespaces.git
     targetRevision: HEAD
-    #path: namespaces
+    path: "."
     directory:
       recurse: true
       include: "*.yaml"
