@@ -12,7 +12,9 @@ spec:
     directory:
       include: "*.yaml"
   destination:
-    name: kcp
+    server: https://kubernetes.default.svc
+    namespace: default
+    #name: kcp
   syncPolicy:
     automated: 
       prune: true
