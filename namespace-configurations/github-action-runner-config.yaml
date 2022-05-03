@@ -32,7 +32,10 @@ spec:
                   cpu: "200m"
                   memory: "1Gi"
               securityContext:
-                runAsUser: 1000    
+                runAsUser: 1000
+              envFrom:
+              - secretRef:
+                  name: sonarqube-credentials      
       excludedPaths:
         - .spec.template.metadata
         - .spec.template.spec.image
