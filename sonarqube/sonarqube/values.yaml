@@ -2,4 +2,4 @@ OpenShift:
   enabled: true
 
 route:
-  enabled: false  
+  enabled: true  
