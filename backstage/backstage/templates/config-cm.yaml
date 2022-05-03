@@ -53,13 +53,13 @@ data:
 
     proxy:
       '/sonarqube':
-        target: http://sonarqube.sonarqube.svc/api
+        target: http://sonarqube.sonarqube.svc:9000/api
         allowedMethods: ['GET']
         # note that the colon after the token is required
         auth: '${SONARQUBE_TOKEN}:'
 
     sonarQube:
-      baseUrl: http://sonarqube.sonarqube.svc/api
+      baseUrl: http://sonarqube.sonarqube.svc:9000/api
 
     # Reference documentation http://backstage.io/docs/features/techdocs/configuration
     # Note: After experimenting with basic setup, use CI/CD to generate docs
