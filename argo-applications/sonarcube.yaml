@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://SonarSource.github.io/helm-chart-sonarqube
-    targetRevision: "3.0.0+296"
-    chart: sonarqube    
+    repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
+    targetRevision: HEAD
+    path: sonarqube/sonarqube
   destination:
     server: https://kubernetes.default.svc
     namespace: sonarqube
