@@ -8,7 +8,8 @@ spec:
   source:
     repoURL: https://SonarSource.github.io/helm-chart-sonarqube
     targetRevision: HEAD
-    path: sonarqube/sonarqube     
+    chart: sonarqube
+    path: ""    
   destination:
     server: https://kubernetes.default.svc
     namespace: sonarqube
