@@ -40,7 +40,9 @@ spec:
             mountPath: /config          
           envFrom:
           - secretRef:
-              name: github-credentials        
+              name: github-credentials
+          - secretRef:
+              name: sonarqube-credentials               
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"

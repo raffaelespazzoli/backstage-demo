@@ -91,6 +91,15 @@ data:
               dashboardUrl: https://console-openshift-console.apps.{{ .Values.base_domain }}.com
               dashboardApp: openshift
 
+    proxy:
+      '/sonarqube':
+        target: http://sonarqube.sonarqube.svc/api
+        allowedMethods: ['GET']
+        # note that the colon after the token is required
+        auth: '${SONARQUBE_TOKEN}:'
+
+    sonarQube:
+      baseUrl: http://sonarqube.sonarqube.svc/api
 
     catalog:
       rules:
