@@ -51,7 +51,15 @@ data:
         - host: github.com
           token: ${GITHUB_TOKEN}
 
-    proxy: {}
+    proxy:
+      '/sonarqube':
+        target: http://sonarqube.sonarqube.svc/api
+        allowedMethods: ['GET']
+        # note that the colon after the token is required
+        auth: '${SONARQUBE_TOKEN}:'
+
+    sonarQube:
+      baseUrl: http://sonarqube.sonarqube.svc/api
 
     # Reference documentation http://backstage.io/docs/features/techdocs/configuration
     # Note: After experimenting with basic setup, use CI/CD to generate docs
@@ -90,16 +98,6 @@ data:
               serviceAccountToken: ${KUBE_TOKEN}
               dashboardUrl: https://console-openshift-console.apps.{{ .Values.base_domain }}.com
               dashboardApp: openshift
-
-    proxy:
-      '/sonarqube':
-        target: http://sonarqube.sonarqube.svc/api
-        allowedMethods: ['GET']
-        # note that the colon after the token is required
-        auth: '${SONARQUBE_TOKEN}:'
-
-    sonarQube:
-      baseUrl: http://sonarqube.sonarqube.svc/api
 
     catalog:
       rules:
