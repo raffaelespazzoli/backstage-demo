@@ -59,7 +59,7 @@ data:
         auth: '${SONARQUBE_TOKEN}:'
       '/prometheus/api':
         # url to the api and path of your hosted prometheus instance
-        target: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091/api/v1/
+        target: https://thanos-querier-openshift-monitoring.apps.{{ .Values.base_domain }}/api/v1/
         headers:
           Authorization: Bearer ${KUBE_TOKEN}        
 
