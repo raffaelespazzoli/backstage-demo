@@ -57,6 +57,11 @@ data:
         allowedMethods: ['GET']
         # note that the colon after the token is required
         auth: '${SONARQUBE_TOKEN}:'
+      '/prometheus/api':
+        # url to the api and path of your hosted prometheus instance
+        target: http://localhost:9090/api/v1/
+        headers:
+          Authorization: ${KUBE_TOKEN}        
 
     sonarQube:
       baseUrl: https://sonarqube-sonarqube.apps.{{ .Values.base_domain }}/api
