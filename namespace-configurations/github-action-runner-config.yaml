@@ -38,7 +38,14 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: sonarqube-credentials
-                    key: SONARQUBE_TOKEN      
+                    key: SONARQUBE_TOKEN
+              volumeMounts:
+              - name: sonarqube-credentials
+                mountPath: /github/home/_sonarqube  
+              volumes:
+              - name: sonarqube-credentials
+                secret:
+                  secretName: sonarqube-credentials           
       excludedPaths:
         - .spec.template.metadata
         - .spec.template.spec.image
