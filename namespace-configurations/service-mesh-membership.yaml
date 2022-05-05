@@ -40,4 +40,24 @@ spec:
             honorLabels: true
             honorTimestamps: true
             interval: 15s
-            scrapeTimeout: 10s            
+            scrapeTimeout: 10s
+    - objectTemplate: |
+        kind: NetworkPolicy
+        apiVersion: networking.k8s.io/v1
+        metadata:
+          name: allow-user-workload-monitoring
+          namespace: {{ .Name }}
+        spec:
+          podSelector: 
+            matchExpressions:
+            - key: "service.istio.io/canonical-name"
+              operator: Exists
+          ingress:
+            - from:
+              - namespaceSelector:
+                  matchLabels:
+                    name: openshift-user-workload-monitoring
+              ports:
+              - port: http-envoy-prom        
+          policyTypes:
+            - Ingress                                
