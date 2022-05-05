@@ -22,3 +22,22 @@ spec:
           controlPlaneRef:
             name: basic
             namespace: istio-system
+    - objectTemplate: |            
+        apiVersion: monitoring.coreos.com/v1
+        kind: PodMonitor
+        metadata:
+          name: envoy-pods
+          namespace: {{ .Name }}
+        spec:
+          selector:
+            matchExpressions:
+              key: "service.istio.io/canonical-name"
+              operator: Exists
+          podMetricsEndpoints:
+          - port: http-envoy-prom
+            path: /stats/prometheus
+            scheme: http
+            honorLabels: true
+            honorTimestamps: true
+            interval: 15s
+            scrapeTimeout: 10s            
