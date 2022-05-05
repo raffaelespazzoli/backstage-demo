@@ -31,7 +31,7 @@ spec:
         spec:
           selector:
             matchExpressions:
-              key: "service.istio.io/canonical-name"
+            - key: "service.istio.io/canonical-name"
               operator: Exists
           podMetricsEndpoints:
           - port: http-envoy-prom
