@@ -58,6 +58,7 @@ spec:
                   matchLabels:
                     name: openshift-user-workload-monitoring
               ports:
-              - port: http-envoy-prom        
+              - protocol: TCP
+                port: 15090        
           policyTypes:
             - Ingress                                
