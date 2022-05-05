@@ -1,0 +1,9 @@
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  name: pelorus-sdp-byapp
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: grafana
+spec:
+  json: {{ .Files.Get "dashboards/pelorus/sdp-byapp.json" | toPrettyJson }} 
