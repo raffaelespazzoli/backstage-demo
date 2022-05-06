@@ -154,8 +154,7 @@ spec:
           repositories: []
           permissions: 
             packages: read
-            repositories: read
-            pulls: write
+            pull_requests: write
             commits: read
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
