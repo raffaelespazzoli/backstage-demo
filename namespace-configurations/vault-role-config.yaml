@@ -55,20 +55,6 @@ spec:
             path "/quay/creds/{{ .Labels.team }}-pusher" {
               capabilities = ["read"]
             }                        
-    # - objectTemplate: |
-    #     apiVersion: redhatcop.redhat.io/v1alpha1
-    #     kind: GitHubSecretEngineRole
-    #     metadata:
-    #       name: {{ .Labels.team }}
-    #       namespace: vault-admin
-    #     spec:
-    #       authentication: 
-    #         path: kubernetes
-    #         role: policy-admin
-    #       path: github
-    #       repositories: []
-    #       permissions: 
-    #         packages: read
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: QuaySecretEngineRole
@@ -82,27 +68,6 @@ spec:
           path: quay
           namespaceName: raf-backstage-demo
           defaultPermission: read            
-    # - objectTemplate: |
-    #     apiVersion: redhatcop.redhat.io/v1alpha1
-    #     kind: VaultSecret
-    #     metadata:
-    #       name: github-pull-secret
-    #       namespace: {{ .Name }}
-    #     spec:
-    #       vaultSecretDefinitions:
-    #       - authentication:
-    #           path: kubernetes
-    #           role: {{ .Labels.team }}-vault-role
-    #           serviceAccount:
-    #             name: default
-    #         name: githubtoken
-    #         path: github/token/{{ .Labels.team }}
-    #       output:
-    #         name: github-pull-secret
-    #         stringData:
-    #           .dockerconfigjson: |
-    #             {"auths":{"ghcr.io":{"username":"team_puller","password":"{{ "{{" }} .githubtoken.token {{ "}}" }}","email":"team_puller@example.com","auth":"{{ "{{" }} list "team_puller:" .githubtoken.token | join "" | b64enc {{ "}}" }}"}}}
-    #         type: kubernetes.io/dockerconfigjson
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
@@ -175,3 +140,39 @@ spec:
               .dockerconfigjson: |
                 {"auths":{"quay.io":{"username":"{{ "{{" }} .quaytoken.username {{ "}}" }}","password":"{{ "{{" }} .quaytoken.password {{ "}}" }}","email":"{{ "{{" }} .quaytoken.username {{ "}}" }}@example.com","auth":"{{ "{{" }} list .quaytoken.username ":" .quaytoken.password | join "" | b64enc {{ "}}" }}"}}}
             type: kubernetes.io/dockerconfigjson
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: GitHubSecretEngineRole
+        metadata:
+          name: {{ .Labels.team }}
+          namespace: vault-admin
+        spec:
+          authentication: 
+            path: kubernetes
+            role: policy-admin
+          path: github
+          repositories: []
+          permissions: 
+            packages: read
+            repositories: read
+            pulls: write
+            commits: read
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: VaultSecret
+        metadata:
+          name: github-token
+          namespace: {{ .Name }}
+        spec:
+          vaultSecretDefinitions:
+          - authentication:
+              path: kubernetes
+              role: {{ .Labels.team }}-vault-role
+              serviceAccount:
+                name: default
+            name: githubtoken
+            path: github/token/{{ .Labels.team }}
+          output:
+            name: github-pull-secret
+            stringData:
+              token: "{{ "{{" }} .githubtoken.token {{ "}}" }}"
