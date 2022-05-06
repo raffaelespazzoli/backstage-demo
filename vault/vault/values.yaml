@@ -79,7 +79,7 @@ vault:
         - /bin/bash
         - -c
         - | 
-            export PLUGIN_VERSION=v0.0.1-rc3
+            export PLUGIN_VERSION=v0.0.1-rc4
             cd /usr/local/libexec/vault
             curl -L -o vault-plugin-secrets-quay-linux-amd64 https://github.com/redhat-cop/vault-plugin-secrets-quay/releases/download/${PLUGIN_VERSION}/vault-plugin-secrets-quay-linux-amd64 
             chmod +x vault-plugin-secrets-quay-linux-amd64
