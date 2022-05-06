@@ -1,0 +1,19 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-user-workload-monitoring
+spec:
+  podSelector: 
+    matchExpressions:
+    - key: "service.istio.io/canonical-name"
+      operator: Exists
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: openshift-user-workload-monitoring
+      ports:
+      - protocol: TCP
+        port: 15090        
+  policyTypes:
+    - Ingress
