@@ -42,11 +42,7 @@ spec:
                 secret:
                   secretName: sonarqube-credentials           
       excludedPaths:
-        - .spec.template.metadata
-        - .spec.template.spec.image
-        - .spec.template.spec.resources
-        - .spec.template.spec.dockerdContainerResources
-        - .spec.selector
+        - .spec
         - .status	
         - .spec.replicas	
         - .metadata
