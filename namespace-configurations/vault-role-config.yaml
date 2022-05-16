@@ -155,7 +155,6 @@ spec:
           permissions: 
             packages: read
             pull_requests: write
-            commits: read
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
