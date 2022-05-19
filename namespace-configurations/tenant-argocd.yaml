@@ -1,3 +1,4 @@
+---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
 metadata:
@@ -122,3 +123,34 @@ spec:
                 cpu: 250m
                 memory: 1Gi
             sharding: {}
+--- 
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: NamespaceConfig
+metadata:
+  name: tenant-argocd-sa-edit
+spec:
+  labelSelector:
+    matchExpressions:
+      - key: team
+        operator: Exists
+  templates:     
+    - objectTemplate: |
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
+          name: "{{ .Labels.team }}-tenant-argocd-sa-edit"
+          namespace: "{{ .Name }}"
+        roleRef:
+          apiGroup: rbac.authorization.k8s.io
+          kind: ClusterRole
+          name: edit
+        subjects:          
+        - kind: ServiceAccount
+          name: openshift-gitops-argocd-application-controller
+          namespace: "{{ index .Labels "build-namespace" }}"
+        - kind: ServiceAccount
+          name: openshift-gitops-applicationset-controller
+          namespace: "{{ index .Labels "build-namespace" }}"
+        - kind: ServiceAccount
+          name: openshift-gitops-argocd-server
+          namespace: "{{ index .Labels "build-namespace" }}"           
