@@ -151,15 +151,15 @@ spec:
             path: kubernetes
             role: policy-admin
           path: github
-          repositories: []
+          repositories: 
+          - {{ .Labels.app }}-gitops
           permissions: 
-            packages: read
             pull_requests: write
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
         metadata:
-          name: github-token
+          name: github-credentials
           namespace: {{ .Name }}
         spec:
           vaultSecretDefinitions:
@@ -171,6 +171,6 @@ spec:
             name: githubtoken
             path: github/token/{{ .Labels.team }}
           output:
-            name: github-pull-secret
+            name: github-credentials
             stringData:
               token: "{{ "{{" }} .githubtoken.token {{ "}}" }}"

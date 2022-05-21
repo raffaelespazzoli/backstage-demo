@@ -37,10 +37,16 @@ spec:
               volumeMounts:
               - name: sonarqube-credentials
                 mountPath: /github/home/_sonarqube  
+              - name: github-credentials
+                mountPath: /github/home/_github                
               volumes:
               - name: sonarqube-credentials
                 secret:
-                  secretName: sonarqube-credentials           
+                  secretName: sonarqube-credentials
+              volumes:
+              - name: github-credentials
+                secret:
+                  secretName: github-credentials                             
       excludedPaths:
         - .spec
         - .status	
