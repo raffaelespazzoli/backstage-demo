@@ -48,7 +48,6 @@ spec:
                 secret:
                   secretName: github-credentials                             
       excludedPaths:
-        - .spec
         - .status	
         - .spec.replicas	
         - .metadata
