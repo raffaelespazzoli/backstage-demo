@@ -155,6 +155,7 @@ spec:
           - {{ .Labels.app }}-gitops
           permissions: 
             pull_requests: write
+            metadata: read
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
