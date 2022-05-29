@@ -119,9 +119,9 @@ export base_domain=${base_domain#*.}
 ```shell
 git clone https://github.com/${github_organization}/backstage-demo
 cd backstage-demo
-find . -type f -not -path '*/\.*' -exec sed -i 's/raffaelespazzoli/${github_organization}/g' {} +
-find . -type f -not -path '*/\.*' -exec sed -i 's/raf-backstage-demo/${github_organization}/g' {} +
-find . -type f -not -path '*/\.*' -exec sed -i 's/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g' {} +
+find . -type f -not -path '*/\.*' -exec sed -i "s/raffaelespazzoli/${github_organization}/g" {} +
+find . -type f -not -path '*/\.*' -exec sed -i "s/raf-backstage-demo/${github_organization}/g" {} +
+find . -type f -not -path '*/\.*' -exec sed -i "s/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g" {} +
 git push
 ```
 
@@ -130,8 +130,9 @@ Then execute the following commands
 
 ```shell
 git clone https://github.com/${github_organization}/shared-workflows
-find . -type f -not -path '*/\.*' -exec sed -i 's/raf-backstage-demo/${github_organization}/g' {} +
-find . -type f -not -path '*/\.*' -exec sed -i 's/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g' {} +
+cd shared-workflows
+find . -type f -not -path '*/\.*' -exec sed -i "s/raf-backstage-demo/${github_organization}/g" {} +
+find . -type f -not -path '*/\.*' -exec sed -i "s/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g" {} +
 git push
 ```
 
@@ -140,8 +141,9 @@ Then execute the following commands
 
 ```shell
 git clone https://github.com/${github_organization}/software-templates
-find . -type f -not -path '*/\.*' -exec sed -i 's/raf-backstage-demo/${github_organization}/g' {} +
-find . -type f -not -path '*/\.*' -exec sed -i 's/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g' {} +
+cd software-templates
+find . -type f -not -path '*/\.*' -exec sed -i "s/raf-backstage-demo/${github_organization}/g" {} +
+find . -type f -not -path '*/\.*' -exec sed -i "s/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g" {} +
 git push
 ```
 
