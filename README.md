@@ -40,7 +40,7 @@ In this demo we have several operator that keep the configuration internal to Op
 
 For the future we plan to add monitoring to the runtime experience.
 
-## Manual preparation
+## Demo preparation
 
 This demo is based on GitHub.
 It requires some manual preparation steps for tasks that do not seem automate-able on GitHub (at least i was no able to automate them).
@@ -106,14 +106,50 @@ vault_github_app_private_key=$(cat ${vault_github_app_private_key_file_path}| se
 envsubst < ./vault-quay-plugin-creds-secret.yaml | oc apply -f - -n vault-admin
 ```
 
-To improve the demo experience and have some data pre-populated, you can optionally fork these repos to the new organization:
+## Repository preparation
 
-- `https://github.com/raf-backstage-demo/backstage`
-- `https://github.com/raf-backstage-demo/software-templates`
+Fork the following repo https://github.com/raffaelespazzoli/backstage-demo to your organization.
+Then execute the following commands
+
+```shell
+export base_domain=$(oc get dns cluster -o jsonpath='{.spec.baseDomain}')
+export base_domain=${base_domain#*.}
+```
+
+```shell
+git clone https://github.com/${github_organization}/backstage-demo
+cd backstage-demo
+find . -type f -not -path '*/\.*' -exec sed -i 's/raffaelespazzoli/${github_organization}/g' {} +
+find . -type f -not -path '*/\.*' -exec sed -i 's/raf-backstage-demo/${github_organization}/g' {} +
+find . -type f -not -path '*/\.*' -exec sed -i 's/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g' {} +
+git push
+```
+
+Fork the following repo https://github.com/raf-backstage-demo/shared-workflows to your organization.
+Then execute the following commands
+
+```shell
+git clone https://github.com/${github_organization}/shared-workflows
+find . -type f -not -path '*/\.*' -exec sed -i 's/raf-backstage-demo/${github_organization}/g' {} +
+find . -type f -not -path '*/\.*' -exec sed -i 's/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g' {} +
+git push
+```
+
+Fork the following repo https://github.com/raf-backstage-demo/software-templates to your organization.
+Then execute the following commands
+
+```shell
+git clone https://github.com/${github_organization}/software-templates
+find . -type f -not -path '*/\.*' -exec sed -i 's/raf-backstage-demo/${github_organization}/g' {} +
+find . -type f -not -path '*/\.*' -exec sed -i 's/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g' {} +
+git push
+```
 
 The rest of the demo should be deployed by the gitops operator following the steps below.
 
 ## Deploy the gitops operator
+
+now from your modified https://github.com/${github_organization}/backstage-demo repo run the following commands
 
 ```shell
 oc apply -f ./argocd/operator.yaml
