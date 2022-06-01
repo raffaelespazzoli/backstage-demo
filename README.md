@@ -117,34 +117,43 @@ export base_domain=${base_domain#*.}
 ```
 
 ```shell
-git clone https://github.com/${github_organization}/backstage-demo
+git clone git@github.com:${github_organization}/backstage-demo.git
 cd backstage-demo
 find . -type f -not -path '*/\.*' -exec sed -i "s/raffaelespazzoli/${github_organization}/g" {} +
 find . -type f -not -path '*/\.*' -exec sed -i "s/raf-backstage-demo/${github_organization}/g" {} +
 find . -type f -not -path '*/\.*' -exec sed -i "s/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g" {} +
+git add -A
+git commit -m "initial customization"
 git push
+cd ..
 ```
 
 Fork the following repo https://github.com/raf-backstage-demo/shared-workflows to your organization.
 Then execute the following commands
 
 ```shell
-git clone https://github.com/${github_organization}/shared-workflows
+git clone git@github.com:${github_organization}//shared-workflows.git
 cd shared-workflows
 find . -type f -not -path '*/\.*' -exec sed -i "s/raf-backstage-demo/${github_organization}/g" {} +
 find . -type f -not -path '*/\.*' -exec sed -i "s/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g" {} +
+git add -A
+git commit -m "initial customization"
 git push
+cd ..
 ```
 
 Fork the following repo https://github.com/raf-backstage-demo/software-templates to your organization.
 Then execute the following commands
 
 ```shell
-git clone https://github.com/${github_organization}/software-templates
+git clone git@github.com:${github_organization}/software-templates.git
 cd software-templates
 find . -type f -not -path '*/\.*' -exec sed -i "s/raf-backstage-demo/${github_organization}/g" {} +
 find . -type f -not -path '*/\.*' -exec sed -i "s/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g" {} +
+git add -A
+git commit -m "initial customization"
 git push
+cd ..
 ```
 
 The rest of the demo should be deployed by the gitops operator following the steps below.
