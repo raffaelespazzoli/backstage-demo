@@ -155,6 +155,22 @@ git push
 cd ..
 ```
 
+Fork the following repo https://github.com/raf-backstage-demo/backstage-app-demo to your organization.
+Edit this code to add and remove backstage plugins.
+
+```shell
+git clone git@github.com:${github_organization}/backstage-app-demo.git
+cd backstage-app-demo
+find . -type f -not -path '*/\.git/*' -exec sed -i "s/raffaelespazzoli/${github_organization}/g" {} +
+find . -type f -not -path '*/\.git/*' -exec sed -i "s/raf-backstage-demo/${github_organization}/g" {} +
+git add -A
+git commit -m "initial customization"
+git push
+cd ..
+```
+
+Create the following repo in your organization: https://github.com/${github_organization}/approved-namespaces
+
 The rest of the demo should be deployed by the gitops operator following the steps below.
 
 ## Deploy the gitops operator
