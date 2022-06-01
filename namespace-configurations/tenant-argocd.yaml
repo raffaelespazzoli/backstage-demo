@@ -146,11 +146,15 @@ spec:
           name: edit
         subjects:          
         - kind: ServiceAccount
-          name: openshift-gitops-argocd-application-controller
+          name: tenant-gitops-argocd-application-controller
           namespace: "{{ index .Labels "build-namespace" }}"
         - kind: ServiceAccount
-          name: openshift-gitops-applicationset-controller
+          name: tenant-gitops-applicationset-controller
           namespace: "{{ index .Labels "build-namespace" }}"
         - kind: ServiceAccount
-          name: openshift-gitops-argocd-server
-          namespace: "{{ index .Labels "build-namespace" }}"           
+          name: tenant-gitops-argocd-server
+          namespace: "{{ index .Labels "build-namespace" }}"
+        - kind: ServiceAccount
+          name: tenant-gitops-argocd-dex-server
+          namespace: "{{ index .Labels "build-namespace" }}"          
+                     
