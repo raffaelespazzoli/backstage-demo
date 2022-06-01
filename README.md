@@ -95,8 +95,6 @@ oc annotate secret github-oauth-config -n eclipse-che --overwrite=true che.eclip
 oc create secret generic ocp-github-app-credentials -n openshift-config --from-literal=client_id=${ocp_github_client_id} --from-literal=clientSecret=${ocp_github_client_secret}
 oc new-project backstage
 oc create secret generic github-credentials -n backstage --from-literal=AUTH_GITHUB_CLIENT_ID=${backstage_github_client_id} --from-literal=AUTH_GITHUB_CLIENT_SECRET=${backstage_github_client_secret} --from-literal=GITHUB_TOKEN=${org_admin_pat} --from-literal=GITHUB_ORG=${github_organization}
-oc create secret generic sonarqube-credentials -n backstage --from-literal=SONARQUBE_TOKEN=${sonarqube_token}
-oc annotate secret sonarqube-credentials -n backstage reflector.v1.k8s.emberstack.com/reflection-allowed="true"
 oc new-project actions-runner-system
 oc create secret generic controller-manager -n actions-runner-system --from-literal=github_app_id=${action_runner_github_app_id} --from-literal=github_app_installation_id=${action_runner_github_app_installation_id} --from-file=github_app_private_key=${action_runner_github_app_private_key_file_path}
 oc new-project group-sync-operator
@@ -156,7 +154,7 @@ cd ..
 ```
 
 Fork the following repo https://github.com/raf-backstage-demo/backstage-app-demo to your organization.
-Edit this code to add and remove backstage plugins.
+Edit this code to add and remove backstage plugins. Also in order for the image to be available at least the packages produced by this repo must be publicly available.
 
 ```shell
 git clone git@github.com:${github_organization}/backstage-app-demo.git
@@ -183,6 +181,18 @@ oc apply -f ./argocd/rbac.yaml
 # wait a couple of minutes...
 oc apply -f ./argocd/argocd.yaml
 oc apply -f ./argocd/argo-root-application.yaml
+```
+
+You may need to resync a few times to get all the argocd apps going.
+Once soraqube is up and running connect to it `https://sonarqube-sonarqube.apps.${basedomain}` with admin/admin and create a new admin token (Administration->security->users->admin->tokens).
+Add it to your ./secrets.sh file with the env variable ${sonarqube_token}
+
+then run these commands
+
+```shell
+source ./secrets.sh
+oc create secret generic sonarqube-credentials -n backstage --from-literal=SONARQUBE_TOKEN=${sonarqube_token}
+oc annotate secret sonarqube-credentials -n backstage reflector.v1.k8s.emberstack.com/reflection-allowed="true"
 ```
 
 This should be all to setup the demo.
