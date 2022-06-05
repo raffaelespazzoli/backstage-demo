@@ -140,7 +140,11 @@ data:
         - type: url
           target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/quarkus-template/template.yaml
           rules:
-            - allow: [Template] 
+            - allow: [Template]
+        - type: url
+          target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/dotnet-template/template.yaml
+          rules:
+            - allow: [Template]            
         # - type: url
         #   target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/docs-template/template.yaml
         #   rules:
