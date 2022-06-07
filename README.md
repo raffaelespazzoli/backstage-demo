@@ -1,6 +1,6 @@
 # backstage-demo
 
-TL,DR, if you want to just setup the demo go to [here](#manual-preparation)
+TL,DR, if you want to just setup the demo go to [here](#demo-preparation)
 This demo is intended to show what a good developer experience might look like when developing applications to be deployed on OpenShift and the eco-system of tools that come with it.
 The developer experience is divided in four pillars which are tightly interconnected but that we are going to examine separately.
 
