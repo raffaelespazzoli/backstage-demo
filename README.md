@@ -42,7 +42,7 @@ For the future we plan to add monitoring to the runtime experience.
 
 ## Demo preparation
 
-This demo is based on GitHub.
+This demo is based on GitHub. Create an github org that you'll use with this demo and add a couple of teams.
 It requires some manual preparation steps for tasks that do not seem automate-able on GitHub (at least i was no able to automate them).
 
 1. create a new organization or reuse an existing one.
@@ -167,7 +167,7 @@ git push
 cd ..
 ```
 
-Create the following repo in your organization: https://github.com/${github_organization}/approved-namespaces
+Create the following repo in your organization: https://github.com/${github_organization}/approved-namespaces with an empty readme file.
 
 The rest of the demo should be deployed by the gitops operator following the steps below.
 
