@@ -32,30 +32,30 @@ spec:
               .dockerconfigjson: |
                 {"auths":{"quay.io":{"username":"{{ "{{" }} .quaytoken.username {{ "}}" }}","password":"{{ "{{" }} .quaytoken.password {{ "}}" }}","email":"{{ "{{" }} .quaytoken.username {{ "}}" }}@example.com","auth":"{{ "{{" }} list .quaytoken.username ":" .quaytoken.password | join "" | b64enc {{ "}}" }}"}}}
             type: kubernetes.io/dockerconfigjson
-    - objectTemplate: |
-        apiVersion: redhatcop.redhat.io/v1alpha1
-        kind: VaultSecret
-        metadata:
-          name: git-pat
-          namespace: {{ .Name }}
-        spec:
-          vaultSecretDefinitions:
-          - authentication:
-              path: kubernetes
-              role: personal-workspace
-              serviceAccount:
-                name: default
-            name: gitpat
-            path: /github/token/personal-workspace
-          output:
-            name: git-pat
-            labels: 
-              controller.devfile.io/git-credential: 'true'
-              controller.devfile.io/watch-secret: "true"
-            annotations:
-              controller.devfile.io/mount-path: /tmp/.git-credentials/  
-            stringData:
-              credentials: https://{{ index .Annotations "che.eclipse.org/username" }}:{{ "{{" }} .gitpat.token {{ "}}"}}@github.com
+    # - objectTemplate: |
+    #     apiVersion: redhatcop.redhat.io/v1alpha1
+    #     kind: VaultSecret
+    #     metadata:
+    #       name: git-pat
+    #       namespace: {{ .Name }}
+    #     spec:
+    #       vaultSecretDefinitions:
+    #       - authentication:
+    #           path: kubernetes
+    #           role: personal-workspace
+    #           serviceAccount:
+    #             name: default
+    #         name: gitpat
+    #         path: /github/token/personal-workspace
+    #       output:
+    #         name: git-pat
+    #         labels: 
+    #           controller.devfile.io/git-credential: 'true'
+    #           controller.devfile.io/watch-secret: "true"
+    #         annotations:
+    #           controller.devfile.io/mount-path: /tmp/.git-credentials/  
+    #         stringData:
+    #           credentials: https://{{ index .Annotations "che.eclipse.org/username" }}:{{ "{{" }} .gitpat.token {{ "}}"}}@github.com
             type: Opaque
     - objectTemplate: |
         apiVersion: v1
