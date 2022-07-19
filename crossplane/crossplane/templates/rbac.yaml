@@ -1,0 +1,15 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: 'system-openshift-scc-nonroot'
+subjects:
+  - kind: ServiceAccount
+    name: crossplane
+    namespace: {{ .Release.Namespace }}
+  - kind: ServiceAccount
+    name: rbac-manager
+    namespace: {{ .Release.Namespace }}        
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: 'system:openshift:scc:nonroot'

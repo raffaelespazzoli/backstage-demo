@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: crossplane-system
+  name: crossplane
   namespace: openshift-gitops
   finalizers:
   - resources-finalizer.argocd.argoproj.io  
 spec:
   project: default
   source:
-    repoURL: 'https://charts.crossplane.io/stable'
-    targetRevision: 1.9.0
-    chart: crossplane 
+    repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
+    targetRevision: HEAD
+    path: crossplane/crossplane 
   destination:
     server: https://kubernetes.default.svc
     namespace: crossplane-system
