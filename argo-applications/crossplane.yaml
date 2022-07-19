@@ -1,36 +1,28 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: approved-namespaces
+  name: crossplane
   namespace: openshift-gitops
   finalizers:
   - resources-finalizer.argocd.argoproj.io  
 spec:
   project: default
   source:
-    repoURL: https://github.com/raf-backstage-demo/approved-namespaces.git
+    repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
     targetRevision: HEAD
-    path: "."
-    directory:
-      recurse: true
-      include: "*.yaml"
+    path: user-workload-grafana/grafana-sre
+    helm: {} 
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: crossplane
   syncPolicy:
-    syncOptions:
-      - Validate=false
     automated: 
       prune: true
       selfHeal: true
-      allowEmpty: true
+    syncOptions:
+    - CreateNamespace=true
     retry:
       backoff:
         duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
         factor: 2 # a factor to multiply the base duration after each failed retry
-        maxDuration: 10m # the maximum amount of time allowed for the backoff strategy
-  ignoreDifferences:
-  - group: backstage.io
-    kind: System
-    jsonPointers:
-    - /metadata/description     
+        maxDuration: 10m # the maximum amount of time allowed for the backoff strategy 
