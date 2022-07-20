@@ -3,7 +3,7 @@ kind: ProviderConfig
 metadata:
   name: default
   labels:
-    {{- include "crossplane-system.labels" . | nindent 4 }}   
+    {{- include "aws-provisioner-config.labels" . | nindent 4 }}   
 spec:
   credentials:
     source: Secret
