@@ -6,3 +6,4 @@ crossplane:
     "vault.hashicorp.com/agent-inject-token": "true" 
     "vault.hashicorp.com/role": "crossplane"
     "vault.hashicorp.com/agent-run-as-user": "65532"
+    "vault.hashicorp.com/tls-skip-verify": "true" 
