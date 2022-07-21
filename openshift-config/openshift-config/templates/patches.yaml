@@ -53,10 +53,10 @@ spec:
         kind: ServiceAccount
         name: default
         namespace: 
-     sourceObjectRefs:
-     - apiVersion: v1
-       kind: Namespace
-       name: '{{ "{{" }} .metadata.namespace {{ "}}" }}'   
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Namespace
+        name: '{{ "{{" }} .metadata.namespace {{ "}}" }}'   
       patchTemplate: |
         imagePullSecrets:
         {{ "{{-" }} if and (and (hasKey (index . 1).metadata.labels "app") (not (eq ((index . 1).metadata.labels.environment | toString) "build"))) (not (has (dict "name" "quay-pull-secret") (index . 0).imagePullSecrets)) {{ "}}" }}      
