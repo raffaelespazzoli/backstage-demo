@@ -8,7 +8,7 @@ spec:
   type: Vault
   defaultScope: {{ .Release.Namespace }}
   vault:
-    server: http://vault.vault:8200
+    server: https://vault.apps.control-cluster-raffa.demo.red-chesterfield.com
     mountPath: crossplane/
     version: v2
     auth:
