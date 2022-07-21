@@ -52,23 +52,20 @@ spec:
         apiVersion: v1
         kind: ServiceAccount
         name: default
-        labelSelector:
-          matchExpressions:
-            - key: team
-              operator: Exists
-            - key: environment
-              operator: NotIn
-              values:
-              - build   
+        namespace: 
+     sourceObjectRefs:
+     - apiVersion: v1
+       kind: Namespace
+       name: '{{ "{{" }} .metadata.namespace {{ "}}" }}'   
       patchTemplate: |
         imagePullSecrets:
-        {{ "{{-" }} if (not (has (dict "name" "quay-pull-secret") (index . 0).imagePullSecrets)) {{ "}}" }}      
+        {{ "{{-" }} if and (and (hasKey (index . 1).metadata.labels "app") (not (eq ((index . 1).metadata.labels.environment | toString) "build"))) (not (has (dict "name" "quay-pull-secret") (index . 0).imagePullSecrets)) {{ "}}" }}      
         {{ "{{" }} append (index . 0).imagePullSecrets (dict "name" "quay-pull-secret") | toYaml | indent 2 {{ "}}" }}
         {{ "{{-" }} else {{ "}}" }}
         {{ "{{" }} (index . 0).imagePullSecrets | toYaml | indent 2 {{ "}}" }}
         {{ "{{-" }} end {{ "}}" }}        
       patchType: application/merge-patch+json     
-    backstag-app-patch:       
+    backstage-app-patch:       
       targetObjectRef:
         apiVersion: argoproj.io/v1alpha1
         kind: Application
