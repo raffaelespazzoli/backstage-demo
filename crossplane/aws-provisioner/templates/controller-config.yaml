@@ -13,4 +13,4 @@ spec:
       vault.hashicorp.com/agent-inject-token: "true"
       vault.hashicorp.com/role: crossplane
       vault.hashicorp.com/agent-run-as-user: "2000"
-    serviceAccountName: crossplane  
+  serviceAccountName: crossplane  
