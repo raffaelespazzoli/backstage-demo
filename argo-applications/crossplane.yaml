@@ -13,9 +13,10 @@ spec:
     path: crossplane/crossplane-system
     helm:
       values: |
-        provider:
-          packages:
-          - crossplane/provider-aws:v1.9.0
+        crossplane:
+          provider:
+            packages:
+            - crossplane/provider-aws:v1.9.0
   destination:
     server: https://kubernetes.default.svc
     namespace: crossplane-system
