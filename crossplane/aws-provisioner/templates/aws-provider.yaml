@@ -5,4 +5,6 @@ metadata:
   labels:
     {{- include "aws-provisioner.labels" . | nindent 4 }}  
 spec:
-  package: "crossplane/provider-aws:v1.9.0"
+  package: "crossplane/provider-aws:v0.29.0"
+  controllerConfigRef:
+      name: vault-config  

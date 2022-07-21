@@ -1,0 +1,19 @@
+apiVersion: aws.crossplane.io/v1alpha1
+kind: StoreConfig
+metadata:
+  name: vault
+  labels:
+    {{- include "aws-provisioner-config.labels" . | nindent 4 }}    
+spec:
+  type: Vault
+  defaultScope: {{ .Release.Namespace }}
+  vault:
+    server: http://vault.vault:8200
+    mountPath: crossplane/
+    version: v2
+    auth:
+      method: Token
+      token:
+        source: Filesystem
+        fs:
+          path: /vault/secrets/token

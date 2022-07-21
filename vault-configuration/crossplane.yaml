@@ -1,0 +1,49 @@
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: SecretEngineMount
+metadata:
+  name: crossplane
+spec:
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+  type: kv-v2
+  path: ""
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Policy
+metadata:
+  name: crossplane
+  namespace: vault-admin
+spec:
+  # Add fields here
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+  policy: |
+    path "crossplane/data/*" {
+        capabilities = ["create", "read", "update", "delete"]
+    }
+    path "crossplane/metadata/*" {
+        capabilities = ["create", "read", "update", "delete"]
+    }
+---
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: KubernetesAuthEngineRole
+metadata:
+  name: crossplane
+  namespace: vault-admin
+spec:
+  # Add fields here
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+  path: kubernetes
+  policies:
+    - crossplane
+  targetNamespaces:
+    targetNamespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: crossplane-system
+  targetServiceAccounts:
+  - "*"    

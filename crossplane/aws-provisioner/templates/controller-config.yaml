@@ -1,0 +1,15 @@
+apiVersion: pkg.crossplane.io/v1alpha1
+kind: ControllerConfig
+metadata:
+  name: vault-config
+  labels:
+    {{- include "aws-provisioner.labels" . | nindent 4 }}  
+spec:
+  args:
+    - --enable-external-secret-stores
+  metadata:
+    annotations:
+      vault.hashicorp.com/agent-inject: "true"
+      vault.hashicorp.com/agent-inject-token: "true"
+      vault.hashicorp.com/role: crossplane
+      vault.hashicorp.com/agent-run-as-user: "2000
