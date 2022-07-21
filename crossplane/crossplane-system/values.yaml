@@ -1,5 +1,4 @@
-global:
-  something: ciao
-
 crossplane:
-  somethingelse: bye  
+  provider:
+    packages:
+    - crossplane/provider-aws:v0.29.0  
