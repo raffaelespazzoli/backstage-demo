@@ -1,19 +1,19 @@
-apiVersion: secrets.crossplane.io/v1alpha1
-kind: StoreConfig
-metadata:
-  name: vault
-  labels:
-    {{- include "aws-provisioner.labels" . | nindent 4 }}   
-spec:
-  type: Vault
-  defaultScope: {{ .Release.Namespace }}
-  vault:
-    server: "https://vault.apps.control-cluster-raffa.demo.red-chesterfield.com"
-    mountPath: crossplane/
-    version: v2
-    auth:
-      method: Token
-      token:
-        source: Filesystem
-        fs:
-          path: /vault/secrets/token"
+# apiVersion: secrets.crossplane.io/v1alpha1
+# kind: StoreConfig
+# metadata:
+#   name: vault
+#   labels:
+#     {{- include "aws-provisioner.labels" . | nindent 4 }}   
+# spec:
+#   type: Vault
+#   defaultScope: {{ .Release.Namespace }}
+#   vault:
+#     server: "https://vault.apps.control-cluster-raffa.demo.red-chesterfield.com"
+#     mountPath: crossplane/
+#     version: v2
+#     auth:
+#       method: Token
+#       token:
+#         source: Filesystem
+#         fs:
+#           path: /vault/secrets/token"
