@@ -1,0 +1,13 @@
+apiVersion: dbaas.redhat.com/v1alpha1
+kind: DBaaSInventory
+metadata:
+  labels:
+    related-to: dbaas-operator
+    type: dbaas-vendor-service
+  name: backstage-demo
+  namespace: openshift-dbaas-operator
+spec:
+  credentialsRef:
+    name: dbaas-vendor-credentials-1658607983801
+  providerRef:
+    name: cockroachdb-cloud-registration

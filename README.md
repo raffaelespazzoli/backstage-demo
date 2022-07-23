@@ -53,6 +53,7 @@ It requires some manual preparation steps for tasks that do not seem automate-ab
 6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${based_domain}`. The webhook secret is hardcoded to `ciao`.
 7. create a GitHub Application for the group-sync-operator following the instructions [here](https://github.com/redhat-cop/group-sync-operator#as-a-github-app). Store the ssh key pem in a file called `group-sync-operator-app-key.pem`, it will be ignored by git.
 8. create a GitHub Application for the vault-config-operator. Store the ssh key pem in a file called `vault-github-app-key.pem`, it will be ignored by git.
+9. create and account in [cockrachdb serverless](https://www.cockroachlabs.com/get-started-cockroachdb/) and extract a service account with full control.
 
 Create a client secret for each of the OAuth apps.
 
@@ -62,21 +63,30 @@ Create a file called `secrets.sh` and store it at the top of this repo, it will 
 export github_organization=<org_name>
 export backstage_github_client_id=<backstage_oauth_app_id>
 export backstage_github_client_secret=<backstage_oauth_app_secret>
+
 export crw_github_client_id=<crw_oauth_app_id>
 export crw_github_client_secret=<crw_oauth_app_secret>
+
 export ocp_github_client_id=<ocp_oauth_app_id>
 export ocp_github_client_secret=<ocp_oauth_app_secret>
 export org_admin_pat=<pat token>
+
 export action_runner_github_app_id=<application_id_for_action_runner>
 export action_runner_github_app_installation_id=<application_installation_id_for_action_runner>
 export action_runner_github_app_private_key_file_path=./github_action_runner_app.pem
+
 export group_sync_github_app_id=<application_id_for_group_sync-operator>
 export group_sync_operator_github_app_key_file_path=./group-sync-operator-app-key.pem
+
 export vault_github_app_id=<application_id_for_vault>
 export vault_github_app_private_key_file_path=./vault-github-app-key.pem
 export vault_quay_app_token=<quay app token>
+
 export quay_organization=<quay-organization> #we assume it's the same as github
 export vault_quay_app_username=<quay user name used to generate the token>
+
+export cockroachdb_secret=<service_account_secret-token>
+export cockroachdb_key=<service_account_name>
 ```
 
 now you can source the file and populate the environment variables any time:
@@ -102,6 +112,8 @@ oc create secret generic github-group-sync -n group-sync-operator --from-literal
 oc new-project vault-admin
 vault_github_app_private_key=$(cat ${vault_github_app_private_key_file_path}| sed 's/^/    /') envsubst < ./vault-github-plugin-creds-secret.yaml | oc apply -f - -n vault-admin
 envsubst < ./vault-quay-plugin-creds-secret.yaml | oc apply -f - -n vault-admin
+oc create namespace openshift-dbaas-operator
+oc create secret generic cockroachdb-admin -n openshift-dbaas-operator --from-literal=apiSecretKey=${cockroachdb_secret}
 ```
 
 ## Repository preparation
