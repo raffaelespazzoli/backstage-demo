@@ -12,10 +12,10 @@ spec:
     targetRevision: HEAD
     path: dbaas
     directory:
-      include: "catalog-source.yaml"
+      include: "*.yaml"
   destination:
     server: https://kubernetes.default.svc
-    namespace: openshift-marketplace
+    namespace: openshift-dbaas-operator
   syncPolicy:
     automated:
       prune: true
