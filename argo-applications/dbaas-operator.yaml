@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
     targetRevision: HEAD
-    path: codeready-workspaces/dbaas
+    path: dbaas
     directory:
       include: "cayalog-source.yaml"
   destination:
