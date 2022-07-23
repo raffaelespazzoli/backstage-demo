@@ -8,6 +8,6 @@ metadata:
   namespace: openshift-dbaas-operator
 spec:
   credentialsRef:
-    name: dbaas-vendor-credentials-1658607983801
+    name: cockroachdb-admin
   providerRef:
     name: cockroachdb-cloud-registration
