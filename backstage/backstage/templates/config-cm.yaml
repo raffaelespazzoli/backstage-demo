@@ -152,7 +152,12 @@ data:
         - type: url
           target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/app-template/template.yaml
           rules:
-            - allow: [Template]            
+            - allow: [Template]
+
+        - type: url
+          target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/cockroach-serverless/template.yaml
+          rules:
+            - allow: [Template]                      
 
         - type: github-discovery
           target: https://github.com/${GITHUB_ORG}
