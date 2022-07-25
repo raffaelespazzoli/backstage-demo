@@ -265,7 +265,7 @@ vault:
                   echo vault admin already configured, just updating kubernetes config
                   vault write auth/kubernetes/config token_reviewer_jwt=@/var/run/secrets/kubernetes.io/serviceaccount/token kubernetes_host=https://kubernetes.default.svc:443 kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt 
                   echo creating accessor configmap
-                  accessor=vault auth list -detailed | grep kubernetes | awk '{print $3}'
+                  accessor=$(vault auth list -detailed | grep kubernetes | awk '{print $3}')
                   /usr/local/libexec/vault/kubectl delete configmap kubeauth-accessor -n vault
                   /usr/local/libexec/vault/kubectl create configmap kubeauth-accessor -n vault --from-literal=accessor=${accessor}
                   sleep 5
