@@ -10,6 +10,8 @@ spec:
   path: kubernetes  
   policies:
     - database-engine-admin
+  targetServiceAccounts:
+  - default  
   targetNamespaces:
     targetNamespaceSelector:
       matchExpressions:
