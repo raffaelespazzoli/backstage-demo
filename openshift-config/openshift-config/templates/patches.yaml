@@ -302,7 +302,7 @@ spec:
       - apiVersion: v1
         kind: ConfigMap
         name: kubeauth-accessor
-        namespace: vault-admin        
+        namespace: vault       
       patchTemplate: |
         spec:
           policy: |
