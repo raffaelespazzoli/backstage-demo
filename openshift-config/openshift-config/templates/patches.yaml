@@ -291,4 +291,52 @@ spec:
         spec:
           hosts:
             - {{ "{{" }} (index . 0).metadata.name {{ "}}" }}-{{ "{{" }} (index . 0).metadata.namespace {{ "}}" }}.mesh.apps.{{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
-      patchType: application/merge-patch+json            
+      patchType: application/merge-patch+json
+    database-admin-vault-policy-patch:
+      targetObjectRef:
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: Policy
+        name: database-engine-admin
+        namespace: vault-admin
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: ConfigMap
+        name: kubeauth-accessor
+        namespace: vault-admin        
+      patchTemplate: |
+        spec:
+          policy: |
+            # query existing mounts
+            path "/sys/mounts" {
+              capabilities = [ "list", "read"]
+              allowed_parameters = {
+                "type" = ["database"]
+                "*"   = []
+              }
+            }
+
+            # mount database secrets engines
+            # the + is for the db name, assuming the can be more than one db
+            path "/sys/mounts/{{ "{{" }}identity.entity.aliases.{{ (index . 0).data.accessor }}.metadata.service_account_namespace{{ "}}" }}/+/+" {
+              capabilities = [ "create", "read", "update", "delete"]
+              allowed_parameters = {
+                "type" = ["database"]
+                "*"   = []
+              }
+            }
+
+            # tune database secrets engines
+            path "/sys/mounts/{{ "{{" }}identity.entity.aliases.{{ (index . 0).data.accessor }}.metadata.service_account_namespace{{ "}}" }}/+/tune" {
+              capabilities = [ "create", "read", "update", "delete"]
+            }
+
+            # Configure database secrets engines
+            path "/{{ "{{" }}identity.entity.aliases.{{ (index . 0).data.accessor }}.metadata.service_account_namespace{{ "}}" }}/+/config/+" {
+              capabilities = [ "create", "read", "update", "delete"]
+            }
+
+            # Configure database roles
+            path "/{{ "{{" }}identity.entity.aliases.{{ (index . 0).data.accessor }}.metadata.service_account_namespace{{ "}}" }}/+/roles/+" {
+              capabilities = [ "create", "read", "update", "delete"]
+            }
+      patchType: application/merge-patch+json                
