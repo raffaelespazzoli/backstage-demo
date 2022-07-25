@@ -317,7 +317,7 @@ spec:
 
             # mount database secrets engines
             # the + is for the db name, assuming the can be more than one db
-            path "/sys/mounts/{{ "{{ \"{{\" }}" }}identity.entity.aliases.{{ "{{" }} (index . 0).data.accessor {{ "}}" }}.metadata.service_account_namespace{{ "{{ \"}}\" }}" }}/+/+" {
+            path "/sys/mounts/{{ "{{ \"{{\" }}" }}identity.entity.aliases.{{ "{{" }} (index . 1).data.accessor {{ "}}" }}.metadata.service_account_namespace{{ "{{ \"}}\" }}" }}/+/+" {
               capabilities = [ "create", "read", "update", "delete"]
               allowed_parameters = {
                 "type" = ["database"]
@@ -326,17 +326,17 @@ spec:
             }
 
             # tune database secrets engines
-            path "/sys/mounts/{{ "{{ \"{{\" }}" }}identity.entity.aliases.{{ "{{" }} (index . 0).data.accessor {{ "}}" }}.metadata.service_account_namespace{{ "{{ \"}}\" }}" }}/+/tune" {
+            path "/sys/mounts/{{ "{{ \"{{\" }}" }}identity.entity.aliases.{{ "{{" }} (index . 1).data.accessor {{ "}}" }}.metadata.service_account_namespace{{ "{{ \"}}\" }}" }}/+/tune" {
               capabilities = [ "create", "read", "update", "delete"]
             }
 
             # Configure database secrets engines
-            path "/{{ "{{ \"{{\" }}" }}identity.entity.aliases.{{ "{{" }} (index . 0).data.accessor {{ "}}" }}.metadata.service_account_namespace{{ "{{ \"}}\" }}" }}/+/config/+" {
+            path "/{{ "{{ \"{{\" }}" }}identity.entity.aliases.{{ "{{" }} (index . 1).data.accessor {{ "}}" }}.metadata.service_account_namespace{{ "{{ \"}}\" }}" }}/+/config/+" {
               capabilities = [ "create", "read", "update", "delete"]
             }
 
             # Configure database roles
-            path "/{{ "{{ \"{{\" }}" }}identity.entity.aliases.{{ "{{" }} (index . 0).data.accessor {{ "}}" }}.metadata.service_account_namespace{{ "{{ \"}}\" }}" }}/+/roles/+" {
+            path "/{{ "{{ \"{{\" }}" }}identity.entity.aliases.{{ "{{" }} (index . 1).data.accessor {{ "}}" }}.metadata.service_account_namespace{{ "{{ \"}}\" }}" }}/+/roles/+" {
               capabilities = [ "create", "read", "update", "delete"]
             }
       patchType: application/merge-patch+json                
