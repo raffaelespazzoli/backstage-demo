@@ -34,4 +34,10 @@ spec:
     namespace: vault-admin
     jsonPointers:
     - /spec/applicationID
-    - /spec/organizationName  
+    - /spec/organizationName
+  - group: redhatcop.redhat.io
+    kind: Policy
+    name: database-engine-admin
+    namespace: vault-admin
+    jsonPointers:
+    - /spec/policy      
