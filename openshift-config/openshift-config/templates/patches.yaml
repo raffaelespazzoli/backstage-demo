@@ -351,4 +351,5 @@ spec:
         namespace: '{{ "{{" }} .metadata.namespace {{ "}}" }}'
       patchTemplate: |
         spec:
-          instanceID: {{ "{{" }} (index . 1).status.instanceID {{ "}}" }}     
+          instanceID: {{ "{{" }} (index . 1).status.instanceID {{ "}}" }}
+      patchType: application/merge-patch+json              
