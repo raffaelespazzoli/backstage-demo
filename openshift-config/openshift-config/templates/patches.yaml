@@ -339,4 +339,16 @@ spec:
             path "/{{ "{{ \"{{\" }}" }}identity.entity.aliases.{{ "{{" }} (index . 1).data.accessor {{ "}}" }}.metadata.service_account_namespace{{ "{{ \"}}\" }}" }}/+/roles/+" {
               capabilities = [ "create", "read", "update", "delete"]
             }
-      patchType: application/merge-patch+json                
+      patchType: application/merge-patch+json
+    dbaas-connection-instance-patch:
+      targetObjectRef:
+        apiVersion: dbaas.redhat.com/v1alpha1
+        kind: DBaaSConnection
+      sourceObjectRefs:
+      - apiVersion: dbaas.redhat.com/v1alpha1
+        kind: DBaaSInstance
+        name: "{{ .metadata.name }}"
+        namespace: "{{ .metadata.namespace }}"
+      patchTemplate: |
+        spec:
+          instanceID: {{ "{{" }} (index . 1).status.instanceID {{ "}}" }}     
