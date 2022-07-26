@@ -108,35 +108,6 @@ data:
       rules:
         - allow: [Component, System, API, Group, User, Resource, Location]
       locations:
-        # Backstage example components
-        # - type: url
-        #   target: https://github.com/${GITHUB_ORG}/backstage/blob/master/packages/catalog-model/examples/all-components.yaml
-
-        # Backstage example systems
-        # - type: url
-        #   target: https://github.com/${GITHUB_ORG}/backstage/blob/master/packages/catalog-model/examples/all-systems.yaml
-
-        # Backstage example APIs
-        # - type: url
-        #   target: https://github.com/${GITHUB_ORG}/backstage/blob/master/packages/catalog-model/examples/all-apis.yaml
-
-        # Backstage example resources
-        # - type: url
-        #   target: https://github.com/${GITHUB_ORG}/backstage/blob/master/packages/catalog-model/examples/all-resources.yaml
-
-        # Backstage example organization groups
-        # - type: url
-        #   target: https://github.com/${GITHUB_ORG}/backstage/blob/master/packages/catalog-model/examples/acme/org.yaml
-
-        # Backstage example templates
-        # - type: url
-        #   target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/react-ssr-template/template.yaml
-        #   rules:
-        #     - allow: [Template]
-        # - type: url
-        #   target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/springboot-grpc-template/template.yaml
-        #   rules:
-        #     - allow: [Template]
         - type: url
           target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/quarkus-template/template.yaml
           rules:
@@ -145,15 +116,10 @@ data:
           target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/dotnet-template/template.yaml
           rules:
             - allow: [Template]            
-        # - type: url
-        #   target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/docs-template/template.yaml
-        #   rules:
-        #     - allow: [Template]
         - type: url
           target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/app-template/template.yaml
           rules:
             - allow: [Template]
-
         - type: url
           target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/cockroach-template/template.yaml
           rules:
@@ -168,5 +134,11 @@ data:
         - type: github-discovery
           target: https://github.com/${GITHUB_ORG}/approved-namespaces/blob/-/systems/*.yaml
           rules:
-            - allow: [System]                   
+            - allow: [System]
+
+        # Resources discovery    
+        - type: github-discovery
+          target: https://github.com/${GITHUB_ORG}/*-gitops/blob/-/resources/*.yaml
+          rules:
+            - allow: [Resource]                       
 
