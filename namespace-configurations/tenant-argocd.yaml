@@ -124,7 +124,7 @@ spec:
                 memory: 1Gi
             sharding: {}
           resourceCustomizations: |  
-            dbaas.redhat.com/DBaaSInstance
+            dbaas.redhat.com/DBaaSInstance:
               health.lua: |
                 hs = {}
                 if obj.status ~= nil then
