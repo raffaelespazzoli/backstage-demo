@@ -123,6 +123,22 @@ spec:
                 cpu: 250m
                 memory: 1Gi
             sharding: {}
+          resourceCustomizations: |  
+            dbaas.redhat.com/DBaaSInstance
+              health.lua: |
+                hs = {}
+                if obj.status ~= nil then
+                  if obj.status.phase ~= nil then
+                    if obj.status.phase == "Ready" then
+                      hs.status = "Healthy"
+                      hs.message = obj.status.phase
+                      return hs
+                    end
+                  end
+                end
+                hs.status = "Progressing"
+                hs.message = "Waiting for DBaaSInstance to become Ready"
+                return hs            
 --- 
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig

@@ -112,3 +112,44 @@ spec:
         cpu: 250m
         memory: 1Gi
     sharding: {}
+  resourceCustomizations: |
+    argoproj.io/Application:
+      health.lua: |
+        hs = {}
+        hs.status = "Progressing"
+        hs.message = ""
+        if obj.status ~= nil then
+          if obj.status.health ~= nil then
+            hs.status = obj.status.health.status
+            hs.message = obj.status.health.message
+          end
+        end
+        return hs
+    operators.coreos.com/Subscription:
+      health.lua: |
+        hs = {}
+        if obj.status ~= nil then
+          if obj.status.currentCSV ~= nil and (obj.status.state == "AtLatestKnown" or obj.status.state == "UpgradeAvailable" or obj.status.state == "UpgradePending") then
+            hs.status = "Healthy"
+            hs.message = "Subscription installed"
+            return hs
+          end
+        end
+        hs.status = "Progressing"
+        hs.message = "Waiting for Subscription to complete."
+        return hs
+    operators.coreos.com/InstallPlan:
+      health.lua: |
+        hs = {}
+        if obj.status ~= nil then
+          if obj.status.phase ~= nil then
+            if obj.status.phase == "Complete" then
+              hs.status = "Healthy"
+              hs.message = obj.status.phase
+              return hs
+            end
+          end
+        end
+        hs.status = "Progressing"
+        hs.message = "Waiting for InstallPlan to complete"
+        return hs                            
