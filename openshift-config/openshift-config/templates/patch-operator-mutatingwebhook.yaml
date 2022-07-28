@@ -2,8 +2,6 @@ apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
   name: patch-operator-inject
-  labels:
-    redhat-cop.redhat.io/patch-operator: "true"
 webhooks:
 - admissionReviewVersions:
   - v1
