@@ -33,4 +33,4 @@ spec:
     kind: MutatingWebhookConfiguration
     name: patch-operator-inject
     jqPathExpressions:
-    - .webhooks[].admissionReviewVersions.clientConfig.caBundle       
+    - '.webhooks[]?.clientConfig.caBundle'
