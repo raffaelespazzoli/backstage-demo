@@ -347,7 +347,7 @@ spec:
         labelSelector:
           matchLabels:
             redhat-cop.redhat.io/patch-operator: "true"
-      patchTemplate: '[{"op": "replace", "path": "/webhooks/0/clientConfig/caBundle", "value":"{{ (index (index . 1).data "olmCAKey") }}"}]'     
+      patchTemplate: '[{"op": "replace", "path": "/webhooks/0/clientConfig/caBundle", "value":"{{ "{{" }} (index (index . 1).data "olmCAKey") {{ "}}" }}"}]'     
       patchType: application/json-patch+json
       sourceObjectRefs:
       - apiVersion: v1
