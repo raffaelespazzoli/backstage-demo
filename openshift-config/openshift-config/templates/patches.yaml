@@ -366,6 +366,6 @@ spec:
       sourceObjectRefs:
       - apiVersion: v1
         kind: Secret
-        namespace: {{ "{{" }} .metadata.namespace {{ "}}" }}
+        namespace: "{{ "{{" }} .metadata.namespace {{ "}}" }}"
         name: crdb-cloud-user-credentials-{{ "{{" }} .metadata.name {{ "}}" }}            
              
