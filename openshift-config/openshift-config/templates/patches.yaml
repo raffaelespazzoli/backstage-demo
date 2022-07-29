@@ -351,5 +351,21 @@ spec:
       - apiVersion: v1
         kind: Secret
         name: patch-operator-controller-manager-service-cert
-        namespace: patch-operator      
+        namespace: patch-operator
+    database-secret-engine-username-patch:
+      targetObjectRef:
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: DatabaseSecretEngineConfig
+        labelSelector:
+          matchLabels: 
+            inject-username: cockroach-serverless        
+      patchTemplate: |
+        spec:
+          username: {{ "{{" }} (index . 1).data.username | b64dec {{ "}}" }}   
+      patchType: application/merge-patch+json
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        namespace: {{ "{{" }} .metadata.namespace {{ "}}" }}
+        name: crdb-cloud-user-credentials-{{ "{{" }} .metadata.name {{ "}}" }}            
              
