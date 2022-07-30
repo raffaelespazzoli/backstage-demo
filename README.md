@@ -42,81 +42,7 @@ For the future we plan to add monitoring to the runtime experience.
 
 ## Demo preparation
 
-This demo is based on GitHub. Create an github org that you'll use with this demo and add a couple of teams.
-It requires some manual preparation steps for tasks that do not seem automate-able on GitHub (at least i was no able to automate them).
-
-1. create a new organization or reuse an existing one.
-2. create an Oauth app in this organization for backstage. The call back url should be `https://backstage.apps.${based_domain}/api/auth/github`
-3. create an Oauth app in this organization for Code Ready Workspaces. The call back url should be `https://eclipse-che.apps.${based_domain}/api/oauth/callback`
-4. create an Oauth app in this organization for OpenShift. The call back url should be `https://oauth-openshift.apps.${based_domain}/oauth2callback/backstage-demo-github/`
-5. create a Personal Access Token (PAT) with an account that is administrator to the chosen organization.
-6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${based_domain}`. The webhook secret is hardcoded to `ciao`.
-7. create a GitHub Application for the group-sync-operator following the instructions [here](https://github.com/redhat-cop/group-sync-operator#as-a-github-app). Store the ssh key pem in a file called `group-sync-operator-app-key.pem`, it will be ignored by git.
-8. create a GitHub Application for the vault-config-operator. Store the ssh key pem in a file called `vault-github-app-key.pem`, it will be ignored by git.
-9. create and account in [cockrachdb serverless](https://www.cockroachlabs.com/get-started-cockroachdb/) and extract a service account with full control.
-
-Create a client secret for each of the OAuth apps.
-
-Create a file called `secrets.sh` and store it at the top of this repo, it will be ignored by Git.
-
-```shell
-export github_organization=<org_name>
-export backstage_github_client_id=<backstage_oauth_app_id>
-export backstage_github_client_secret=<backstage_oauth_app_secret>
-
-export crw_github_client_id=<crw_oauth_app_id>
-export crw_github_client_secret=<crw_oauth_app_secret>
-
-export ocp_github_client_id=<ocp_oauth_app_id>
-export ocp_github_client_secret=<ocp_oauth_app_secret>
-export org_admin_pat=<pat token>
-
-export action_runner_github_app_id=<application_id_for_action_runner>
-export action_runner_github_app_installation_id=<application_installation_id_for_action_runner>
-export action_runner_github_app_private_key_file_path=./github_action_runner_app.pem
-
-export group_sync_github_app_id=<application_id_for_group_sync-operator>
-export group_sync_operator_github_app_key_file_path=./group-sync-operator-app-key.pem
-
-export vault_github_app_id=<application_id_for_vault>
-export vault_github_app_private_key_file_path=./vault-github-app-key.pem
-export vault_quay_app_token=<quay app token>
-
-export quay_organization=<quay-organization> #we assume it's the same as github
-export vault_quay_app_username=<quay user name used to generate the token>
-
-export cockroachdb_secret=<service_account_secret-token>
-export cockroachdb_key=<service_account_name>
-```
-
-now you can source the file and populate the environment variables any time:
-
-```shell
-source ./secrets.sh
-```
-
-Run the following commands to populate the Kubernetes secrets with the previously generated values (this is fine for a demo, it might not be fine for a production environment):
-
-```shell
-oc new-project eclipse-che
-oc create secret generic github-oauth-config --from-literal=id=${crw_github_client_id} --from-literal=secret=${crw_github_client_secret} -n eclipse-che
-oc label secret github-oauth-config -n eclipse-che --overwrite=true app.kubernetes.io/part-of=che.eclipse.org app.kubernetes.io/component=oauth-scm-configuration
-oc annotate secret github-oauth-config -n eclipse-che --overwrite=true che.eclipse.org/oauth-scm-server=github
-oc create secret generic ocp-github-app-credentials -n openshift-config --from-literal=client_id=${ocp_github_client_id} --from-literal=clientSecret=${ocp_github_client_secret}
-oc new-project backstage
-oc create secret generic github-credentials -n backstage --from-literal=AUTH_GITHUB_CLIENT_ID=${backstage_github_client_id} --from-literal=AUTH_GITHUB_CLIENT_SECRET=${backstage_github_client_secret} --from-literal=GITHUB_TOKEN=${org_admin_pat} --from-literal=GITHUB_ORG=${github_organization}
-oc new-project actions-runner-system
-oc create secret generic controller-manager -n actions-runner-system --from-literal=github_app_id=${action_runner_github_app_id} --from-literal=github_app_installation_id=${action_runner_github_app_installation_id} --from-file=github_app_private_key=${action_runner_github_app_private_key_file_path}
-oc new-project group-sync-operator
-oc create secret generic github-group-sync -n group-sync-operator --from-literal=appId=${group_sync_github_app_id} --from-file=privateKey=${group_sync_operator_github_app_key_file_path}
-oc new-project vault-admin
-vault_github_app_private_key=$(cat ${vault_github_app_private_key_file_path}| sed 's/^/    /') envsubst < ./vault-github-plugin-creds-secret.yaml | oc apply -f - -n vault-admin
-envsubst < ./vault-quay-plugin-creds-secret.yaml | oc apply -f - -n vault-admin
-oc create namespace openshift-dbaas-operator
-oc create secret generic cockroachdb-admin -n openshift-dbaas-operator --from-literal=apiSecretKey=${cockroachdb_secret}
-```
-
-## Repository preparation
+### Repository preparation
 
 Fork the following repo https://github.com/raffaelespazzoli/backstage-demo to your organization.
 Then execute the following commands
@@ -183,7 +109,90 @@ Create the following repo in your organization: https://github.com/${github_orga
 
 The rest of the demo should be deployed by the gitops operator following the steps below.
 
-## Deploy the gitops operator
+### Manual steps
+
+This demo is based on GitHub. Create an github org that you'll use with this demo and add a couple of teams.
+It requires some manual preparation steps for tasks that do not seem automate-able on GitHub (at least i was no able to automate them).
+
+1. create a new organization or reuse an existing one.
+2. create an Oauth app in this organization for backstage. The call back url should be `https://backstage.apps.${based_domain}/api/auth/github`
+3. create an Oauth app in this organization for Code Ready Workspaces / Eclipse Che. The call back url should be `https://eclipse-che.apps.${based_domain}/api/oauth/callback`
+4. create an Oauth app in this organization for OpenShift. The call back url should be `https://oauth-openshift.apps.${based_domain}/oauth2callback/backstage-demo-github/`
+5. create a Personal Access Token (PAT) with an account that is administrator to the chosen organization.
+6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${based_domain}`. The webhook secret is hardcoded to `ciao`.
+7. create a GitHub Application for the group-sync-operator following the instructions [here](https://github.com/redhat-cop/group-sync-operator#as-a-github-app). Store the ssh key pem in a file called `group-sync-operator-app-key.pem`, it will be ignored by git.
+8. create a GitHub Application for the vault-config-operator. Store the ssh key pem in a file called `vault-github-app-key.pem`, it will be ignored by git. Follow [these instructions](https://github.com/martinbaillie/vault-plugin-secrets-github#setup-github)
+9. create an organization in quay (this should have the same name as the github org) and create a token with admin privileges on it.
+10. create and account in [cockrachdb serverless](https://www.cockroachlabs.com/get-started-cockroachdb/) and extract a service account with full control.
+
+Create a client secret for each of the OAuth apps.
+
+Create a file called `secrets.sh` and store it at the top of this repo, it will be ignored by Git.
+
+```shell
+export github_organization=<org_name>
+export backstage_github_client_id=<backstage_oauth_app_id>
+export backstage_github_client_secret=<backstage_oauth_app_secret>
+
+export crw_github_client_id=<crw_oauth_app_id>
+export crw_github_client_secret=<crw_oauth_app_secret>
+
+export ocp_github_client_id=<ocp_oauth_app_id>
+export ocp_github_client_secret=<ocp_oauth_app_secret>
+export org_admin_pat=<pat token>
+
+export action_runner_github_app_id=<application_id_for_action_runner>
+export action_runner_github_app_installation_id=<application_installation_id_for_action_runner>
+export action_runner_github_app_private_key_file_path=./github_action_runner_app.pem
+
+export group_sync_github_app_id=<application_id_for_group_sync-operator>
+export group_sync_operator_github_app_key_file_path=./group-sync-operator-app-key.pem
+
+export vault_github_app_id=<application_id_for_vault>
+export vault_github_app_private_key_file_path=./vault-github-app-key.pem
+
+export vault_quay_app_token=<quay app token>
+export quay_organization=<quay-organization> #we assume it's the same as github
+export vault_quay_app_username=<quay user name used to generate the token>
+
+export cockroachdb_secret=<service_account_secret-token>
+export cockroachdb_key=<service_account_name>
+```
+
+now you can source the file and populate the environment variables any time:
+
+```shell
+source ./secrets.sh
+```
+
+Run the following commands to populate the Kubernetes secrets with the previously generated values (this is fine for a demo, it might not be fine for a production environment):
+
+```shell
+oc new-project eclipse-che
+oc create secret generic github-oauth-config --from-literal=id=${crw_github_client_id} --from-literal=secret=${crw_github_client_secret} -n eclipse-che
+oc label secret github-oauth-config -n eclipse-che --overwrite=true app.kubernetes.io/part-of=che.eclipse.org app.kubernetes.io/component=oauth-scm-configuration
+oc annotate secret github-oauth-config -n eclipse-che --overwrite=true che.eclipse.org/oauth-scm-server=github
+oc create secret generic ocp-github-app-credentials -n openshift-config --from-literal=client_id=${ocp_github_client_id} --from-literal=clientSecret=${ocp_github_client_secret}
+oc new-project backstage
+oc create secret generic github-credentials -n backstage --from-literal=AUTH_GITHUB_CLIENT_ID=${backstage_github_client_id} --from-literal=AUTH_GITHUB_CLIENT_SECRET=${backstage_github_client_secret} --from-literal=GITHUB_TOKEN=${org_admin_pat} --from-literal=GITHUB_ORG=${github_organization}
+oc new-project actions-runner-system
+oc create secret generic controller-manager -n actions-runner-system --from-literal=github_app_id=${action_runner_github_app_id} --from-literal=github_app_installation_id=${action_runner_github_app_installation_id} --from-file=github_app_private_key=${action_runner_github_app_private_key_file_path}
+oc new-project group-sync-operator
+oc create secret generic github-group-sync -n group-sync-operator --from-literal=appId=${group_sync_github_app_id} --from-file=privateKey=${group_sync_operator_github_app_key_file_path}
+oc new-project vault-admin
+vault_github_app_private_key=$(cat ${vault_github_app_private_key_file_path}| sed 's/^/    /') envsubst < ./vault-github-plugin-creds-secret.yaml | oc apply -f - -n vault-admin
+envsubst < ./vault-quay-plugin-creds-secret.yaml | oc apply -f - -n vault-admin
+oc create namespace openshift-dbaas-operator
+oc create secret generic cockroachdb-admin -n openshift-dbaas-operator --from-literal=apiSecretKey=${cockroachdb_secret}
+```
+
+### Deploy the gitops operator
+
+This demo has the following system requirements:
+
+1. minimum cluster memory capacity 70 GB
+2. minimum cluster cpu capacity: 20 CPUs
+3. minimum worker node size 16GB 4CPUs (needed for eclipse che)
 
 now from your modified https://github.com/${github_organization}/backstage-demo repo run the following commands
 
@@ -195,7 +204,7 @@ oc apply -f ./argocd/argocd.yaml
 oc apply -f ./argocd/argo-root-application.yaml
 ```
 
-You may need to resync a few times to get all the argocd apps going.
+You may need to resync a few times to get all the argocd apps going. Check the gitops status here: https://openshift-gitops-server-openshift-gitops.apps.${base_domain}
 Once soraqube is up and running connect to it `https://sonarqube-sonarqube.apps.${basedomain}` with admin/admin and create a new admin token (Administration->security->users->admin->tokens).
 Add it to your ./secrets.sh file with the env variable ${sonarqube_token}
 
