@@ -317,7 +317,7 @@ spec:
 
             # mount database secrets engines
             # the + is for the db name, assuming the can be more than one db
-            path "/sys/mounts/{{ "{{ \"{{\" }}" }}identity.entity.aliases.{{ "{{" }} (index . 1).data.accessor {{ "}}" }}.metadata.service_account_namespace{{ "{{ \"}}\" }}" }}/+/+" {
+            path "/sys/mounts/{{ "{{ \"{{\" }}" }}identity.entity.aliases.{{ "{{" }} (index . 1).data.accessor {{ "}}" }}.metadata.service_account_namespace{{ "{{ \"}}\" }}" }}/+" {
               capabilities = [ "create", "read", "update", "delete"]
               allowed_parameters = {
                 "type" = ["database"]
