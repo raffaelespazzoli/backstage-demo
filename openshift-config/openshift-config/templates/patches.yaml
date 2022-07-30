@@ -1,4 +1,4 @@
-apiVersion: redhatcop.redhat.io/v1alpha1
+piVersion: redhatcop.redhat.io/v1alpha1
 kind: Patch
 metadata:
   name: config-patches
@@ -353,6 +353,7 @@ spec:
         name: patch-operator-controller-manager-service-cert
         namespace: patch-operator
     database-secret-engine-username-patch:
+      patchType: application/merge-patch+json
       targetObjectRef:
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: DatabaseSecretEngineConfig
