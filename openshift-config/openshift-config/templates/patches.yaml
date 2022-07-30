@@ -361,11 +361,15 @@ spec:
             inject-username: cockroach-serverless        
       patchTemplate: |
         spec:
-          username: {{ "{{" }} (index . 1).data.username | b64dec {{ "}}" }}   
-      patchType: application/merge-patch+json
+          username: {{ "{{" }} (index . 1).data.username | b64dec {{ "}}" }}
+          connectionURL: postgresql://{{ "{{" }} "{{ "{{" }}username{{ "}}" }}:{{ "{{" }}password{{ "}}" }}" {{ "}}" }}@{{ "{{" }} (index (index . 2).status.instanceInfo "regions.1.sqlDns") {{ "}}" }}:26257/defaultdb?sslmode=verify-full&options=--cluster%3D{{ "{{" }} index ((index . 2).status.instanceInfo) "config.serverless.routingId" {{ "}}" }}
       sourceObjectRefs:
       - apiVersion: v1
         kind: Secret
         namespace: "{{ "{{" }} .metadata.namespace {{ "}}" }}"
-        name: crdb-cloud-user-credentials-{{ "{{" }} .metadata.name {{ "}}" }}            
+        name: crdb-cloud-user-credentials-{{ "{{" }} .metadata.name {{ "}}" }}
+      - apiVersion: dbaas.redhat.com/v1alpha1
+        kind: DBaaSInstance
+        namespace: "{{ "{{" }} .metadata.namespace {{ "}}" }}"
+        name: "{{ "{{" }} .metadata.name {{ "}}" }}"                     
              
