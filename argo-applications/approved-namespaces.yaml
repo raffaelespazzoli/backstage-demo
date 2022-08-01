@@ -20,6 +20,8 @@ spec:
   syncPolicy:
     syncOptions:
       - Validate=false
+      - RespectIgnoreDifferences=true
+      - ApplyOutOfSyncOnly=true      
     automated: 
       prune: true
       selfHeal: true
