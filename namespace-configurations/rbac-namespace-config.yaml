@@ -54,7 +54,7 @@ spec:
         apiVersion: rbac.authorization.k8s.io/v1
         kind: RoleBinding
         metadata:
-          name: "{{ .Labels.team }}-build-argocd-sa-edit"
+          name: "{{ .Labels.team }}-build-argocd-sa-monitoring-rules-edit"
           namespace: "{{ .Name }}"
         roleRef:
           apiGroup: rbac.authorization.k8s.io
