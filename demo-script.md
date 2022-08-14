@@ -60,13 +60,15 @@ Now it's time to go back to Backstage and add one component to the the `myapp` a
 
 Run the template. This will create a new `myquarkus` repository and a PR to the `myapp-gitops` repo adding the new manifests for this component.
 
-Verify that now the myapp ArgoCD is updated with new manifests:
-
-
-
 Approve the PR to the `myapp-gitops` repository. This will be usually done by the developer team manager.
 
 ![My quarkus app PR](./media/myquarkus-app-pr.png "My quarkus app PR")
+
+Verify that now the myapp ArgoCD is updated with new manifests:
+
+![Myapp-gitops myquarkus manifests](./media/myapp-gitops-myquarkus-manifests.png "Myapp-gitops myquarkus manifests")
+
+The apps at this point will not be healthy as the application image may not be built yet. Not that in this demo as soon as an applicaiton image is built, it is immediately pushed to production. This is obviously a simplification.
 
 Verify and explore the new `myquarkus` repository, it contains a hello world quarkus service
 
@@ -76,7 +78,7 @@ In Backstage, navigate to the `myquarkus` component page, you should see the fol
 
 ![My quarkus component](./media/myquarkus-component-backstage.png "My quarkus component")
 
-Notice that the sonarqube score should be already loaded. Click on one of the WebIDE links on the right:
+Notice that the SonarQube score should be already loaded. Click on one of the WebIDE links on the right:
 
 ![My quarkus WebIDE](./media/myquarkus-webide.png "My quarkus WebIDE")
 
@@ -84,3 +86,10 @@ Follow the DevWorkspace first-time instructions and you should get to a page in 
 
 ![My quarkus VSCode](./media/myquarkus-vscode.png "My quarkus VSCode")
 
+Now back to Backstage, verify that the myquarkus component is being built:
+
+![My quarkus Backstage ci/cd](./media/myquarkus-backstage-ci-cd.png "My quarkus Backstage ci/cd")
+
+Follow the links in the UI up to the GitHub Actions tab, verify that the build has been fully executed (this is a very minimal pipeline):
+
+![My quarkus GitHub CI](./media/myquarkus-github-ci.png "My quarkus GitHub CI")
