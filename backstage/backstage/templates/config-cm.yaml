@@ -101,7 +101,7 @@ data:
               authProvider: 'serviceAccount'
               skipTLSVerify: true
               serviceAccountToken: ${KUBE_TOKEN}
-              dashboardUrl: https://console-openshift-console.apps.{{ .Values.base_domain }}.com
+              dashboardUrl: https://console-openshift-console.apps.{{ .Values.base_domain }}
               dashboardApp: openshift
 
     catalog:

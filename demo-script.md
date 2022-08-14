@@ -86,10 +86,12 @@ Follow the DevWorkspace first-time instructions and you should get to a page in 
 
 ![My quarkus VSCode](./media/myquarkus-vscode.png "My quarkus VSCode")
 
-Now back to Backstage, verify that the myquarkus component is being built:
+Now back to Backstage, verify that the `myquarkus` component is being built:
 
 ![My quarkus Backstage ci/cd](./media/myquarkus-backstage-ci-cd.png "My quarkus Backstage ci/cd")
 
 Follow the links in the UI up to the GitHub Actions tab, verify that the build has been fully executed (this is a very minimal pipeline):
 
 ![My quarkus GitHub CI](./media/myquarkus-github-ci.png "My quarkus GitHub CI")
+
+Go back to Backstage and verify that the `myquarkus` component has been deployed to all of the environments
