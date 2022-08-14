@@ -54,6 +54,20 @@ spec:
         apiVersion: rbac.authorization.k8s.io/v1
         kind: RoleBinding
         metadata:
+          name: "{{ .Labels.team }}-build-argocd-sa-edit"
+          namespace: "{{ .Name }}"
+        roleRef:
+          apiGroup: rbac.authorization.k8s.io
+          kind: ClusterRole
+          name: monitoring-rules-edit
+        subjects:          
+        - kind: ServiceAccount
+          name: tenant-gitops-argocd-application-controller
+          namespace: "{{ index .Labels "build-namespace" }}"
+    - objectTemplate: |
+        apiVersion: rbac.authorization.k8s.io/v1
+        kind: RoleBinding
+        metadata:
           name: "{{ .Labels.team }}-build-sa-anyuid"
           namespace: "{{ .Name }}"
         roleRef:
