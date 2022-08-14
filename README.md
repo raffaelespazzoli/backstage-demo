@@ -1,4 +1,4 @@
-# backstage-demo
+# Backstage-demo
 
 TL,DR, if you want to just setup the demo go to [here](#demo-preparation)
 This demo is intended to show what a good developer experience might look like when developing applications to be deployed on OpenShift and the eco-system of tools that come with it.
@@ -13,6 +13,8 @@ The objective of this demo is to explore how we can get a better and better expe
 
 1. Security. There is tension between making everything self-serviced and everything secure. When these two requirements come to a odd, security should win.
 2. Scalability. whether we are supporting a team of developers with a few software components or hundreds of teams and thousands of components the cost should be the same. To do so we deploy everything via gitops and we automate all of the configuration/maintenance operations.
+
+Here is the [demo script](./demo-script.md).
 
 ## Onboarding time
 
@@ -220,6 +222,8 @@ oc annotate secret sonarqube-credentials -n backstage reflector.v1.k8s.emberstac
 This should be all to setup the demo.
 
 Start enjoying the demo from here `https://backstage.apps.${based_domain}`.
+
+Once everything is up and running you can run the [demo script](./demo-script.md).
 
 ## Cleanup
 

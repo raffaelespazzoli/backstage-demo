@@ -94,4 +94,64 @@ Follow the links in the UI up to the GitHub Actions tab, verify that the build h
 
 ![My quarkus GitHub CI](./media/myquarkus-github-ci.png "My quarkus GitHub CI")
 
-Go back to Backstage and verify that the `myquarkus` component has been deployed to all of the environments
+Go to Quay and verify that the image had been built and pushed:
+
+![My quarkus Quay](./media/myquarkus-quay.png "My quarkus Quay")
+
+Go back to Backstage and verify that the `myquarkus` component pods has been deployed
+
+![My quarkus Pods](./media/myquarkus-pods.png "My quarkus Pods")
+
+Verify that progressive delivery is enabled via ArgoRollouts. 
+Run the following command
+
+```shell
+kubectl argo rollouts dashboard
+```
+
+and navigate to http://localhost:3100 and chose the `myapp-prod` namespace, you should see the following:
+
+![My quarkus Argo Rollouts](./media/myquarkus-argorollouts.png "My quarkus Argo Rollouts")
+
+Go back to Backstage and click on the metrics link
+
+![My quarkus metrics link](./media/myquarkus-metrics-link.png "My quarkus metrics link")
+
+TODO Add image of SRE metrics
+
+Now it's time to add a database component to the `myapp` application.
+Navigate back to Backstage and select the database component
+
+![Database Component](./media/database-component.png "Database Component")
+
+![Database Component Form](./media/database-component-form.png "Database Component Form")
+
+This will create a PR to the `myapp-gitops` repository, approve the PR
+
+![MyDB PR](./media/mydb-pr.png "MyDB PR")
+
+refresh the `myapp` argocd root application and verify that new applications have been added:
+
+![MyDB Argocd](./media/mydb-argocd.png "MyDB ArgoCD")
+
+navigate to the cockroachDB console and verify that the instances for each environment have been created:
+
+![MyDB CockroachDB instances](./media/mydb-cockroach-instances.png "MyDB CockroachDB instances")
+
+navigate to the Data Services tab in the OpenShift console and verify that the instances are detected:
+
+![MyDB DBaaS](./media/mydb-dbaas.png "MyDB DBaaS")
+
+navigate to the Vault Console https://vault.apps.${base_domain}. Use this script to retrieve the root token
+
+```shell
+oc get secret vault-init -n vault -o jsonpath='{.data.root_token}' | base64 -d
+```
+
+verify that database connections are created for each of the database instances:
+
+![MyDB Secret Engines](./media/mydb-secretengines.png "MyDB Secret Engines")
+
+navigate to one of the roles in one of the database connections and verify that it is possible to generate credentials
+
+![MyDB Generate Credentials](./media/mydb-generate-credentials.png "Generate Credentials")
