@@ -214,7 +214,7 @@ then run these commands
 source ./secrets.sh
 oc create secret generic sonarqube-credentials -n backstage --from-literal=SONARQUBE_TOKEN=${sonarqube_token}
 oc annotate secret sonarqube-credentials -n backstage reflector.v1.k8s.emberstack.com/reflection-allowed="true"
-oc annotate secret sonarqube-credentials -n backstage reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ''
+oc annotate secret sonarqube-credentials -n backstage reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces=""
 ```
 
 This should be all to setup the demo.
