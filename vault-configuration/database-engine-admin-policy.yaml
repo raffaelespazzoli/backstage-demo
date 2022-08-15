@@ -41,4 +41,9 @@ spec:
     path "/{{identity.entity.aliases.${accessor}.metadata.service_account_namespace}}/+/roles/+" {
       capabilities = [ "create", "read", "update", "delete"]
     }
+
+    # read secrets
+    path "/{{identity.entity.aliases.${accessor}.metadata.service_account_namespace}}/+/creds/+" {
+      capabilities = [ "read" ]
+    }
     
