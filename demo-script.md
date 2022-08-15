@@ -155,3 +155,123 @@ verify that database connections are created for each of the database instances:
 navigate to one of the roles in one of the database connections and verify that it is possible to generate credentials
 
 ![MyDB Generate Credentials](./media/mydb-generate-credentials.png "Generate Credentials")
+
+Let's now configure to our myquarkus application to connect to the databases.
+For the first time on this demo we have to actually write some code, so bear with us.
+Checkout the code or access it via the WebIDE and perform the following changes:
+
+in `src/main/java/io/raffa` create a file named `SantaClausService.java` file with the following content:
+
+```java
+package io.raffa;
+
+import java.util.List;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
+@ApplicationScoped
+public class SantaClausService {
+
+    @Inject
+    EntityManager em;
+
+    @Transactional
+    public List<Gift> getGifts() {
+        return (List<Gift>) em.createQuery("select g from Gift g").getResultList();
+    }
+```
+
+in `src/main/java/io.raffa` create a file named `Gift.java` with the following content: 
+
+```java
+package io.raffa;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Gift {
+
+    private Long id;
+    private String name;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="giftSeq")
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
+in the `pom.xml` file add the following dependencies: 
+
+```xml
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-orm</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-postgresql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-h2</artifactId>
+    </dependency>
+```
+
+in scr/main/resources/application.properties add the following configuration
+
+```properties
+quarkus.devservices.enabled=false
+
+quarkus.vault.url = https://vault.vault.svc:8200
+quarkus.vault.tls.skip-verify = true
+
+quarkus.vault.authentication.kubernetes.role = database-engine-admin
+
+quarkus.vault.credentials-provider.mydb.credentials-role = mydb-${myquarkus.environment.suffix}-read-write
+quarkus.vault.credentials-provider.mydb.credentials-mount = myapp-${myquarkus.environment.suffix}/mydb-${myquarkus.environment.suffix}
+
+%dev.quarkus.datasource.db-kind = h2
+%test.quarkus.datasource.db-kind = h2
+%test.quarkus.datasource.jdbc.url=jdbc:h2:mem:default
+%dev.quarkus.datasource.jdbc.url=jdbc:h2:mem:default
+
+mydb.id=dummy
+%remote_dev.mydb.id = 3582
+%qa.mydb.id = 3584
+%prod.mydb.id= 3583
+
+quarkus.datasource.db-kind = postgresql
+%remote_dev.quarkus.datasource.credentials-provider = mydb
+%qa.quarkus.datasource.credentials-provider = mydb
+%prod.quarkus.datasource.credentials-provider = mydb
+quarkus.datasource.jdbc.url = jdbc:postgresql://free-tier4.aws-us-west-2.cockroachlabs.cloud:26257/defaultdb?sslmode=require&options=--cluster%3Dmyapp-${myquarkus.environment.suffix}-mydb-${myquarkus.environment.suffix}-${mydb.id}
+
+# drop and create the database at startup (use `update` to only update the schema)
+quarkus.hibernate-orm.database.generation=drop-and-create
+```
+
+Notice the `mydb.id`, you need to figure out this id on your own. One way to do it is to go to the cockroachdb console and see what the connection string should look like
+
+![MyDB ID](./media/mydb-id.png "MyDB ID")
+
+Commit this changes, this will trigger a build and roll-out of the app, verify that the pods are correct connected to the databases.
