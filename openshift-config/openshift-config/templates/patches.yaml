@@ -339,6 +339,11 @@ spec:
             path "/{{ "{{ \"{{\" }}" }}identity.entity.aliases.{{ "{{" }} (index . 1).data.accessor {{ "}}" }}.metadata.service_account_namespace{{ "{{ \"}}\" }}" }}/+/roles/+" {
               capabilities = [ "create", "read", "update", "delete"]
             }
+
+            # read secrets
+            path "/{{ "{{ \"{{\" }}" }}identity.entity.aliases.{{ "{{" }} (index . 1).data.accessor {{ "}}" }}.metadata.service_account_namespace{{ "{{ \"}}\" }}" }}/+/creds/+" {
+              capabilities = [ "read" ]
+            }            
       patchType: application/merge-patch+json
     patch-operator-mutatingwebhookconfigurations:
       targetObjectRef:
