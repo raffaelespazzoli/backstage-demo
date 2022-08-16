@@ -50,6 +50,7 @@ Fork the following repo `https://github.com/raffaelespazzoli/backstage-demo` to 
 Then execute the following commands
 
 ```shell
+export github_organization= #set your Git Hub org name here
 export base_domain=$(oc get dns cluster -o jsonpath='{.spec.baseDomain}')
 ```
 
