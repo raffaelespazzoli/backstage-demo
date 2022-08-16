@@ -70,7 +70,7 @@ Fork the following repo `https://github.com/raf-backstage-demo/shared-workflows`
 Then execute the following commands
 
 ```shell
-git clone git@github.com:${github_organization}//shared-workflows.git
+git clone git@github.com:${github_organization}/shared-workflows.git
 cd shared-workflows
 find . -type f -not -path '*/\.git/*' -exec sed -i "s/raf-backstage-demo/${github_organization}/g" {} +
 find . -type f -not -path '*/\.git/*' -exec sed -i "s/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g" {} +
