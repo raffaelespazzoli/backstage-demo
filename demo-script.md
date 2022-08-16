@@ -44,7 +44,7 @@ Verify that in the build namespaces some secrets needed for the build are automa
 
 If you accidentally delete those secrets, they will be re-provisioned.
 
-Verify that you can access the new argocd instance for the `myapp` application at https://tenant-gitops-server-myapp-build.apps.${baseurl}/applications
+Verify that you can access the new argocd instance for the `myapp` application at `https://tenant-gitops-server-myapp-build.apps.${baseurl}/applications`
 
 ![Myapp ArgoCD root app](./media/myapp-argocd-rootapp.png "Myapp ArgoCD root app")
 
@@ -68,7 +68,7 @@ Verify that now the myapp ArgoCD is updated with new manifests:
 
 ![Myapp-gitops myquarkus manifests](./media/myapp-gitops-myquarkus-manifests.png "Myapp-gitops myquarkus manifests")
 
-The apps at this point will not be healthy as the application image may not be built yet. Not that in this demo as soon as an applicaiton image is built, it is immediately pushed to production. This is obviously a simplification.
+The apps at this point will not be healthy as the application image may not be built yet. Note that, in this, demo as soon as an applicaiton image is built, it is immediately pushed to production. This is obviously a simplification.
 
 Verify and explore the new `myquarkus` repository, it contains a hello world quarkus service
 
@@ -102,14 +102,14 @@ Go back to Backstage and verify that the `myquarkus` component pods has been dep
 
 ![My quarkus Pods](./media/myquarkus-pods.png "My quarkus Pods")
 
-Verify that progressive delivery is enabled via ArgoRollouts. 
+Verify that progressive delivery is enabled via ArgoRollouts.
 Run the following command
 
 ```shell
 kubectl argo rollouts dashboard
 ```
 
-and navigate to http://localhost:3100 and chose the `myapp-prod` namespace, you should see the following:
+and navigate to `http://localhost:3100` and chose the `myapp-prod` namespace, you should see the following:
 
 ![My quarkus Argo Rollouts](./media/myquarkus-argorollouts.png "My quarkus Argo Rollouts")
 
@@ -142,7 +142,7 @@ navigate to the Data Services tab in the OpenShift console and verify that the i
 
 ![MyDB DBaaS](./media/mydb-dbaas.png "MyDB DBaaS")
 
-navigate to the Vault Console https://vault.apps.${base_domain}. Use this script to retrieve the root token
+navigate to the Vault Console `https://vault.apps.${base_domain}`. Use this script to retrieve the root token
 
 ```shell
 oc get secret vault-init -n vault -o jsonpath='{.data.root_token}' | base64 -d
@@ -184,7 +184,7 @@ public class SantaClausService {
     }
 ```
 
-in `src/main/java/io.raffa` create a file named `Gift.java` with the following content: 
+in `src/main/java/io.raffa` create a file named `Gift.java` with the following content:
 
 ```java
 package io.raffa;
@@ -220,7 +220,7 @@ public class Gift {
 }
 ```
 
-in the `pom.xml` file add the following dependencies: 
+in the `pom.xml` file add the following dependencies:
 
 ```xml
     <dependency>
@@ -275,3 +275,14 @@ Notice the `mydb.id`, you need to figure out this id on your own. One way to do 
 ![MyDB ID](./media/mydb-id.png "MyDB ID")
 
 Commit this changes, this will trigger a build and roll-out of the app, verify that the pods are correct connected to the databases.
+In the pod's log you should see the following:
+
+```text
+__ ____ __ _____ ___ __ ____ ______
+--/ __ \/ / / / _ | / _ \/ //_/ / / / __/
+-/ /_/ / /_/ / __ |/ , _/ ,< / /_/ /\ \
+--\___\_\____/_/ |_/_/|_/_/|_|\____/___/
+2022-08-16 14:37:06,035 INFO [io.quarkus] (main) myquarkus 1.0.0-SNAPSHOT native (powered by Quarkus 2.11.2.Final) started in 0.397s. Listening on: http://0.0.0.0:8080
+2022-08-16 14:37:06,035 INFO [io.quarkus] (main) Profile remote_dev activated.
+2022-08-16 14:37:06,035 INFO [io.quarkus] (main) Installed features: [agroal, cdi, hibernate-orm, jdbc-h2, jdbc-postgresql, narayana-jta, resteasy, smallrye-context-propagation, vault, vertx]
+```

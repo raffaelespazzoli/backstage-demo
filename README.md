@@ -46,7 +46,7 @@ For the future we plan to add monitoring to the runtime experience.
 
 ### Repository preparation
 
-Fork the following repo https://github.com/raffaelespazzoli/backstage-demo to your organization.
+Fork the following repo `https://github.com/raffaelespazzoli/backstage-demo` to your organization.
 Then execute the following commands
 
 ```shell
@@ -65,7 +65,7 @@ git push
 cd ..
 ```
 
-Fork the following repo https://github.com/raf-backstage-demo/shared-workflows to your organization.
+Fork the following repo `https://github.com/raf-backstage-demo/shared-workflows` to your organization.
 Then execute the following commands
 
 ```shell
@@ -79,7 +79,7 @@ git push
 cd ..
 ```
 
-Fork the following repo https://github.com/raf-backstage-demo/software-templates to your organization.
+Fork the following repo `https://github.com/raf-backstage-demo/software-templates` to your organization.
 Then execute the following commands
 
 ```shell
@@ -93,7 +93,7 @@ git push
 cd ..
 ```
 
-Fork the following repo https://github.com/raf-backstage-demo/backstage-app-demo to your organization.
+Fork the following repo `https://github.com/raf-backstage-demo/backstage-app-demo` to your organization.
 Edit this code to add and remove backstage plugins. Also in order for the image to be available at least the packages produced by this repo must be publicly available.
 
 ```shell
@@ -107,7 +107,7 @@ git push
 cd ..
 ```
 
-Create the following repo in your organization: https://github.com/${github_organization}/approved-namespaces with an empty readme file.
+Create the following repo in your organization: `https://github.com/${github_organization}/approved-namespaces` with an empty readme file.
 
 The rest of the demo should be deployed by the gitops operator following the steps below.
 
@@ -196,7 +196,7 @@ This demo has the following system requirements:
 2. minimum cluster cpu capacity: 20 CPUs
 3. minimum worker node size 16GB 4CPUs (needed for eclipse che)
 
-now from your modified https://github.com/${github_organization}/backstage-demo repo run the following commands
+now from your modified `https://github.com/${github_organization}/backstage-demo` repo run the following commands
 
 ```shell
 oc apply -f ./argocd/operator.yaml
@@ -206,7 +206,7 @@ oc apply -f ./argocd/argocd.yaml
 oc apply -f ./argocd/argo-root-application.yaml
 ```
 
-You may need to resync a few times to get all the argocd apps going. Check the gitops status here: https://openshift-gitops-server-openshift-gitops.apps.${base_domain}
+You may need to resync a few times to get all the argocd apps going. Check the gitops status here: `https://openshift-gitops-server-openshift-gitops.apps.${base_domain}`
 Once soraqube is up and running connect to it `https://sonarqube-sonarqube.apps.${basedomain}` with admin/admin and create a new admin token (Administration->security->users->admin->tokens).
 Add it to your ./secrets.sh file with the env variable ${sonarqube_token}
 
