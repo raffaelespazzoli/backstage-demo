@@ -124,7 +124,10 @@ It requires some manual preparation steps for tasks that do not seem automate-ab
 6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${based_domain}`. The webhook secret is hardcoded to `ciao`.
 7. create a GitHub Application for the group-sync-operator following the instructions [here](https://github.com/redhat-cop/group-sync-operator#as-a-github-app). Store the ssh key pem in a file called `group-sync-operator-app-key.pem`, it will be ignored by git.
 8. create a GitHub Application for the vault-config-operator. Store the ssh key pem in a file called `vault-github-app-key.pem`, it will be ignored by git. Follow [these instructions](https://github.com/martinbaillie/vault-plugin-secrets-github#setup-github)
-9. create an organization in quay (this should have the same name as the github org) and create a token with admin privileges on it.
+
+![Vault App permissions](./media/vault-github-app-permissions.png "Vault App permissions")
+
+9.  create an organization in quay (this should have the same name as the github org) and create a token with admin privileges on it.
 10. create and account in [cockrachdb serverless](https://www.cockroachlabs.com/get-started-cockroachdb/) and extract a service account with full control.
 
 Create a client secret for each of the OAuth apps.
