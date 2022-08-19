@@ -121,7 +121,7 @@ It requires some manual preparation steps for tasks that do not seem automate-ab
 3. create an Oauth app in this organization for Code Ready Workspaces / Eclipse Che. The call back url should be `https://eclipse-che.apps.${based_domain}/api/oauth/callback`
 4. create an Oauth app in this organization for OpenShift. The call back url should be `https://oauth-openshift.apps.${based_domain}/oauth2callback/backstage-demo-github/`
 5. create a Personal Access Token (PAT) with an account that is administrator to the chosen organization.
-6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${based_domain}`. The webhook secret is hardcoded to `ciao`.
+6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${based_domain}`.
 
 ![Action Runner App permissions](./media/github-action-runner-permissions.png "Action Runner App permissions")
 
@@ -134,6 +134,9 @@ It requires some manual preparation steps for tasks that do not seem automate-ab
 ![Vault App permissions](./media/vault-github-app-permissions.png "Vault App permissions")
 
 9.  create an organization in quay (this should have the same name as the github org) and create a token with admin privileges on it.
+
+![Quay permissions](./media/quay-permissions.png "Quay permissions")
+
 10. create and account in [cockrachdb serverless](https://www.cockroachlabs.com/get-started-cockroachdb/) and extract a service account with full control.
 
 Create a client secret for each of the OAuth apps.
