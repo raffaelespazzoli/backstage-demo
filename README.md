@@ -122,7 +122,13 @@ It requires some manual preparation steps for tasks that do not seem automate-ab
 4. create an Oauth app in this organization for OpenShift. The call back url should be `https://oauth-openshift.apps.${based_domain}/oauth2callback/backstage-demo-github/`
 5. create a Personal Access Token (PAT) with an account that is administrator to the chosen organization.
 6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${based_domain}`. The webhook secret is hardcoded to `ciao`.
+
+![Action Runner App permissions](./media/github-action-runner-permissions.png "Action Runner App permissions")
+
 7. create a GitHub Application for the group-sync-operator following the instructions [here](https://github.com/redhat-cop/group-sync-operator#as-a-github-app). Store the ssh key pem in a file called `group-sync-operator-app-key.pem`, it will be ignored by git.
+
+![Group Sync Operator App permissions](./media/github-app-group-sync-operator-permissions.png "Group Sync Operator App permissions")
+
 8. create a GitHub Application for the vault-config-operator. Store the ssh key pem in a file called `vault-github-app-key.pem`, it will be ignored by git. Follow [these instructions](https://github.com/martinbaillie/vault-plugin-secrets-github#setup-github)
 
 ![Vault App permissions](./media/vault-github-app-permissions.png "Vault App permissions")
