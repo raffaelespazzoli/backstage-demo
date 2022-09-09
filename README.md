@@ -50,6 +50,7 @@ Fork the following repo `https://github.com/raffaelespazzoli/backstage-demo` to 
 Then execute the following commands
 
 ```shell
+export github_organization= #set your Git Hub org name here
 export base_domain=$(oc get dns cluster -o jsonpath='{.spec.baseDomain}')
 ```
 
@@ -69,7 +70,7 @@ Fork the following repo `https://github.com/raf-backstage-demo/shared-workflows`
 Then execute the following commands
 
 ```shell
-git clone git@github.com:${github_organization}//shared-workflows.git
+git clone git@github.com:${github_organization}/shared-workflows.git
 cd shared-workflows
 find . -type f -not -path '*/\.git/*' -exec sed -i "s/raf-backstage-demo/${github_organization}/g" {} +
 find . -type f -not -path '*/\.git/*' -exec sed -i "s/control-cluster-raffa.demo.red-chesterfield.com/${base_domain}/g" {} +
@@ -117,11 +118,11 @@ This demo is based on GitHub. Create an github org that you'll use with this dem
 It requires some manual preparation steps for tasks that do not seem automate-able on GitHub (at least i was no able to automate them).
 
 1. create a new organization or reuse an existing one.
-2. create an Oauth app in this organization for backstage. The call back url should be `https://backstage.apps.${based_domain}/api/auth/github`
-3. create an Oauth app in this organization for Code Ready Workspaces / Eclipse Che. The call back url should be `https://eclipse-che.apps.${based_domain}/api/oauth/callback`
-4. create an Oauth app in this organization for OpenShift. The call back url should be `https://oauth-openshift.apps.${based_domain}/oauth2callback/backstage-demo-github/`
+2. create an Oauth app (under 'Developer Settings') in this organization for backstage. The call back url should be `https://backstage.apps.${base_domain}/api/auth/github`
+3. create an Oauth app in this organization for Code Ready Workspaces / Eclipse Che. The call back url should be `https://eclipse-che.apps.${base_domain}/api/oauth/callback`
+4. create an Oauth app in this organization for OpenShift. The call back url should be `https://oauth-openshift.apps.${base_domain}/oauth2callback/backstage-demo-github/`
 5. create a Personal Access Token (PAT) with an account that is administrator to the chosen organization.
-6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${based_domain}`.
+6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${base_domain}`.
 
 ![Action Runner App permissions](./media/github-action-runner-permissions.png "Action Runner App permissions")
 
@@ -219,7 +220,7 @@ oc apply -f ./argocd/argo-root-application.yaml
 ```
 
 You may need to resync a few times to get all the argocd apps going. Check the gitops status here: `https://openshift-gitops-server-openshift-gitops.apps.${base_domain}`
-Once soraqube is up and running connect to it `https://sonarqube-sonarqube.apps.${basedomain}` with admin/admin and create a new admin token (Administration->security->users->admin->tokens).
+Once sonarqube is up and running connect to it `https://sonarqube-sonarqube.apps.${base_domain}` with admin/admin and create a new admin token (Administration->security->users->admin->tokens).
 Add it to your ./secrets.sh file with the env variable ${sonarqube_token}
 
 then run these commands
@@ -233,7 +234,7 @@ oc annotate secret sonarqube-credentials -n backstage reflector.v1.k8s.emberstac
 
 This should be all to setup the demo.
 
-Start enjoying the demo from here `https://backstage.apps.${based_domain}`.
+Start enjoying the demo from here `https://backstage.apps.${base_domain}`.
 
 Once everything is up and running you can run the [demo script](./demo-script.md).
 
