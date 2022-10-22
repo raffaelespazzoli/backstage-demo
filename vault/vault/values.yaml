@@ -121,7 +121,7 @@ vault:
             while true; do
               sleep 5
               if [[ $(vault status | grep "Initialized" | grep "false") ]]; then
-                export INIT_RESPONSE=$(vault operator init -format=json -key-shares 1 -key-threshold 1)
+                export INIT_RESPONSE=$(vault operator init -format=json -key-shares=1 -key-threshold=1)
                 echo "$INIT_RESPONSE"
                 export UNSEAL_KEY=$(echo "$INIT_RESPONSE" | /usr/local/libexec/vault/jq -r .unseal_keys_b64[0])
                 export ROOT_TOKEN=$(echo "$INIT_RESPONSE" | /usr/local/libexec/vault/jq -r .root_token)
