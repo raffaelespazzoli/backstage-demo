@@ -140,6 +140,12 @@ data:
           target: https://github.com/${GITHUB_ORG}/approved-namespaces/blob/-/systems/*.yaml
           rules:
             - allow: [System]
+        
+        # vms discovery
+        - type: github-discovery
+          target: https://github.com/${GITHUB_ORG}/*-gitops/blob/-/vms/resource.yaml
+          rules:
+            - allow: [Resource]            
 
         # Resources discovery    
         - type: github-discovery
