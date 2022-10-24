@@ -377,5 +377,15 @@ spec:
       - apiVersion: dbaas.redhat.com/v1alpha1
         kind: DBaaSInstance
         namespace: "{{ "{{" }} .metadata.namespace {{ "}}" }}"
-        name: "{{ "{{" }} .metadata.name {{ "}}" }}"                     
+        name: "{{ "{{" }} .metadata.name {{ "}}" }}"
+    olm-config-disable-csv-copy:
+      patchType: application/merge-patch+json
+      targetObjectRef:
+        apiVersion: operators.coreos.com/v1
+        kind: OLMConfig
+        name: cluster        
+      patchTemplate: |
+        spec:
+          features:
+            disableCopiedCSVs: true                             
              
