@@ -123,7 +123,12 @@ data:
         - type: url
           target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/cockroach-template/template.yaml
           rules:
-            - allow: [Template]                      
+            - allow: [Template]      
+        - type: url
+          target: https://github.com/${GITHUB_ORG}/software-templates/blob/main/scaffolder-templates/vm-template/template.yaml
+          rules:
+            - allow: [Template]            
+
 
         - type: github-discovery
           target: https://github.com/${GITHUB_ORG}
