@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: aap
+  name: openshift-virtualization-operator
   namespace: openshift-gitops
   finalizers:
   - resources-finalizer.argocd.argoproj.io  
