@@ -1,0 +1,15 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: 'aap-admin'
+subjects:
+  - kind: ServiceAccount
+    name: aap
+    namespace: ansible-automation-platform
+  - kind: ServiceAccount
+    name: automationhub-operator-sa
+    namespace: ansible-automation-platform    
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: 'admin' 

@@ -12,7 +12,8 @@ spec:
     targetRevision: HEAD
     path: ansible-automation-platform
     directory:
-      include: aap.yaml
+      include: "*.yaml"
+      exclude: operator.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: ansible-automation-platform
