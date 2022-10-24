@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
     targetRevision: HEAD
-    path: ansible-automation-operator
+    path: ansible-automation-platform
     directory:
       include: aap.yaml
   destination:
