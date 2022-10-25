@@ -77,6 +77,11 @@ spec:
                     name: openshift-cnv
               - namespaceSelector:
                   matchLabels:
-                    name: openshift-virtualization-os-images                           
+                    name: openshift-virtualization-os-images  
+              ports:
+              - protocol: TCP
+                port: 443
+              - protocol: TCP
+                port: 8443                                                             
           policyTypes:
             - Ingress                                           
