@@ -22,12 +22,12 @@ The onboarding time is the first time a developer experience the platform that c
 
 1. user on-boarding. A user must be invited to the github organization. This is equivalent to HR onboarding an employee into the enterprise IDP.
 2. Application onboarding. An application is declared to exist and belong to a team. This application is given a set of namespace for its SDLC. This process is not defined yet.
-3. Component onboarding. A software component which resides in a repo is onboarded to the system. It will be pre-configured to work with Code ready workspace and to be deployed by the pipelines to the previously defined namespace. This happens via the scaffolder feature of Backstage
+3. Component onboarding. A software component which resides in a repo is onboarded to the system. It will be pre-configured to work with OpenShift Dev Spaces and to be deployed by the pipelines to the previously defined namespace. This happens via the scaffolder feature of Backstage
 
 ## Code time
 
 The purpose of the coding time experience is to provide a comfortable environment for developers to code and to run their inner loop. Ideally setting up the workspace should be immediate and the inner loop should be very fast (no more than ~30 seconds) while at the same time running the software components in an environment that is as close as possible as to what production will be.
-In this demo the coding is done in Code Ready Workspaces. Each developer gets one or more workspaces for their software components which are easily accessible from Backstage.
+In this demo the coding is done in OpenShift Dev Spaces. Each developer gets one or more workspaces for their software components which are easily accessible from Backstage.
 
 ## Build time
 
@@ -119,7 +119,7 @@ It requires some manual preparation steps for tasks that do not seem automate-ab
 
 1. create a new organization or reuse an existing one.
 2. create an Oauth app (under 'Developer Settings') in this organization for backstage. The call back url should be `https://backstage.apps.${base_domain}/api/auth/github`
-3. create an Oauth app in this organization for Code Ready Workspaces / Eclipse Che. The call back url should be `https://eclipse-che.apps.${base_domain}/api/oauth/callback`
+3. create an Oauth app in this organization for OpenShift Dev Spaces. The call back url should be `https://devspaces.apps.${base_domain}/api/oauth/callback`
 4. create an Oauth app in this organization for OpenShift. The call back url should be `https://oauth-openshift.apps.${base_domain}/oauth2callback/backstage-demo-github/`
 5. create a Personal Access Token (PAT) with an account that is administrator to the chosen organization.
 6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${base_domain}`.
@@ -149,8 +149,8 @@ export github_organization=<org_name>
 export backstage_github_client_id=<backstage_oauth_app_id>
 export backstage_github_client_secret=<backstage_oauth_app_secret>
 
-export crw_github_client_id=<crw_oauth_app_id>
-export crw_github_client_secret=<crw_oauth_app_secret>
+export devspaces_github_client_id=<devspaces_oauth_app_id>
+export devspaces_github_client_secret=<devspaces_oauth_app_secret>
 
 export ocp_github_client_id=<ocp_oauth_app_id>
 export ocp_github_client_secret=<ocp_oauth_app_secret>
@@ -183,10 +183,10 @@ source ./secrets.sh
 Run the following commands to populate the Kubernetes secrets with the previously generated values (this is fine for a demo, it might not be fine for a production environment):
 
 ```shell
-oc new-project eclipse-che
-oc create secret generic github-oauth-config --from-literal=id=${crw_github_client_id} --from-literal=secret=${crw_github_client_secret} -n eclipse-che
-oc label secret github-oauth-config -n eclipse-che --overwrite=true app.kubernetes.io/part-of=che.eclipse.org app.kubernetes.io/component=oauth-scm-configuration
-oc annotate secret github-oauth-config -n eclipse-che --overwrite=true che.eclipse.org/oauth-scm-server=github
+oc create namespace openshift-devspaces
+oc create secret generic github-oauth-config --from-literal=id=${devspaces_github_client_id} --from-literal=secret=${devspaces_github_client_secret} -n openshift-devspaces
+oc label secret github-oauth-config -n openshift-devspaces --overwrite=true app.kubernetes.io/part-of=che.eclipse.org app.kubernetes.io/component=oauth-scm-configuration
+oc annotate secret github-oauth-config -n openshift-devspaces --overwrite=true che.eclipse.org/oauth-scm-server=github
 oc create secret generic ocp-github-app-credentials -n openshift-config --from-literal=client_id=${ocp_github_client_id} --from-literal=clientSecret=${ocp_github_client_secret}
 oc new-project backstage
 oc create secret generic github-credentials -n backstage --from-literal=AUTH_GITHUB_CLIENT_ID=${backstage_github_client_id} --from-literal=AUTH_GITHUB_CLIENT_SECRET=${backstage_github_client_secret} --from-literal=GITHUB_TOKEN=${org_admin_pat} --from-literal=GITHUB_ORG=${github_organization}
@@ -207,7 +207,7 @@ This demo has the following system requirements:
 
 1. minimum cluster memory capacity 70 GB
 2. minimum cluster cpu capacity: 20 CPUs
-3. minimum worker node size 16GB 4CPUs (needed for eclipse che)
+3. minimum worker node size 16GB 4CPUs (needed for OpenShift Dev Spaces)
 
 now from your modified `https://github.com/${github_organization}/backstage-demo` repo run the following commands
 
@@ -245,7 +245,7 @@ oc delete -n openshift-config secret ocp-github-app-credentials
 oc delete -n openshift-config secret ghcr-puller
 oc delete -n openshift-config secret ghcr-pusher
 
-oc delete -n eclipse-che secret github-oauth-config
+oc delete -n openshift-devspaces secret github-oauth-config
 oc delete -n backstage secret github-credentials
 oc delete -n actions-runner-system secret controller-manager
 oc delete -n group-sync-operator secret github-group-sync
@@ -275,7 +275,7 @@ In no particular order, these are the features that this demo intend to showcase
   - github action runner deployment for build namespaces
 - automatic group sync from github teams
 - product/app/service catalog via backstage
-- inner loop via CRW. each dev gets access to a namespace ein which they can stand up a theia/vscode/intellij instance pointing to the repo of their components and code immediately
+- inner loop via OpenShift Dev Spaces. each dev gets access to a namespace in which they can stand up a theia/vscode/intellij instance pointing to the repo of their components and code immediately
 - outer loop via github action. A pipeline as a service model is implemented as part og the golden path. Dev can call that pipeline of write their own.
 - PR checks implemented as ci
 - pipeline observability suite via Pelorus. Pelorus exposes the Accelerate metrics
@@ -302,12 +302,12 @@ Processes:
 
 Tech:
 
-1. CRW still does not have a good inner loop. perhaps integrate tilt?
+1. OpenShift Dev Spaces still does not have a good inner loop. perhaps integrate tilt?
 
 Demo next steps
 
 - Integrate pelorus and monitoring of ci/cd metrics in backstage
-- implement the inner loop in CRW, improve workspace boot time, update to CRW new operator?
+- implement the inner loop in Dev Spaces, improve workspace boot time?
 - harden the pull/push secret scopes to exactly the repos needed by the app
 - create a git token secret for the ci/cd process (generalizes the approach when not using github action)
 - move to tekton when pipeline as a service is supported.
