@@ -74,10 +74,10 @@ spec:
             - from:
               - namespaceSelector:
                   matchLabels:
-                    name: openshift-cnv
+                    kubernetes.io/metadata.name: openshift-cnv
               - namespaceSelector:
                   matchLabels:
-                    name: openshift-virtualization-os-images  
+                    kubernetes.io/metadata.name: openshift-virtualization-os-images  
               ports:
               - protocol: TCP
                 port: 443
