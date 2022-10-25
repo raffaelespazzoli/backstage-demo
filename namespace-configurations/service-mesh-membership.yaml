@@ -74,6 +74,9 @@ spec:
             - from:
               - namespaceSelector:
                   matchLabels:
-                    name: openshift-cnv       
+                    name: openshift-cnv
+              - namespaceSelector:
+                  matchLabels:
+                    name: openshift-virtualization-os-images                           
           policyTypes:
             - Ingress                                           
