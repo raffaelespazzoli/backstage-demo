@@ -157,8 +157,8 @@ spec:
             pull_requests: write
             metadata: read
             contents: write
-            repo: write
-            repo_hook: write
+            repos: write
+            repo_hooks: write
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
