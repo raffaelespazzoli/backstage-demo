@@ -176,3 +176,8 @@ spec:
             name: github-credentials
             stringData:
               token: "{{ "{{" }} .githubtoken.token {{ "}}" }}"
+              .gitconfig: |
+                [credential "https://github.com"]
+                  helper = store
+              .git-credentials: |
+                https://git:{{ "{{" }} .githubtoken.token {{ "}}" }}@github.com              
