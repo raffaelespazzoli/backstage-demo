@@ -1,0 +1,42 @@
+apiVersion: org.eclipse.che/v2
+kind: CheCluster
+metadata:
+  name: devspaces
+  namespace: openshift-devspaces
+spec:
+  devEnvironments:
+    defaultEditor: che-incubator/che-code/insiders
+    defaultNamespace:
+      template: <username>-devspaces
+    secondsOfInactivityBeforeIdling: -1
+    secondsOfRunBeforeIdling: -1
+    storage:
+      pvcStrategy: per-user
+  components:
+    cheServer:
+      debug: false
+      logLevel: INFO
+    dashboard: {}
+    database:
+      credentialsSecretName: postgres-credentials
+      externalDb: false
+      postgresDb: dbche
+      postgresHostName: postgres
+      postgresPort: "5432"
+      pvc:
+        claimSize: 1Gi
+    devWorkspace: {}
+    devfileRegistry: {}
+    imagePuller:
+      enable: false
+      spec: {}
+    metrics:
+      enable: true
+    pluginRegistry: {}
+  containerRegistry: {}
+  networking:
+    auth:
+      gateway:
+        configLabels:
+          app: che
+          component: che-gateway-config

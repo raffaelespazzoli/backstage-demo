@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: codeready-workspaces-instance
+  name: devspaces-instance
   namespace: openshift-gitops
   finalizers:
   - resources-finalizer.argocd.argoproj.io  
@@ -10,12 +10,12 @@ spec:
   source:
     repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
     targetRevision: HEAD
-    path: codeready-workspaces/eclipse-che
+    path: devspaces
     directory:
       include: instance.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: eclipse-che
+    namespace: openshift-devspaces
   syncPolicy:
     # automated:
     #   prune: true
@@ -32,6 +32,6 @@ spec:
   ignoreDifferences:
   - group: org.eclipse.che
     kind: CheCluster
-    name: codeready-workspaces
+    name: devspaces
     jsonPointers:
-    - /spec        
+    - /spec
