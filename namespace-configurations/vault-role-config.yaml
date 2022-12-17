@@ -151,8 +151,8 @@ spec:
             path: kubernetes
             role: policy-admin
           path: github
-          repositories: 
-          - {{ .Labels.app }}-gitops
+          organization_name: dummy
+          repositories: []
           permissions: 
             pull_requests: write
             metadata: read

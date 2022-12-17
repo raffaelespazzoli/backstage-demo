@@ -217,8 +217,20 @@ spec:
       patchTemplate: | 
         spec:
           applicationID: {{ "{{" }} (index . 1).data.github_app_id | b64dec {{ "}}" }}
-          organizationName: {{ "{{" }} (index . 1).data.github_org | b64dec {{ "}}" }}
       patchType: application/merge-patch+json
+    github-vault-secret-engine-role:
+      targetObjectRef:
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: GitHubSecretEngineRole
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        namespace: vault-admin
+        name: vault-github-plugin-creds        
+      patchTemplate: | 
+        spec:
+          organizationName: {{ "{{" }} (index . 1).data.github_org | b64dec {{ "}}" }}
+      patchType: application/merge-patch+json      
     kcp-secret-argocd:
       targetObjectRef:
         apiVersion: v1
