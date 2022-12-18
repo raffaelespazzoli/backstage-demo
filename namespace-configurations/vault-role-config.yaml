@@ -158,7 +158,7 @@ spec:
             metadata: read
             contents: write
             repository_hooks: write
-      excludePaths:
+      excludedPaths:
       - .spec.organizationName      
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
