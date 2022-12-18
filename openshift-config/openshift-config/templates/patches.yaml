@@ -232,7 +232,17 @@ spec:
       patchTemplate: | 
         spec:
           organizationName: {{ "{{" }} (index . 1).data.github_org | b64dec {{ "}}" }}
-      patchType: application/merge-patch+json      
+      patchType: application/merge-patch+json
+    argocd-admin-user-secret-for-tekton:
+      targetObjectRef:
+        apiVersion: v1
+        kind: Secret
+        namespace: argocd-secret       
+      patchTemplate: | 
+        data:
+          ARGOCD_USERNAME: {{ "{{" }} "admin" | b64enc {{ "}}" }}
+          ARGOCD_PASSWORD: {{ "{{" }} (index "admin.password" (index . 0).data) {{ "}}" }}
+      patchType: application/merge-patch+json         
     # kcp-secret-argocd:
     #   targetObjectRef:
     #     apiVersion: v1
