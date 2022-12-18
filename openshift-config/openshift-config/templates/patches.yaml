@@ -241,7 +241,7 @@ spec:
       patchTemplate: | 
         data:
           ARGOCD_USERNAME: {{ "{{" }} "admin" | b64enc {{ "}}" }}
-          ARGOCD_PASSWORD: {{ "{{" }} (index "admin.password" (index . 0).data) {{ "}}" }}
+          ARGOCD_PASSWORD: {{ "{{" }} (index (index . 0).data "admin.password") {{ "}}" }}
       patchType: application/merge-patch+json         
     # kcp-secret-argocd:
     #   targetObjectRef:
