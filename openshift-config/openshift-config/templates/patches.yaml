@@ -233,26 +233,26 @@ spec:
         spec:
           organizationName: {{ "{{" }} (index . 1).data.github_org | b64dec {{ "}}" }}
       patchType: application/merge-patch+json      
-    kcp-secret-argocd:
-      targetObjectRef:
-        apiVersion: v1
-        kind: Secret
-        name: kcp-secret
-        namespace: openshift-gitops
-      sourceObjectRefs:
-      - apiVersion: v1
-        kind: Secret
-        namespace: kcp
-        name: kcp-init
-      - apiVersion: v1
-        kind: ConfigMap
-        namespace: openshift-gitops
-        name: openshift-service-ca.crt              
-      patchTemplate: | 
-        {{ "{{-" }} $value:=dict "bearerToken" ((index . 1).data.token | toString | b64dec) "tlsClientConfig" (dict "caData" (index ((index . 2).data) "service-ca.crt" | b64enc )) {{ "}}" }}
-        data:
-          config: {{ "{{" }} $value | toJson | b64enc {{ "}}" }}
-      patchType: application/merge-patch+json
+    # kcp-secret-argocd:
+    #   targetObjectRef:
+    #     apiVersion: v1
+    #     kind: Secret
+    #     name: kcp-secret
+    #     namespace: openshift-gitops
+    #   sourceObjectRefs:
+    #   - apiVersion: v1
+    #     kind: Secret
+    #     namespace: kcp
+    #     name: kcp-init
+    #   - apiVersion: v1
+    #     kind: ConfigMap
+    #     namespace: openshift-gitops
+    #     name: openshift-service-ca.crt              
+    #   patchTemplate: | 
+    #     {{ "{{-" }} $value:=dict "bearerToken" ((index . 1).data.token | toString | b64dec) "tlsClientConfig" (dict "caData" (index ((index . 2).data) "service-ca.crt" | b64enc )) {{ "}}" }}
+    #     data:
+    #       config: {{ "{{" }} $value | toJson | b64enc {{ "}}" }}
+    #   patchType: application/merge-patch+json
     user-workload-grafana-app-patch:
       targetObjectRef:
         apiVersion: argoproj.io/v1alpha1

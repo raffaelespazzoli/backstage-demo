@@ -158,6 +158,8 @@ spec:
             metadata: read
             contents: write
             repository_hooks: write
+      excludePaths:
+      - .spec.organizationName      
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
