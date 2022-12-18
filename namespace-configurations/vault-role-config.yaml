@@ -32,7 +32,11 @@ spec:
               matchLabels:
                 team: {{ .Labels.team }}
           targetServiceAccounts:
-          - default      
+          - default
+      excludedPaths:
+        - .metadata
+        - .status
+        - .spec.replicas                
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: Policy
@@ -54,7 +58,11 @@ spec:
             }
             path "/quay/creds/{{ .Labels.team }}-pusher" {
               capabilities = ["read"]
-            }                        
+            }
+      excludedPaths:
+        - .metadata
+        - .status
+        - .spec.replicas                                     
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: QuaySecretEngineRole
@@ -67,7 +75,11 @@ spec:
             role: policy-admin
           path: quay
           namespaceName: raf-backstage-demo
-          defaultPermission: read            
+          defaultPermission: read
+      excludedPaths:
+        - .metadata
+        - .status
+        - .spec.replicas                       
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
@@ -88,7 +100,11 @@ spec:
             stringData:
               .dockerconfigjson: |
                 {"auths":{"quay.io":{"username":"{{ "{{" }} .quaytoken.username {{ "}}" }}","password":"{{ "{{" }} .quaytoken.password {{ "}}" }}","email":"{{ "{{" }} .quaytoken.username {{ "}}" }}@example.com","auth":"{{ "{{" }} list .quaytoken.username ":" .quaytoken.password | join "" | b64enc {{ "}}" }}"}}}
-            type: kubernetes.io/dockerconfigjson   
+            type: kubernetes.io/dockerconfigjson
+      excludedPaths:
+        - .metadata
+        - .status
+        - .spec.replicas                
 ---
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
@@ -118,7 +134,11 @@ spec:
           namespaceName: raf-backstage-demo
           namespaceType: organization
           defaultPermission: write
-          createRepositories: true  
+          createRepositories: true
+      excludedPaths:
+        - .metadata
+        - .status
+        - .spec.replicas             
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
@@ -140,6 +160,10 @@ spec:
               .dockerconfigjson: |
                 {"auths":{"quay.io":{"username":"{{ "{{" }} .quaytoken.username {{ "}}" }}","password":"{{ "{{" }} .quaytoken.password {{ "}}" }}","email":"{{ "{{" }} .quaytoken.username {{ "}}" }}@example.com","auth":"{{ "{{" }} list .quaytoken.username ":" .quaytoken.password | join "" | b64enc {{ "}}" }}"}}}
             type: kubernetes.io/dockerconfigjson
+      excludedPaths:
+        - .metadata
+        - .status
+        - .spec.replicas             
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: GitHubSecretEngineRole
@@ -159,7 +183,10 @@ spec:
             contents: write
             repository_hooks: write
       excludedPaths:
-      - .spec.organizationName      
+        - .spec.organizationName
+        - .metadata
+        - .status
+        - .spec.replicas             
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
@@ -183,4 +210,8 @@ spec:
                 [credential "https://github.com"]
                   helper = store
               .git-credentials: |
-                https://git:{{ "{{" }} .githubtoken.token {{ "}}" }}@github.com              
+                https://git:{{ "{{" }} .githubtoken.token {{ "}}" }}@github.com
+      excludedPaths:
+        - .metadata
+        - .status
+        - .spec.replicas                               
