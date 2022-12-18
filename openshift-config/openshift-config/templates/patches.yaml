@@ -241,7 +241,7 @@ spec:
       sourceObjectRefs:
       - apiVersion: v1
         kind: Secret
-        namespace: {{ "{{" }} .metadata.namespace {{ "}}" }}
+        namespace: '{{ "{{" }} .metadata.namespace {{ "}}" }}'
         name: argocd-secret
       patchTemplate: | 
         data:
