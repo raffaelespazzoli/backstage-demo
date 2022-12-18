@@ -151,7 +151,7 @@ spec:
             path: kubernetes
             role: policy-admin
           path: github
-          organization_name: dummy
+          organizationName: dummy
           repositories: []
           permissions: 
             pull_requests: write
