@@ -237,7 +237,7 @@ spec:
       targetObjectRef:
         apiVersion: v1
         kind: Secret
-        namespace: argocd-secret       
+        name: argocd-secret       
       patchTemplate: | 
         data:
           ARGOCD_USERNAME: {{ "{{" }} "admin" | b64enc {{ "}}" }}
