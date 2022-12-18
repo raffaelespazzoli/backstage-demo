@@ -237,11 +237,16 @@ spec:
       targetObjectRef:
         apiVersion: v1
         kind: Secret
-        name: argocd-secret       
+        name: argocd-env-secret
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Secret
+        namespace: {{ "{{" }} .metadata.namespace {{ "}}" }}
+        name: argocd-secret
       patchTemplate: | 
         data:
-          ARGOCD_USERNAME: {{ "{{" }} "admin" | b64enc {{ "}}" }}
-          ARGOCD_PASSWORD: {{ "{{" }} (index (index . 0).data "admin.password") {{ "}}" }}
+          ARGOCD_USERNAME: {{ "{{" }} "admin" | b64enc 
+          ARGOCD_PASSWORD: {{ "{{" }} (index (index . 1).data "admin.password") {{ "}}" }}
       patchType: application/merge-patch+json         
     # kcp-secret-argocd:
     #   targetObjectRef:
