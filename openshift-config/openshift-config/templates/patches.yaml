@@ -242,7 +242,7 @@ spec:
       - apiVersion: v1
         kind: Secret
         namespace: '{{ "{{" }} .metadata.namespace {{ "}}" }}'
-        name: argocd-secret
+        name: tenant-gitops-cluster
       patchTemplate: | 
         data:
           ARGOCD_USERNAME: {{ "{{" }} "admin" | b64enc {{ "}}" }}
