@@ -138,7 +138,7 @@ spec:
                 end
                 hs.status = "Progressing"
                 hs.message = "Waiting for DBaaSInstance to become Ready"
-                return hs            
+                return hs                                
 --- 
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
@@ -172,5 +172,5 @@ spec:
           namespace: "{{ index .Labels "build-namespace" }}"
         - kind: ServiceAccount
           name: tenant-gitops-argocd-dex-server
-          namespace: "{{ index .Labels "build-namespace" }}"          
-                     
+          namespace: "{{ index .Labels "build-namespace" }}"        
+                               

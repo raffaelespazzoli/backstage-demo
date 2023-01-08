@@ -1,0 +1,82 @@
+apiVersion: tekton.dev/v1beta1
+kind: ClusterTask
+metadata:
+  name: lease-management
+spec:
+  params:
+  - name: name
+    type: string
+    description: the name of the lease object
+  - name: timeout
+    type: string
+    default: "120"
+    description: time out after which the lease is considered invalid (needed only if action is acquire) expressed in seconds
+  - name: owner
+    type: string
+    description: the owner of the lease 
+  - name: action
+    type: string 
+    description: the action to perform on the lease (can be acquire or release)
+    default: acquire
+
+  steps:
+    - name: create-lease
+      image: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest
+      script: |
+        set -o errexit   # abort on nonzero exitstatus
+        set -o nounset   # abort on unbound variable
+
+        ## this function should block until the lease is acquiered or the timeout is passed after which we can assume we can safely acquire the lease
+        ## expected paramters
+        ## $1 lease name
+        ## $2 lease owner
+        ## $3 timeout
+        function acquire_lease() {
+            echo timeout ${3}s
+            # EOF in yaml is hard, so make a file the simple way
+            echo "apiVersion: coordination.k8s.io/v1" > e2e-lease.yaml
+            echo "kind: Lease" >> e2e-lease.yaml
+            echo "metadata:" >> e2e-lease.yaml
+            echo "  name: ${1}" >> e2e-lease.yaml
+            echo "spec:" >> e2e-lease.yaml
+            echo "  holderIdentity: ${2} " >> e2e-lease.yaml
+            echo "  acquireTime: $(date +%Y-%m-%dT%H:%M:%S.000000Z)" >> e2e-lease.yaml
+            echo "  leaseDurationSeconds: ${3}" >> e2e-lease.yaml
+            # Try to create a lease — either it succeeds, and we are good, or it fails, and then we wait for the lease to be deleted or a timeout, and then we make the lease if there was a deletion
+            # In the event of a timeout, clear out the dead lease so it doesn't mess up future builds
+            kubectl create --save-config -f e2e-lease.yaml || (echo Waiting for lease && kubectl wait --for=delete lease.coordination.k8s.io/${1} --timeout=${3}s || ( echo “Grabbing abandoned lease.” && kubectl delete lease.coordination.k8s.io/${1} ))
+            # We could be here for three reasons;
+            # either we successfully created a lease,
+            # we waited and another run's lease got deleted,
+            # or we waited and the other lease is still there.
+            # Run an apply to make sure a lease with our name and label now exists.
+            kubectl apply -f e2e-lease.yaml
+        }
+
+        ## this function releases the lease
+        ## expected paramters
+        ## $1 lease name
+        function release_lease() {
+            kubectl delete lease.coordination.k8s.io/${1} --ignore-not-found=true
+        }
+
+
+        ## expected paramters
+        ## $1 lease name
+        ## $2 lease owner
+        ## $3 timeout
+        ## $4 action
+
+        function manage_lease() {
+            if [ ${4} = "acquire" ]; then 
+                echo "acquiring lease ${1}"
+                acquire_lease ${1} ${2} ${3}
+            fi
+
+            if [ ${4} = "release" ]; then 
+                echo "releasing lease ${1}"
+                release_lease ${1}
+            fi
+        }
+
+        manage_lease $(params.name) $(params.owner) $(params.timeout) $(params.action)

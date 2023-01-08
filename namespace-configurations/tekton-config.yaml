@@ -1,0 +1,38 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: NamespaceConfig
+metadata:
+  name: tekton-configs
+spec:
+  labelSelector:
+    matchLabels:
+      environment: build
+  templates:   
+    - objectTemplate: |
+        # needed by tekton to observe the argocd deployment
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: argocd-env-secret
+          namespace: "{{ .Name }}"  
+    - objectTemplate: |
+        # needed by tekton to observe the argocd deployment
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: argocd-env-configmap
+          namespace: "{{ .Name }}"
+        data:
+          ARGOCD_SERVER: tenant-gitops-server.{{ .Name }}.svc:443      
+    - objectTemplate: |
+        # simple fix to prevent tekton object from erroring out
+        apiVersion: v1
+        kind: LimitRange
+        metadata:
+          name: tekton-defaults
+          namespace: "{{ .Name }}"
+        spec:
+          limits:
+          - defaultRequest:  # The default requests
+              cpu: 200m
+              memory: 500Mi
+            type: Container 

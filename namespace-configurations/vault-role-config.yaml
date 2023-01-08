@@ -214,4 +214,65 @@ spec:
       excludedPaths:
         - .metadata
         - .status
-        - .spec.replicas                               
+        - .spec.replicas
+---
+# the intent of these series of manifest is to create a kv secret engine for each tenant namespace and give the default sa read/write access to it. More precisely at this path: <team>/<app>-<environment>-kv
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: NamespaceConfig
+metadata:
+  name: namespace-kv-store
+spec:
+  labelSelector:
+    matchExpressions:
+      - key: team
+        operator: Exists
+  templates: 
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: SecretEngineMount
+        metadata:
+          name: {{.Name}}-kv
+          namespace: vault-admin
+        spec:
+          authentication: 
+            path: kubernetes
+            role: policy-admin
+          type: kv
+          path: {{ .Labels.team }}
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: Policy
+        metadata:
+          name: {{.Name}}-kv
+          namespace: vault-admin
+        spec:
+          authentication: 
+            path: kubernetes
+            role: policy-admin
+          policy: |
+            # read / write from the kv path
+            path "{{ .Labels.team }}/{{.Name}}-kv" {
+              capabilities = [ "create", "read", "update", "delete"]
+            }
+    - objectTemplate: |      
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: KubernetesAuthEngineRole
+        metadata:
+          name: {{.Name}}-kv
+          namespace: vault-admin
+        spec:
+          # Add fields here
+          authentication: 
+            path: kubernetes
+            role: policy-admin
+          path: kubernetes  
+          policies:
+            - {{.Name}}-kv
+          targetServiceAccounts:
+          - default  
+          targetNamespaces:
+            targetNamespaceSelector:
+              matchExpressions:
+                - key: kubernetes.io/metadata.name
+                  operator: In
+                  values: {{ .Name }}                                                   
