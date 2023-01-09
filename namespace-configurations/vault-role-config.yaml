@@ -255,7 +255,7 @@ spec:
               capabilities = [ "create", "read", "update", "delete"]
             }
             # read the password policy
-            path "sys/policies/password/-/generate" {
+            path "sys/policies/password/+/generate" {
               capabilities = [ "read" ]
             }
     - objectTemplate: |      
