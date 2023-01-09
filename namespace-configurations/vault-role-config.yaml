@@ -251,11 +251,11 @@ spec:
             role: policy-admin
           policy: |
             # read / write from the kv path
-            path "{{ .Labels.team }}/{{.Name}}-kv" {
+            path "{{ .Labels.team }}/{{.Name}}-kv/*" {
               capabilities = [ "create", "read", "update", "delete"]
             }
             # read the password policy
-            path "sys/policies/password/webhook/generate" {
+            path "sys/policies/password/-/generate" {
               capabilities = [ "read" ]
             }
     - objectTemplate: |      
