@@ -27,17 +27,20 @@ The onboarding time is the first time a developer experience the platform that c
 ## Code time
 
 The purpose of the coding time experience is to provide a comfortable environment for developers to code and to run their inner loop. Ideally setting up the workspace should be immediate and the inner loop should be very fast (no more than ~30 seconds) while at the same time running the software components in an environment that is as close as possible as to what production will be.
+
 In this demo the coding is done in OpenShift Dev Spaces. Each developer gets one or more workspaces for their software components which are easily accessible from Backstage.
 
 ## Build time
 
 The purpose of the build time experience is to keep running pipeline simple for the developers while at the same time allowing for pipelines rich of functionalities. This can be done with the concept of pipeline as a service by which we mean that a central team manages one or more pipelines and developer *invoke* those pipelines as is they were a service, passing some parameters.
+
 In this demo pipelines are implemented with github workflows and the concept of pipeline as a service is implemented using the shared workflow features.
 When new components are created via scaffholder, also the pipeline is configured, so in theory a component is ready to be deployed to production right away after being created.
 
 ## Runtime
 
 The runtime for the demo is OpenShift. The concept of a good runtime experience for a developer is that any piece of infrastructure needed to run the application should be self serviceable, possibly via manifests that will be deployed to OpenShift together with the rest of the application manifests. This includes also piece of infrastructure external to Openshift.
+
 In this demo we have several operator that keep the configuration internal to OpenShift tidy and scale to any number of teams being ondoarded (permissions, quotas, etc). There are no example of external configuration at the moment.
 
 For the future we plan to add monitoring to the runtime experience.
@@ -47,7 +50,8 @@ For the future we plan to add monitoring to the runtime experience.
 ### Repository preparation
 
 Fork the following repo `https://github.com/raffaelespazzoli/backstage-demo` to your organization.
-Then execute the following commands
+
+Then execute the following commands:
 
 ```shell
 export github_organization= #set your Git Hub org name here
@@ -66,8 +70,9 @@ git push
 cd ..
 ```
 
-Fork the following repo `https://github.com/raf-backstage-demo/shared-workflows` to your organization.
-Then execute the following commands
+Fork the following repo `https://github.com/raf-backstage-demo/shared-workflows` to your organization. Cloning all branches is recommended for this particular repo because the `gh-pages` branch is used to publish Helm charts.
+
+Then execute the following commands:
 
 ```shell
 git clone git@github.com:${github_organization}/shared-workflows.git
@@ -81,7 +86,8 @@ cd ..
 ```
 
 Fork the following repo `https://github.com/raf-backstage-demo/software-templates` to your organization.
-Then execute the following commands
+
+Then execute the following commands:
 
 ```shell
 git clone git@github.com:${github_organization}/software-templates.git
@@ -94,8 +100,11 @@ git push
 cd ..
 ```
 
-Fork the following repo `https://github.com/raf-backstage-demo/backstage-app-demo` to your organization.
-Edit this code to add and remove backstage plugins. Also in order for the image to be available at least the packages produced by this repo must be publicly available.
+Fork the following repo `https://github.com/raf-backstage-demo/backstage-app-demo` to your organization. Edit this code to add and remove backstage plugins.
+
+In order to build, publish, and consume the Backstage instance image:
+- The packages produced by this repo must be set to public visibility
+- GitHub Actions must be enabled on this repo
 
 ```shell
 git clone git@github.com:${github_organization}/backstage-app-demo.git
@@ -115,6 +124,7 @@ The rest of the demo should be deployed by the gitops operator following the ste
 ### Manual steps
 
 This demo is based on GitHub. Create an github org that you'll use with this demo and add a couple of teams.
+
 It requires some manual preparation steps for tasks that do not seem automate-able on GitHub (at least i was no able to automate them).
 
 1. create a new organization or reuse an existing one.
@@ -122,20 +132,21 @@ It requires some manual preparation steps for tasks that do not seem automate-ab
 3. create an Oauth app in this organization for OpenShift Dev Spaces. The call back url should be `https://devspaces.apps.${base_domain}/api/oauth/callback`
 4. create an Oauth app in this organization for OpenShift. The call back url should be `https://oauth-openshift.apps.${base_domain}/oauth2callback/backstage-demo-github/`
 5. create a Personal Access Token (PAT) with an account that is administrator to the chosen organization.
-6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller/blob/master/docs/detailed-docs.md#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${base_domain}`.
-
+6. create a GitHub application in this organization for the github action runner controller following the instructions [here](https://github.com/actions-runner-controller/actions-runner-controller/blob/master/docs/detailed-docs.md#deploying-using-github-app-authentication). Store the ssh key pem in a file called `github_action_runner_app.pem`, it will be ignored by git. The callback url should be `https://ghr.apps.${base_domain}`. A webhook configuration is also required and should also be set to `https://ghr.apps.${base_domain}` along with a webhook secret with the value `ciao` (see default Helm values [here](github-action-runner/github-action-runner/values.yaml)).
+\
 ![Action Runner App permissions](./media/github-action-runner-permissions.png "Action Runner App permissions")
-
+\
+Under your GitHub organization settings, go to `actions > runner-groups`, click on self-hosted runners and change "selected repos" to "all repos private or public".
 7. create a GitHub Application for the group-sync-operator following the instructions [here](https://github.com/redhat-cop/group-sync-operator#as-a-github-app). Store the ssh key pem in a file called `group-sync-operator-app-key.pem`, it will be ignored by git.
-
+\
 ![Group Sync Operator App permissions](./media/github-app-group-sync-operator-permissions.png "Group Sync Operator App permissions")
 
 8. create a GitHub Application for the vault-config-operator. Store the ssh key pem in a file called `vault-github-app-key.pem`, it will be ignored by git. Follow [these instructions](https://github.com/martinbaillie/vault-plugin-secrets-github#setup-github)
-
+\
 ![Vault App permissions](./media/vault-github-app-permissions.png "Vault App permissions")
 
 9.  create an organization in quay (this should have the same name as the github org) and create a token with admin privileges on it.
-
+\
 ![Quay permissions](./media/quay-app-permissions.png "Quay permissions")
 
 10. create and account in [cockrachdb serverless](https://www.cockroachlabs.com/get-started-cockroachdb/) and extract a service account with full control.
@@ -209,7 +220,7 @@ This demo has the following system requirements:
 2. minimum cluster cpu capacity: 20 CPUs
 3. minimum worker node size 16GB 4CPUs (needed for OpenShift Dev Spaces)
 
-now from your modified `https://github.com/${github_organization}/backstage-demo` repo run the following commands
+Now from your modified `https://github.com/${github_organization}/backstage-demo` repo run the following commands
 
 ```shell
 oc apply -f ./argocd/operator.yaml
@@ -220,10 +231,23 @@ oc apply -f ./argocd/argo-root-application.yaml
 ```
 
 You may need to resync a few times to get all the argocd apps going. Check the gitops status here: `https://openshift-gitops-server-openshift-gitops.apps.${base_domain}`
-Once sonarqube is up and running connect to it `https://sonarqube-sonarqube.apps.${base_domain}` with admin/admin and create a new admin token (Administration->security->users->admin->tokens).
-Add it to your ./secrets.sh file with the env variable ${sonarqube_token}
 
-then run these commands
+> **Tip:** There is a [configuration flexibility issue](https://github.com/hashicorp/vault-helm/issues/674) with the official Vault Helm chart which combined with the values provided in this repo results in non-deterministic behavior and a TLS secret could be created for the wrong k8s service. Ideally, the `service.beta.openshift.io/serving-cert-secret-name` annotation should only exist in the metadata for the `vault` service. If you hit this issue, a workaround is to:
+> 1. temporarily disable auto-sync in ArgoCD for the Vault ArgoCD Application
+> 2. remove the annotation from the `vault-internal` service
+> 3. delete the `vault-server-tls` secret
+> 4. observe that the secret is recreated because of the remaining service annotation
+> 5. re-enable auto-sync for the Vault ArgoCD application
+
+Vault must be [initialized manually](https://developer.hashicorp.com/vault/docs/platform/k8s/helm/run#initialize-and-unseal-vault). Execute the following in one of the Vault server pods:
+```
+export VAULT_ADDR='https://vault-internal.vault.svc.cluster.local:8200'
+vault operator init
+```
+
+Once Sonarqube is up and running connect to it `https://sonarqube-sonarqube.apps.${base_domain}` with admin/admin and create a new admin token (Administration->security->users->admin->tokens). Add it to your ./secrets.sh file with the env variable ${sonarqube_token}
+
+Then run these commands:
 
 ```shell
 source ./secrets.sh
@@ -284,7 +308,7 @@ In no particular order, these are the features that this demo intend to showcase
 
 ## Notes
 
-at the moment is still unclear what creates namespaces. regardless of that, namespace annotation are considered trusted and several security features revolve around them. These are the well known annotations:
+At the moment is still unclear what creates namespaces. regardless of that, namespace annotation are considered trusted and several security features revolve around them. These are the well known annotations:
 
 - `app` : name of the app deployed to this namespace. This is used by the github runner to pick jobs from any component related to this app. For this to be secure, this piece of information needs to be trusted on the github workflow definition side.
 - `team`: name of the team who owns this namespace (it will be considered an OCP group and given edit rights).
