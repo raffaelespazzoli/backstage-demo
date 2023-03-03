@@ -19,9 +19,7 @@ spec:
       include: "*.yaml"
   destination:
     server: https://kubernetes.default.svc
-      namespace: openshift-gitops
-  labels:
-    {{- include "argo-applications.labels" . | nindent 4 }} 
+    namespace: openshift-gitops 
   syncPolicy:
     automated: 
       prune: true
