@@ -25,7 +25,7 @@ spec:
     #         helm:
     #           values: |
     #             base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
-      patchType: application/merge-patch+json
+    #  patchType: application/merge-patch+json
     group-sync-patch:
       targetObjectRef:
         apiVersion: redhatcop.redhat.io/v1alpha1
