@@ -34,47 +34,11 @@ spec:
         factor: 2 # a factor to multiply the base duration after each failed retry
         maxDuration: 10m # the maximum amount of time allowed for the backoff strategy
   ignoreDifferences:
-  - group: argoproj.io
-    kind: Application
-    namespace: openshift-gitops
-    name: backstage
-    jsonPointers:
-    - /spec/source/helm/values
-  - group: argoproj.io
-    kind: Application
-    namespace: openshift-gitops
-    name: github-action-runner
-    jsonPointers:
-    - /spec/source/helm/values
-  - group: argoproj.io
-    kind: Application
-    namespace: openshift-gitops
-    name: openshift-config
-    jsonPointers:
-    - /spec/source/helm/values
-  - group: argoproj.io
-    kind: Application
-    namespace: openshift-gitops
-    name: vault
-    jsonPointers:
-    - /spec/source/helm/values
   - group: ""
     kind: Secret
     namespace: openshift-gitops
     name: kcp-secret
     jsonPointers:
-    - /data/config
-  - group: argoproj.io
-    kind: Application
-    namespace: openshift-gitops
-    name: user-workload-grafana
-    jsonPointers:
-    - /spec/source/helm/values
-  - group: argoproj.io
-    kind: Application
-    namespace: openshift-gitops
-    name: service-mesh-ingress
-    jsonPointers:
-    - /spec/source/helm/values     
+    - /data/config     
 
     

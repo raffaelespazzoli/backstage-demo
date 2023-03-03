@@ -6,12 +6,27 @@ vault:
   ui:
     enabled: true
 
-  server:
+injector:
+  image:
+    tag: "1.1.0"
+    repository: docker.io/hashicorp/vault-k8s
+  agentImage:
+    repository: "docker.io/hashicorp/vault"
+    tag: "1.12.2"  
+
+csi:
+  image:
+    repository: "docker.io/hashicorp/vault-csi-provider"
+    tag: "1.2.1"
+    pullPolicy: IfNotPresent      
+
+server:
+  image:
+    tag: "1.12.2"
+    repository: docker.io/hashicorp/vault
+
     extraEnvironmentVars:
       VAULT_CACERT: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
-
-    image:
-      tag: "1.12.0"
 
     route:
       enabled: false
