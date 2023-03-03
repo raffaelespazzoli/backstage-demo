@@ -2,6 +2,8 @@ apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
   name: patch-operator-inject
+  labels:
+    {{- include "openshift-config.labels" . | nindent 4 }}  
 webhooks:
 - admissionReviewVersions:
   - v1

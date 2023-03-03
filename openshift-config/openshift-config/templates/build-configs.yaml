@@ -4,6 +4,8 @@ metadata:
   annotations:
     release.openshift.io/create-only: "true"
   name: cluster
+  labels:
+    {{- include "openshift-config.labels" . | nindent 4 }}  
 spec:
   buildDefaults:
     resources:

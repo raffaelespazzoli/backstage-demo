@@ -224,6 +224,7 @@ envsubst < ./argocd/argo-root-application.yaml | oc apply -f -
 ```
 
 You may need to resync a few times to get all the argocd apps going. Check the gitops status here: `https://openshift-gitops-server-openshift-gitops.apps.${base_domain}`
+
 Once sonarqube is up and running connect to it `https://sonarqube-sonarqube.apps.${base_domain}` with admin/admin and create a new admin token (Administration->security->users->admin->tokens).
 Add it to your ./secrets.sh file with the env variable ${sonarqube_token}
 

@@ -3,6 +3,8 @@ kind: Certificate
 metadata:
   name: lets-encrypt-certs
   namespace: openshift-ingress
+  labels:
+    {{- include "openshift-config.labels" . | nindent 4 }}  
 spec:
   secretName: lets-encrypt-certs-tls
   duration: 168h0m0s

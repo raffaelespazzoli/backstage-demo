@@ -3,6 +3,8 @@ kind: Patch
 metadata:
   name: config-patches
   namespace: openshift-config
+  labels:
+    {{- include "openshift-config.labels" . | nindent 4 }}  
 spec:
   serviceAccountRef:
     name: default
