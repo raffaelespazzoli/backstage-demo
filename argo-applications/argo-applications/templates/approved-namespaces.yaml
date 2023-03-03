@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: approved-namespaces
-    namespace: openshift-gitops
+  namespace: openshift-gitops
   labels:
     {{- include "argo-applications.labels" . | nindent 4 }} 
   finalizers:
@@ -12,7 +12,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/raf-backstage-demo/approved-namespaces.git
+    repoURL: https://github.com/{{ .Values.git.organization }}/approved-namespaces.git
     targetRevision: HEAD
     path: "."
     directory:

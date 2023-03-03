@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: service-mesh
-    namespace: openshift-gitops
+  namespace: openshift-gitops
   labels:
     {{- include "argo-applications.labels" . | nindent 4 }} 
   finalizers:

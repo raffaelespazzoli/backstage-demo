@@ -219,6 +219,7 @@ oc apply -f ./argocd/argocd.yaml
 export baseDomain=$(oc get dns cluster -o jsonpath='{.spec.baseDomain}')
 export gitRepoURL=$(git remote get-url origin |  sed -e "s/git\@github\.com\:/https\:\/\/github\.com\//" )
 export gitRepoRevision=$(git rev-parse --abbrev-ref HEAD)
+export organization=${github_organization}
 envsubst < ./argocd/argo-root-application.yaml | oc apply -f -
 ```
 

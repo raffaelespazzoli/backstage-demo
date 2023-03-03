@@ -15,6 +15,8 @@ spec:
         gitRepo: 
           URL: ${gitRepoURL}
           targetRevision: ${gitRepoRevision}
+        git: 
+          organization: ${organization}  
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-gitops
