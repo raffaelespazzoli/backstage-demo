@@ -216,7 +216,10 @@ oc apply -f ./argocd/operator.yaml
 oc apply -f ./argocd/rbac.yaml
 # wait a couple of minutes...
 oc apply -f ./argocd/argocd.yaml
-oc apply -f ./argocd/argo-root-application.yaml
+export baseDomain=$(oc get dns cluster -o jsonpath='{.spec.baseDomain}')
+export gitRepoURL=$(git remote get-url origin |  sed -e "s/git\@github\.com\:/https\:\/\/github\.com\//" )
+export gitRepoRevision=$(git rev-parse --abbrev-ref HEAD)
+envsubst < ./argocd/argo-root-application.yaml | oc apply -f -
 ```
 
 You may need to resync a few times to get all the argocd apps going. Check the gitops status here: `https://openshift-gitops-server-openshift-gitops.apps.${base_domain}`

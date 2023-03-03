@@ -6,10 +6,15 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/raffaelespazzoli/backstage-demo.git
-    path: argo-applications
-    directory:
-      include: "*.yaml"
+    repoURL: ${gitRepoURL}
+    path: argo-applications/argo-applications
+    targetRevision: ${gitRepoRevision}
+    helm:
+      values: | 
+        baseDomain: ${baseDomain}      
+        gitRepo: 
+          URL: ${gitRepoURL}
+          targetRevision: ${gitRepoRevision}
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-gitops

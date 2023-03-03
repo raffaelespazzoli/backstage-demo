@@ -1,0 +1,79 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pelorus-pelorus
+    namespace: openshift-gitops
+  labels:
+    {{- include "argo-applications.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "15"     
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/konveyor/pelorus.git
+    targetRevision: {{ .Values.gitRepo.targetRevision }}
+    path: charts/pelorus
+    helm:
+      values: | 
+        exporters:
+          instances:
+          - app_name: deploytime-exporter
+            source_context_dir: exporters
+            extraEnv:
+            - name: APP_FILE
+              value: deploytime/app.py
+            - name: LOG_LEVEL
+              value: DEBUG
+            - name: PROD_LABEL
+              value: "environment=prod"  
+            #source_url: https://github.com/redhat-cop/pelorus.git
+            source_url: https://github.com/KevinMGranger/pelorus.git   
+            source_ref: deploytime-debug
+          - app_name: committime-exporter
+            env_from_secrets: 
+            - github-secret
+            source_context_dir: exporters
+            #source_ref: HEAD
+            source_ref: more-commit-debug-logs
+            extraEnv:
+            - name: APP_FILE
+              value: committime/app.py
+            - name: LOG_LEVEL
+              value: DEBUG
+            #source_url: https://github.com/redhat-cop/pelorus.git  
+            source_url: https://github.com/KevinMGranger/pelorus.git      
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: pelorus
+  syncPolicy:
+    automated: 
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - RespectIgnoreDifferences=true
+    - ApplyOutOfSyncOnly=true
+    retry:
+      backoff:
+        duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+        factor: 2 # a factor to multiply the base duration after each failed retry
+        maxDuration: 10m # the maximum amount of time allowed for the backoff strategy
+  ignoreDifferences:
+  - group: route.openshift.io
+    kind: Route
+    name: prometheus-pelorus
+    namespace: pelorus
+    jsonPointers:
+    - /spec/host
+  - group: build.openshift.io
+    kind: BuildConfig
+    name: deploytime-exporter
+    namespace: pelorus
+    jsonPointers:
+    - /spec/triggers
+  - group: build.openshift.io
+    kind: BuildConfig
+    name: committime-exporter
+    namespace: pelorus
+    jsonPointers:
+    - /spec/triggers              

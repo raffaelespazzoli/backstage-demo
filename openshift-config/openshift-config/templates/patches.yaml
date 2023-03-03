@@ -7,22 +7,22 @@ spec:
   serviceAccountRef:
     name: default
   patches:
-    openshift-config-argocd-app-patch:
-      targetObjectRef:
-        apiVersion: argoproj.io/v1alpha1
-        kind: Application
-        namespace: openshift-gitops
-        name: openshift-config
-      sourceObjectRefs:
-      - apiVersion: config.openshift.io/v1
-        kind: DNS
-        name: cluster  
-      patchTemplate: |
-        spec:
-          source:
-            helm:
-              values: |
-                base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
+    # openshift-config-argocd-app-patch:
+    #   targetObjectRef:
+    #     apiVersion: argoproj.io/v1alpha1
+    #     kind: Application
+    #     namespace: openshift-gitops
+    #     name: openshift-config
+    #   sourceObjectRefs:
+    #   - apiVersion: config.openshift.io/v1
+    #     kind: DNS
+    #     name: cluster  
+    #   patchTemplate: |
+    #     spec:
+    #       source:
+    #         helm:
+    #           values: |
+    #             base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
       patchType: application/merge-patch+json
     group-sync-patch:
       targetObjectRef:
@@ -65,22 +65,22 @@ spec:
         {{ "{{" }} (index . 0).imagePullSecrets | toYaml | indent 2 {{ "}}" }}
         {{ "{{-" }} end {{ "}}" }}        
       patchType: application/merge-patch+json     
-    backstage-app-patch:       
-      targetObjectRef:
-        apiVersion: argoproj.io/v1alpha1
-        kind: Application
-        namespace: openshift-gitops
-        name: backstage
-      sourceObjectRefs:
-      - apiVersion: config.openshift.io/v1
-        kind: DNS
-        name: cluster        
-      patchTemplate: |
-        spec:
-          source:
-            helm:
-              values: |
-                base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
+    # backstage-app-patch:       
+    #   targetObjectRef:
+    #     apiVersion: argoproj.io/v1alpha1
+    #     kind: Application
+    #     namespace: openshift-gitops
+    #     name: backstage
+    #   sourceObjectRefs:
+    #   - apiVersion: config.openshift.io/v1
+    #     kind: DNS
+    #     name: cluster        
+    #   patchTemplate: |
+    #     spec:
+    #       source:
+    #         helm:
+    #           values: |
+    #             base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
 # postgresql:
 #   securityContext:
 #     fsGroup: {{ "{{" }} index (index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.supplemental-groups" | splitList "/") 0 {{ "}}" }} 
@@ -92,41 +92,41 @@ spec:
 #   metrics:
 #     securityContext:
 #       runAsUser: {{ "{{" }} index (index (lookup "v1" "Namespace" "" "backstage").metadata.annotations "openshift.io/sa.scc.uid-range" | splitList "/") 0 {{ "}}" }}                
-      patchType: application/merge-patch+json
-    action-runner-app-patch:
-      targetObjectRef:
-        apiVersion: argoproj.io/v1alpha1
-        kind: Application
-        namespace: openshift-gitops
-        name: github-action-runner
-      sourceObjectRefs:
-      - apiVersion: config.openshift.io/v1
-        kind: DNS
-        name: cluster        
-      patchTemplate: |
-        spec:
-          source:
-            helm:
-              values: |
-                base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
-      patchType: application/merge-patch+json                
-    vault-app-patch:
-      targetObjectRef:
-        apiVersion: argoproj.io/v1alpha1
-        kind: Application
-        namespace: openshift-gitops
-        name: vault
-      sourceObjectRefs:
-      - apiVersion: config.openshift.io/v1
-        kind: DNS
-        name: cluster        
-      patchTemplate: |
-        spec:
-          source:
-            helm:
-              values: |
-                base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
-      patchType: application/merge-patch+json
+    #  patchType: application/merge-patch+json
+    # action-runner-app-patch:
+    #   targetObjectRef:
+    #     apiVersion: argoproj.io/v1alpha1
+    #     kind: Application
+    #     namespace: openshift-gitops
+    #     name: github-action-runner
+    #   sourceObjectRefs:
+    #   - apiVersion: config.openshift.io/v1
+    #     kind: DNS
+    #     name: cluster        
+    #   patchTemplate: |
+    #     spec:
+    #       source:
+    #         helm:
+    #           values: |
+    #             base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
+    #  patchType: application/merge-patch+json                
+    # vault-app-patch:
+    #   targetObjectRef:
+    #     apiVersion: argoproj.io/v1alpha1
+    #     kind: Application
+    #     namespace: openshift-gitops
+    #     name: vault
+    #   sourceObjectRefs:
+    #   - apiVersion: config.openshift.io/v1
+    #     kind: DNS
+    #     name: cluster        
+    #   patchTemplate: |
+    #     spec:
+    #       source:
+    #         helm:
+    #           values: |
+    #             base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
+    #   patchType: application/merge-patch+json
     ingress-operator-config:
       targetObjectRef:
         apiVersion: operator.openshift.io/v1
@@ -288,23 +288,23 @@ spec:
                   prometheus:
                     bearertoken: {{ "{{" }} (lookup "v1" "Secret" "openshift-config" (index (index . 1).secrets 0).name).data.token | toString | b64dec {{ "}}" }}
       patchType: application/merge-patch+json
-    service-mesh-ingress-app-patch:
-      targetObjectRef:
-        apiVersion: argoproj.io/v1alpha1
-        kind: Application
-        namespace: openshift-gitops
-        name: service-mesh-ingress
-      sourceObjectRefs:
-      - apiVersion: config.openshift.io/v1
-        kind: DNS
-        name: cluster        
-      patchTemplate: |
-        spec:
-          source:
-            helm:
-              values: |
-                base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
-      patchType: application/merge-patch+json
+    # service-mesh-ingress-app-patch:
+    #   targetObjectRef:
+    #     apiVersion: argoproj.io/v1alpha1
+    #     kind: Application
+    #     namespace: openshift-gitops
+    #     name: service-mesh-ingress
+    #   sourceObjectRefs:
+    #   - apiVersion: config.openshift.io/v1
+    #     kind: DNS
+    #     name: cluster        
+    #   patchTemplate: |
+    #     spec:
+    #       source:
+    #         helm:
+    #           values: |
+    #             base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
+    #   patchType: application/merge-patch+json
     virtual-service-basedomain-patch:
       targetObjectRef:
         apiVersion: networking.istio.io/v1beta1
