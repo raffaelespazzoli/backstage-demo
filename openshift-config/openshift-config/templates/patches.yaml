@@ -400,7 +400,7 @@ spec:
       - apiVersion: v1
         kind: Secret
         name: argocd-webhook
-        namespace: "{{ .metadata.namespace }}"
+        namespace: '{{ "{{" }} .metadata.namespace {{ "}}" }}'
       patchType: application/merge-patch+json
       patchTemplate: | 
         data:
