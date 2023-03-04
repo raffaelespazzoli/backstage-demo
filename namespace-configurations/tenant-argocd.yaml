@@ -138,7 +138,59 @@ spec:
                 end
                 hs.status = "Progressing"
                 hs.message = "Waiting for DBaaSInstance to become Ready"
-                return hs                                
+                return hs
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: GitWebhook
+        metadata:
+          name: {{ .Name }}-argocd  
+        spec:
+          gitHub:
+            gitServerCredentials:
+              name: github-credentials
+          repositoryOwner: raf-backstage-demo
+          ownerType:  organization
+          repositoryName: {{ .Labels.app }}-gitops
+          webhookURL: https://tenant-gitops-server-{{ .Name }}.apps.control-cluster-raffa.demo.red-chesterfield.com
+          insecureSSL: true
+          webhookSecret:
+            name: {{ .Name }}-argocd-webhook
+          events:
+            - push  
+          content: json
+          active: true
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: RandomSecret
+        metadata:
+          name: {{ .Name }}-argocd-webhook   
+        spec:
+          authentication: 
+            path: kubernetes
+            role: {{ .Name }}-kv
+          isKVSecretsEngineV2: false
+          path: {{ .Labels.team }}/{{ .Name }}-kv
+          secretKey: argocd-webhook-secret
+          secretFormat:
+            passwordPolicyName: webhook
+    - objectTemplate: |
+        apiVersion: redhatcop.redhat.io/v1alpha1
+        kind: VaultSecret
+        metadata:
+          name: {{ .Name }}-argocd-webhook  
+        spec:
+          vaultSecretDefinitions:
+            - authentication:
+                path: kubernetes
+                role: {{ .Name }}-kv
+              name: webhook_secret
+              path: {{ .Labels.team }}/{{ .Name }}-kv/argocd-webhook-secret
+          output:
+            name: argocd-webhook
+            stringData:
+              secret: '{{ "{{" }} .webhook_secret {{ "}}" }}'
+            type: Opaque      
+
 --- 
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
