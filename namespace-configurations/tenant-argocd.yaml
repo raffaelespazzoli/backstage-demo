@@ -155,7 +155,7 @@ spec:
           # webhookURL: intentionally empty, will be patched
           insecureSSL: true
           webhookSecret:
-            name: {{ .Name }}-argocd-webhook
+            name: argocd-webhook
           events:
             - push  
           content: json
