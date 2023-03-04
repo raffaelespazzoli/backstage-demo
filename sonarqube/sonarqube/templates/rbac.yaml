@@ -2,6 +2,8 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: 'system-openshift-scc-nonroot'
+  labels:
+    {{- include "soranqube.labels" . | nindent 4 }}    
 subjects:
   - kind: ServiceAccount
     name: default
@@ -15,6 +17,8 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: 'system-openshift-scc-privileged'
+  labels:
+    {{- include "soranqube.labels" . | nindent 4 }}    
 subjects:
   - kind: ServiceAccount
     name: default

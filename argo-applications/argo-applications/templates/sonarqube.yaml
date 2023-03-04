@@ -15,6 +15,9 @@ spec:
     repoURL: {{ .Values.gitRepo.URL }}
     targetRevision: {{ .Values.gitRepo.targetRevision }}
     path: sonarqube/sonarqube
+    helm:
+      values: | 
+        base_domain: {{ .Values.baseDomain }}    
   destination:
     server: https://kubernetes.default.svc
     namespace: sonarqube
