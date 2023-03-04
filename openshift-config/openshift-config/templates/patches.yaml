@@ -393,10 +393,14 @@ spec:
         apiVersion: v1
         kind: Secret
         name: argocd-secret
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/managed-by: tenant-gitops
       sourceObjectRefs:
       - apiVersion: v1
         kind: Secret
         name: argocd-webhook
+        namespace: "{{ .metadata.namespace }}"
       patchType: application/merge-patch+json
       patchTemplate: | 
         data:
