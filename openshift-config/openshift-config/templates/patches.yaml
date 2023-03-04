@@ -129,19 +129,19 @@ spec:
     #           values: |
     #             base_domain: {{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}
     #   patchType: application/merge-patch+json
-    ingress-operator-config:
-      targetObjectRef:
-        apiVersion: operator.openshift.io/v1
-        kind: IngressController
-        name: default
-        namespace: openshift-ingress-operator
-      patchTemplate: |
-        spec:
-          defaultCertificate:
-            name: lets-encrypt-certs-tls
-          routeAdmission:
-            wildcardPolicy: WildcardsAllowed              
-      patchType: application/merge-patch+json
+    # ingress-operator-config:
+    #   targetObjectRef:
+    #     apiVersion: operator.openshift.io/v1
+    #     kind: IngressController
+    #     name: default
+    #     namespace: openshift-ingress-operator
+    #   patchTemplate: |
+    #     spec:
+    #       defaultCertificate:
+    #         name: lets-encrypt-certs-tls
+    #       routeAdmission:
+    #         wildcardPolicy: WildcardsAllowed              
+    #   patchType: application/merge-patch+json
     letsencrypt-certs:
       targetObjectRef:
         apiVersion: v1
@@ -409,14 +409,14 @@ spec:
     #     kind: DBaaSInstance
     #     namespace: "{{ "{{" }} .metadata.namespace {{ "}}" }}"
     #     name: "{{ "{{" }} .metadata.name {{ "}}" }}"
-    olm-config-disable-csv-copy:
-      patchType: application/merge-patch+json
-      targetObjectRef:
-        apiVersion: operators.coreos.com/v1
-        kind: OLMConfig
-        name: cluster        
-      patchTemplate: |
-        spec:
-          features:
-            disableCopiedCSVs: true                             
+    # olm-config-disable-csv-copy:
+    #   patchType: application/merge-patch+json
+    #   targetObjectRef:
+    #     apiVersion: operators.coreos.com/v1
+    #     kind: OLMConfig
+    #     name: cluster        
+    #   patchTemplate: |
+    #     spec:
+    #       features:
+    #         disableCopiedCSVs: true                             
              
