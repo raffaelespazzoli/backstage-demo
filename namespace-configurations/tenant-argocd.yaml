@@ -152,7 +152,7 @@ spec:
           repositoryOwner: raf-backstage-demo
           ownerType:  organization
           repositoryName: {{ .Labels.app }}-gitops
-          webhookURL: https://tenant-gitops-server-{{ .Name }}.apps.control-cluster-raffa.demo.red-chesterfield.com
+          # webhookURL: intentionally empty, will be patched
           insecureSSL: true
           webhookSecret:
             name: {{ .Name }}-argocd-webhook
@@ -160,6 +160,8 @@ spec:
             - push  
           content: json
           active: true
+      excludedPaths:
+      - .spec.webhookURL      
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: RandomSecret
@@ -191,7 +193,7 @@ spec:
           output:
             name: argocd-webhook
             stringData:
-              secret: '{{ "{{" }} .webhook_secret {{ "}}" }}'
+              secret: '{{ "{{" }} .webhook_secret.argocd-webhook-secret {{ "}}" }}'
             type: Opaque      
 
 --- 
