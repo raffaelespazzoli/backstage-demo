@@ -161,7 +161,10 @@ spec:
           content: json
           active: true
       excludedPaths:
-      - .spec.webhookURL      
+      - .spec.webhookURL
+      - .status	
+      - .spec.replicas	
+      - .metadata
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: RandomSecret
@@ -177,6 +180,10 @@ spec:
           secretKey: argocd-webhook-secret
           secretFormat:
             passwordPolicyName: webhook
+      excludedPaths:	
+        - .spec.replicas	
+        - .metadata	
+        - .status            
     - objectTemplate: |
         apiVersion: redhatcop.redhat.io/v1alpha1
         kind: VaultSecret
@@ -194,8 +201,11 @@ spec:
             name: argocd-webhook
             stringData:
               secret: '{{ "{{" }} .webhook_secret.argocd-webhook-secret {{ "}}" }}'
-            type: Opaque      
-
+            type: Opaque
+      excludedPaths:	
+        - .spec.replicas	
+        - .metadata	
+        - .status                  
 --- 
 apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
