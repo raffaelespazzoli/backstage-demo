@@ -8,6 +8,7 @@ metadata:
     {{- include "sonarqube.labels" . | nindent 4 }}      
 spec:
   schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 2
   jobTemplate:
     spec:
       template:
@@ -26,10 +27,11 @@ spec:
                 else
                     echo "sonarqube-credentials doesn't exist"
                     echo "creating token..."
-                    export token=$(curl -s -u admin:admin1 -X POST -H "Content-Type: application/json" https://{{ include "sonarqube.fullname" . }}-{{ .Release.Namespace }}.apps.{{ .Values.base_domain }}/api/user_tokens/generate?name=backstage | jq -r .token)
+                    export curl_answer=$(curl -s -u admin:admin1 -X POST -H "Content-Type: application/json" https://{{ include "sonarqube.fullname" . }}-{{ .Release.Namespace }}.apps.{{ .Values.base_domain }}/api/user_tokens/generate?name=backstage)
+                    export token=$(echo $curl_answer | jq -r .token)
                     echo "creating sonarqube-credentials secret..."
                     oc create secret generic sonarqube-credentials -n {{ .Release.Namespace }} --from-literal=SONARQUBE_TOKEN=${token}
-                    oc annotate secret sonarqube-credentials -n {{ .Release.Namespace }} reflector.v1.k8s.emberstack.com/reflection-allowed=true reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces=backstage reflector.v1.k8s.emberstack.com/reflection-auto-enabled=true reflector.v1.k8s.emberstack.com/reflection-auto-namespaces=backstage
+                    oc annotate secret sonarqube-credentials -n {{ .Release.Namespace }} reflector.v1.k8s.emberstack.com/reflection-allowed="true" reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces="" reflector.v1.k8s.emberstack.com/reflection-auto-enabled=true reflector.v1.k8s.emberstack.com/reflection-auto-namespaces=backstage
                 fi    
             
           restartPolicy: OnFailure
