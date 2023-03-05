@@ -21,14 +21,15 @@ spec:
             - -c
             - |
                 set -e
-                if oc get secret sonarqube-root-token -n {{ .Release.Namespace }} ; then
-                    echo "sonarqube-root-token is already created exiting..."
+                if oc get secret sonarqube-credentials -n {{ .Release.Namespace }} ; then
+                    echo "sonarqube-credentials is already created exiting..."
                 else
-                    echo "sonarqube-root-token doesn't exist"
+                    echo "sonarqube-credentials doesn't exist"
                     echo "creating token..."
                     export token=$(curl -s -u admin:admin1 -X POST -H "Content-Type: application/json" https://{{ include "sonarqube.fullname" . }}-{{ .Release.Namespace }}.apps.{{ .Values.base_domain }}/api/user_tokens/generate?name=backstage | jq -r .token)
-                    echo "creating sonarqube-root-token secret..."
-                    oc create secret generic sonarqube-root-token -n {{ .Release.Namespace }} --from-literal=token=${token}
+                    echo "creating sonarqube-credentials secret..."
+                    oc create secret generic sonarqube-credentials -n {{ .Release.Namespace }} --from-literal=SONARQUBE_TOKEN=${token}
+                    oc annotate secret sonarqube-credentials -n {{ .Release.Namespace }} reflector.v1.k8s.emberstack.com/reflection-allowed=true reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces=backstage reflector.v1.k8s.emberstack.com/reflection-auto-enabled=true reflector.v1.k8s.emberstack.com/reflection-auto-namespaces=backstage
                 fi    
             
           restartPolicy: OnFailure
