@@ -25,5 +25,5 @@ appVersion: "1.16.0"
 
 dependencies:
   - name: sonarqube
-    version: "3.0.0+296"
+    version: "~8"
     repository: https://SonarSource.github.io/helm-chart-sonarqube
