@@ -1,5 +1,11 @@
 OpenShift:
   enabled: true
+  createSCC: true
 
 route:
-  enabled: true  
+  enabled: true
+  tls:
+    termination: edge
+
+account:
+  adminPasswordSecretName: sonarqube-admin-credentials
