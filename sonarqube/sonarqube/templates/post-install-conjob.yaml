@@ -20,12 +20,13 @@ spec:
             - /bin/sh
             - -c
             - |
+                set -e
                 if oc get secret sonarqube-credentials -n {{ .Release.Namespace }} ; then
                     echo "credentials are already created exiting..."
                 else
                     echo "credentials don't exist"
                     echo "changing admin password..."    
-                    curl -v -D- -u admin:admin -X POST -H “Content-Type: application/json” https://{{ include "sonarqube.fullname" . }}-{{ .Release.Namespace }}.apps.{{ .Values.base_domain }}/api/users/change_password?login=admin&password=admin1&previousPassword=admin
+                    curl -u admin:admin -X POST -H "Content-Type: application/json" https://{{ include "sonarqube.fullname" . }}-{{ .Release.Namespace }}.apps.{{ .Values.base_domain }}/api/users/change_password?login=admin&password=admin1&previousPassword=admin
                     echo "creating token..."
                     export token=$(curl -u admin:admin1 -X POST -H "Content-Type: application/json" https://{{ include "sonarqube.fullname" . }}-{{ .Release.Namespace }}.apps.{{ .Values.base_domain }}/api/user_tokens/generate?name=raffa6 | jq -r .token)
                     echo "creating sonarqube-credentials secret..."
