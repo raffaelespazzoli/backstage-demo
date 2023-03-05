@@ -2,6 +2,10 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: post-install
+  annotations:
+    argocd.argoproj.io/sync-wave: "28"
+  labels:
+    {{- include "sonarqube.labels" . | nindent 4 }}      
 spec:
   schedule: "*/5 * * * *"
   jobTemplate:
@@ -26,6 +30,6 @@ spec:
                     export token=$(curl -u admin:admin1 -X POST -H "Content-Type: application/json" https://{{ include "sonarqube.fullname" . }}-{{ .Release.Namespace }}.apps.{{ .Values.base_domain }}/api/user_tokens/generate?name=raffa6 | jq -r .token)
                     echo "creating sonarqube-credentials secret..."
                     oc create secret generic sonarqube-credentials -n {{ .Release.Namespace }} --from-literal=token=${token} --from-literal=username=admin --from-literal=password=admin1
-                done    
+                fi    
             
           restartPolicy: OnFailure
