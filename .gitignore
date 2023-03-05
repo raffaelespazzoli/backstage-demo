@@ -5,3 +5,5 @@ vault-github-app-key.pem
 crossplane/crossplane/Chart.lock
 .gitignore
 crossplane/crossplane/charts/crossplane-1.9.0.tgz
+sonarqube/sonarqube/Chart.lock
+sonarqube/sonarqube/charts/sonarqube-3.0.0+296.tgz

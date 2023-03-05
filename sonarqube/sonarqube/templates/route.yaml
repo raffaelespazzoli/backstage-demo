@@ -3,9 +3,9 @@ apiVersion: route.openshift.io/v1
 metadata:
   name: sonarqube
   labels:
-    {{- include "soranqube.labels" . | nindent 4 }}    
+    {{- include "sonarqube.labels" . | nindent 4 }}    
 spec:
-  host: host: {{ include "sonarqube.fullname" . }}.apps.{{ .Values.base_domain }}
+  host: {{ include "sonarqube.fullname" . }}-{{ .Release.Namespace }}.apps.{{ .Values.base_domain }}
   to:
     kind: Service
     name: sonarqube
