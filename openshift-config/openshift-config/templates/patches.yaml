@@ -278,9 +278,9 @@ spec:
         name: user-workload-grafana
       sourceObjectRefs:
       - apiVersion: v1
-        kind: ServiceAccount
+        kind: Secret
         namespace: openshift-config
-        name: default        
+        name: default-service-account        
       patchTemplate: |
         spec:
           source:
@@ -288,7 +288,7 @@ spec:
               values: |
                 userworkload:
                   prometheus:
-                    bearertoken: {{ "{{" }} (lookup "v1" "Secret" "openshift-config" (index (index . 1).secrets 0).name).data.token | toString | b64dec {{ "}}" }}
+                    bearertoken: {{ "{{" }} (index . 1).data.token | toString | b64dec {{ "}}" }}
       patchType: application/merge-patch+json
     # service-mesh-ingress-app-patch:
     #   targetObjectRef:
