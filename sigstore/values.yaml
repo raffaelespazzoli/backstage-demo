@@ -1,0 +1,18 @@
+scaffold:
+  rekor:
+    server:
+      ingress:
+        hosts:
+        - host: rekor.apps.ciao
+          path: / 
+  fulcio:
+    server: 
+      ingress:
+        http:
+        - host: fulcio.apps.ciao
+          path: /
+  tuf: 
+    ingress:
+      http:
+      - host: tuf.apps.ciao
+        path: /

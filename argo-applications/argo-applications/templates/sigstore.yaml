@@ -23,7 +23,7 @@ spec:
               ingress:
                 hosts:
                 - host: rekor.apps.{{ .Values.baseDomain }}
-                    path: / 
+                  path: / 
           fulcio:
             server: 
               ingress:
