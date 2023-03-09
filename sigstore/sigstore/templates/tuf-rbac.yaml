@@ -13,5 +13,3 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: 'system:openshift:scc:anyuid'
-
-  oc adm policy add-scc-to-user anyuid -z tuf -n tuf-system

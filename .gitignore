@@ -7,3 +7,5 @@ crossplane/crossplane/Chart.lock
 crossplane/crossplane/charts/crossplane-1.9.0.tgz
 sonarqube/sonarqube/Chart.lock
 sonarqube/sonarqube/charts/sonarqube-3.0.0+296.tgz
+sigstore/sigstore/charts/scaffold-0.5.5.tgz
+sigstore/sigstore/Chart.lock
