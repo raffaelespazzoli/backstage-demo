@@ -33,8 +33,8 @@ spec:
           tuf: 
             ingress:
               http:
-            - host: tuf.apps.{{ .Values.baseDomain }}
-              path: /                              
+              - host: tuf.apps.{{ .Values.baseDomain }}
+                path: /                              
   destination:
     server: https://kubernetes.default.svc
     namespace: sigstore
