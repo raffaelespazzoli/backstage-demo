@@ -2,6 +2,9 @@ scaffold:
   copySecretJob:
     enabled: true
 
+  tsa:
+    enabled: false    
+
   ctlog:
     namespace:
       name: ctlog-system
