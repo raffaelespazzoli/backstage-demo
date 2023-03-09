@@ -18,7 +18,7 @@ spec:
             vault.hashicorp.com/agent-inject: "true"
             vault.hashicorp.com/agent-pre-populate-only: "true"
             vault.hashicorp.com/agent-inject-token: "true"
-            vault.hashicorp.com/role: "ci-system"
+            vault.hashicorp.com/role: "policy-admin"
             vault.hashicorp.com/tls-skip-verify: "true"
         spec:
           containers:
