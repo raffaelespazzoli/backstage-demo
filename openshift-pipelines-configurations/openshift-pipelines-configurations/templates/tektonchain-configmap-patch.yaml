@@ -5,7 +5,7 @@ metadata:
   namespace: openshift-pipelines
   labels:
     {{- include "openshift-pipelines-configurations.labels" . | nindent 4 }}  
-stringData:
+data:
   artifacts.oci.storage: oci
   artifacts.taskrun.format: in-toto
   artifacts.taskrun.storage: oci
