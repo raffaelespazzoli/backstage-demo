@@ -3,7 +3,7 @@ kind: ClusterTask
 metadata:
   name: sonarqube-scanner
   labels:
-    app.kubernetes.io/version: "0.4"
+    {{- include "openshift-pipelines-configurations.labels" . | nindent 4 }}
   annotations:
     tekton.dev/pipelines.minVersion: "0.17.0"
     tekton.dev/categories: Security

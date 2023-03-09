@@ -14,9 +14,10 @@ spec:
   source:
     repoURL: {{ .Values.gitRepo.URL }}
     targetRevision: {{ .Values.gitRepo.targetRevision }}
-    path: openshift-pipelines-configurations
-    directory:
-      include: "*.yaml"
+    path: openshift-pipelines-configurations/openshift-pipelines-configurations
+    helm:
+      values: | 
+        baseDomain: {{ .Values.baseDomain }}
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-operators

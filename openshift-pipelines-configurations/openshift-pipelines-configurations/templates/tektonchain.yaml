@@ -1,0 +1,8 @@
+apiVersion: operator.tekton.dev/v1alpha1
+kind: TektonChain
+metadata:
+  name: chain
+  labels:
+    {{- include "openshift-pipelines-configurations.labels" . | nindent 4 }}  
+spec:
+  targetNamespace: openshift-pipelines

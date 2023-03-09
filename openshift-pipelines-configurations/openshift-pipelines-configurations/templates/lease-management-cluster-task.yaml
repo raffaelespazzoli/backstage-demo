@@ -2,6 +2,14 @@ apiVersion: tekton.dev/v1beta1
 kind: ClusterTask
 metadata:
   name: lease-management
+  labels:
+    {{- include "openshift-pipelines-configurations.labels" . | nindent 4 }}
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/categories: Miscellaneous
+    tekton.dev/tags: pipeline_coordination
+    tekton.dev/displayName: lease-management
+    tekton.dev/platforms: "linux/amd64,linux/arm64"     
 spec:
   params:
   - name: name

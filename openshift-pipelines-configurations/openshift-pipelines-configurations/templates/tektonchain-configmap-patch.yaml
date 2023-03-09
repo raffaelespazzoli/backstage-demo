@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chains-config
+  namespace: openshift-pipelines
+  labels:
+    {{- include "openshift-pipelines-configurations.labels" . | nindent 4 }}  
+stringData:
+  artifacts.oci.storage: oci
+  artifacts.taskrun.format: in-toto
+  artifacts.taskrun.storage: oci
+  artifacts.pipelinerun.format: in-toto
+  artifacts.pipelinerun.storage: oci
+  transparency.enabled: "true"
+  transparency.url: https://rekor.apps.{{ .Values.baseDomain }}

@@ -1,0 +1,74 @@
+apiVersion: tekton.dev/v1beta1
+kind: ClusterTask
+metadata:
+  name: grype
+  labels:
+    {{- include "openshift-pipelines-configurations.labels" . | nindent 4 }}
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/categories: Security
+    tekton.dev/tags: CLI, grype
+    tekton.dev/displayName: grype
+    tekton.dev/platforms: "linux/amd64,linux/arm64"
+    vault.hashicorp.com/agent-inject: "true"
+    vault.hashicorp.com/agent-pre-populate-only: "true"
+    vault.hashicorp.com/agent-inject-token: "true"
+    vault.hashicorp.com/role: "ci-system"
+    vault.hashicorp.com/tls-skip-verify: "true"        
+spec:
+  description: >-
+   Task and library for scanning a SBOM and and creating an attestation
+  params:
+    - name: IMAGE
+      description: Image to be parsed by grype
+    - name: TUF_URL
+      description: base TUF url for boostrappring cosign      
+    - name: GRYPE_IMAGE
+      default: docker.io/anchore/grype:v0.56.0
+      description: Grype image to be used
+      type: string
+    - name: COSIGN_IMAGE
+      default: docker.io/bitnami/cosign:latest
+      description: Cosing image to be used
+      type: string      
+  steps:
+    - name: grype
+      image: $(params.GRYPE_IMAGE)
+      args:
+        - "$(params.GRYPE_ARGS)"
+      volumeMounts:
+      - name: tmp
+        mountPath: /attestation_tmp
+      command:
+        - /bin/bash               
+      env:
+      - name: GRYPE_DB_CACHE_DIR
+        value: /tmp/.cache 
+      args:
+      - -c
+      - |
+        grype registry:$(params.IMAGE) --file /attestation_tmp/attestation.sarif -o - sarif                    
+    - name: cosign
+      image: $(params.COSIGN_IMAGE)
+      command:
+        - /bin/bash
+      args:
+        - -c
+        - |
+          cosign initialize --mirror=$TUF_URL --root=$TUF_URL/root.json
+          cosign attest $(params.IMAGE) --key hashivault://ci-system --predicate /attestation_tmp/attestation.sarif --type vuln --attachment-tag-prefix sarif-    
+      env:
+      - name: DOCKER_CONFIG
+        value: /dockerconfig                    
+      volumeMounts:
+      - name: tmp
+        mountPath: /attestation_tmp        
+      - name: dockerconfig
+        mountPath: /dockerconfig
+        readOnly: true                     
+  volumes:
+    - name: tmp
+      emptyDir: {}
+    - name: dockerconfig
+      secret:
+        secretName: quay-push                   
