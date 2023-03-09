@@ -10,7 +10,7 @@ subjects:
     name: ctlog-createtree
     namespace: ctlog-system
   - kind: ServiceAccount
-    name: scaffold-ctlog-createctconfig
+    name: sigstore-ctlog-createctconfig
     namespace: ctlog-system
   - kind: ServiceAccount
     name: ctlog

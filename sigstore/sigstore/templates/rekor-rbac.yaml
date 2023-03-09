@@ -10,7 +10,7 @@ subjects:
     name: rekor-server
     namespace: rekor-system
   - kind: ServiceAccount
-    name: scaffold-rekor-createtree
+    name: sigstore-rekor-createtree
     namespace: rekor-system      
 roleRef:
   apiGroup: rbac.authorization.k8s.io

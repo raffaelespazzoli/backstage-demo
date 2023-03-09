@@ -10,7 +10,7 @@ subjects:
     name: fulcio-server
     namespace: fulcio-system
   - kind: ServiceAccount
-    name: fulcio-createcert
+    name: fulcio-createcerts
     namespace: fulcio-system        
 roleRef:
   apiGroup: rbac.authorization.k8s.io
