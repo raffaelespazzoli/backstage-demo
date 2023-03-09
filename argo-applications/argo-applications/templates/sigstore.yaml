@@ -17,7 +17,7 @@ spec:
     path: sigstore/sigstore
     helm:
       values: |
-        sigstore:
+        scaffold:
           rekor:
             server:
               ingress:

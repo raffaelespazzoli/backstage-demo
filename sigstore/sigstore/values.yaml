@@ -1,4 +1,4 @@
-sigstore:
+scaffold:
   copySecretJob:
     enabled: true
 
