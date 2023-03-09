@@ -68,7 +68,7 @@ scaffold:
   tuf:
     namespace:
       name: tuf-system
-      create: create
+      create: true
     enabled: true
     ingress:
       className: ""

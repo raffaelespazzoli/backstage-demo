@@ -9,10 +9,12 @@ scaffold:
     server: 
       ingress:
         http:
-        - host: fulcio.apps.ciao
-          path: /
+          hosts:
+          - host: fulcio.apps.ciao
+            path: /
   tuf: 
     ingress:
       http:
-      - host: tuf.apps.ciao
-        path: /
+        hosts:
+        - host: tuf.apps.ciao
+          path: /

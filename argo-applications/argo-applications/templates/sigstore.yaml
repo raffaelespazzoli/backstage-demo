@@ -28,13 +28,15 @@ spec:
             server: 
               ingress:
                 http:
-                - host: fulcio.apps.{{ .Values.baseDomain }}
-                  path: /
+                  hosts:
+                  - host: fulcio.apps.{{ .Values.baseDomain }}
+                    path: /
           tuf: 
             ingress:
               http:
-              - host: tuf.apps.{{ .Values.baseDomain }}
-                path: /                              
+                hosts:
+                - host: tuf.apps.{{ .Values.baseDomain }}
+                  path: /                              
   destination:
     server: https://kubernetes.default.svc
     namespace: sigstore
