@@ -1,0 +1,84 @@
+sigstore:
+  copySecretJob:
+    enabled: true
+
+  ctlog:
+    namespace:
+      name: ctlog-system
+      create: true
+
+  trillian:
+    namespace:
+      name: trillian-system
+      create: true       
+
+  rekor:
+    namespace:
+      name: rekor-system
+      create: true
+    server:
+      attestation_storage:
+        enabled: false
+        persistence:
+          enabled: false
+      ingress:
+        className: ""
+        annotations:
+          route.openshift.io/termination: "edge"
+        hosts:
+          - host: dummy
+            path: /
+        # tls:
+        #   - secretName: rekor-tls
+        #     hosts:
+        #       - rekor.sigstore.local
+  fulcio:
+    namespace:
+      name: fulcio-system
+      create: true
+    createcerts:
+      enabled: true
+    server:
+      ingress:
+        http:
+          className: ""
+          annotations:
+            route.openshift.io/termination: "edge"
+          hosts:
+            - host: dummy
+              path: /
+          # tls:
+          #   - secretName: fulcio-tls
+          #     hosts:
+          #       - fulcio.sigstore.local
+    config:
+      contents: {}
+        # OIDCIssuers:
+        #   https://keycloak-rh-sso.apps.${base_domain}/auth/realms/sigstore:
+        #     IssuerURL: https://keycloak-rh-sso.apps.${base_domain}/auth/realms/sigstore
+        #     ClientID: sigstore
+        #     Type: email
+
+        #   https://spire-oidc-spire-system.apps.${base_domain}: 
+        #     ClientID: sigstore
+        #     IssuerURL: https://spire-oidc-spire-system.apps.${base_domain}
+        #     Type: spiffe
+        #     SPIFFETrustDomain: cluster1.demo
+
+  tuf:
+    namespace:
+      name: tuf-system
+      create: create
+    enabled: true
+    ingress:
+      className: ""
+      annotations:
+        route.openshift.io/termination: "edge"
+      http:
+        hosts:
+          - host: dummy
+            path: /
+      # tls:
+      #   - secretName: tuf-tls
+      #     hosts:
+      #       - "tuf.sigstore.local"

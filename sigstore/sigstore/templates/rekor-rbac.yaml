@@ -1,0 +1,21 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: 'rekor-nonroot'
+  namespace: rekor-system
+  labels:
+    {{- include "sigstore.labels" . | nindent 4 }}  
+subjects:
+  - kind: ServiceAccount
+    name: rekor-server
+    namespace: rekor-system
+  - kind: ServiceAccount
+    name: scaffold-rekor-createtree
+    namespace: rekor-system      
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: 'system:openshift:scc:nonroot-v2'
+
+
+

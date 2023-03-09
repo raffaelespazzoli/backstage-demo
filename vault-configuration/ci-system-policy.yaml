@@ -1,0 +1,14 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: Policy
+metadata:
+  name: ci-system
+spec:
+  # Add fields here
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+  policy: |
+    # query existing mounts
+    path "/transit/-/ci-system" {
+      capabilities = [ "list", "read", "write", "create", "update", "delete"]
+    }

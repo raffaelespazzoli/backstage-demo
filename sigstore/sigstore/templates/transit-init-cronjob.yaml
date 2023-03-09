@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: transit-cy-system-init
+  namespace: vault-admin
+  annotations:
+    argocd.argoproj.io/sync-wave: "28"
+  labels:
+    {{- include "sigstore.labels" . | nindent 4 }}      
+spec:
+  schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          annotations:
+            vault.hashicorp.com/agent-inject: "true"
+            vault.hashicorp.com/agent-pre-populate-only: "true"
+            vault.hashicorp.com/agent-inject-token: "true"
+            vault.hashicorp.com/role: "ci-system"
+            vault.hashicorp.com/tls-skip-verify: "true"
+        spec:
+          containers:
+          - name: hello
+            image: docker.io/bitnami/cosign:latest
+            imagePullPolicy: IfNotPresent
+            env:  
+            - name: VAULT_ADDR
+              value: https://vault.vault.svc:8200
+            - name: VAULT_SKIP_VERIFY
+              value: "true"            
+            command:
+            - /bin/sh
+            - -c
+            - |
+                set -e
+                export VAULT_TOKEN=$(cat /vault/secrets/token)
+                cosign generate-key-pair --kms hashivault://ci-system            
+          restartPolicy: OnFailure
