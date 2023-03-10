@@ -62,7 +62,7 @@ spec:
                 set -x
                 set -o pipefail
                 export VAULT_TOKEN=$(cat /vault/secrets/token)
-                export count=$(cat ./shared/result)
+                export count=$(cat /shared/result)
                 if [ ${count} -eq 0 ] then 
                   cosign generate-key-pair --kms hashivault://ci-system
                 fi
