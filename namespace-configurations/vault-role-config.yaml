@@ -161,6 +161,8 @@ spec:
             stringData:
               .dockerconfigjson: |
                 {"auths":{"quay.io":{"username":"{{ "{{" }} .quaytoken.username {{ "}}" }}","password":"{{ "{{" }} .quaytoken.password {{ "}}" }}","email":"{{ "{{" }} .quaytoken.username {{ "}}" }}@example.com","auth":"{{ "{{" }} list .quaytoken.username ":" .quaytoken.password | join "" | b64enc {{ "}}" }}"}}}
+              config.json: |
+                {"auths":{"quay.io":{"username":"{{ "{{" }} .quaytoken.username {{ "}}" }}","password":"{{ "{{" }} .quaytoken.password {{ "}}" }}","email":"{{ "{{" }} .quaytoken.username {{ "}}" }}@example.com","auth":"{{ "{{" }} list .quaytoken.username ":" .quaytoken.password | join "" | b64enc {{ "}}" }}"}}}  
             type: kubernetes.io/dockerconfigjson
       excludedPaths:
         - .metadata

@@ -38,7 +38,7 @@ spec:
       - name: DOCKER_CONFIG
         value: /dockerconfig      
       args: 
-        - package 
+        - packages 
         - registry:$(params.IMAGE) 
         - -o 
         - spdx-json 
