@@ -53,8 +53,7 @@ spec:
       targetObjectRef:
         apiVersion: v1
         kind: ServiceAccount
-        name: default
-        namespace: 
+        name: default 
       sourceObjectRefs:
       - apiVersion: v1
         kind: Namespace
@@ -65,7 +64,23 @@ spec:
         {{ "{{" }} append (index . 0).imagePullSecrets (dict "name" "quay-pull-secret") | toYaml | indent 2 {{ "}}" }}
         {{ "{{-" }} else {{ "}}" }}
         {{ "{{" }} (index . 0).imagePullSecrets | toYaml | indent 2 {{ "}}" }}
-        {{ "{{-" }} end {{ "}}" }}        
+        {{ "{{-" }} end {{ "}}" }}
+    pull-secret-service-account-patch:
+      targetObjectRef:
+        apiVersion: v1
+        kind: ServiceAccount
+        name: pipeline
+      sourceObjectRefs:
+      - apiVersion: v1
+        kind: Namespace
+        name: '{{ "{{" }} .metadata.namespace {{ "}}" }}'   
+      patchTemplate: |
+        imagePullSecrets:
+        {{ "{{-" }} if and (and (hasKey (index . 1).metadata.labels "app") (eq ((index . 1).metadata.labels.environment | toString) "build")) (not (has (dict "name" "quay-push-secret") (index . 0).imagePullSecrets)) {{ "}}" }}      
+        {{ "{{" }} append (index . 0).imagePullSecrets (dict "name" "quay-push-secret") | toYaml | indent 2 {{ "}}" }}
+        {{ "{{-" }} else {{ "}}" }}
+        {{ "{{" }} (index . 0).imagePullSecrets | toYaml | indent 2 {{ "}}" }}
+        {{ "{{-" }} end {{ "}}" }}                
       patchType: application/merge-patch+json     
     # backstage-app-patch:       
     #   targetObjectRef:
