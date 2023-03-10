@@ -34,7 +34,6 @@ spec:
   steps:
     - name: grype
       image: $(params.GRYPE_IMAGE)
-g
       volumeMounts:
       - name: tmp
         mountPath: /attestation_tmp
