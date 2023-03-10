@@ -40,7 +40,7 @@ spec:
                 set -x
                 set -o pipefail
                 export VAULT_TOKEN=$(cat /vault/secrets/token)
-                vault list -format=yaml transit/keys | grep ci-system | wc -l >> /shared/result
+                vault list -format=yaml transit/keys | grep ci-system | wc -l > /shared/result
             volumeMounts:
             - name: shared
               mountPath: /shared                 
@@ -63,7 +63,7 @@ spec:
                 set -o pipefail
                 export VAULT_TOKEN=$(cat /vault/secrets/token)
                 export count=$(cat ./shared/result)
-                if [ ${count} -eq 0] then 
+                if [ ${count} -eq 0 ] then 
                   cosign generate-key-pair --kms hashivault://ci-system
                 fi
             volumeMounts:
