@@ -71,4 +71,4 @@ spec:
       emptyDir: {}
     - name: dockerconfig
       secret:
-        secretName: quay-push                   
+        secretName: quay-push-secret                   
