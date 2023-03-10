@@ -21,6 +21,28 @@ spec:
             vault.hashicorp.com/role: "policy-admin"
             vault.hashicorp.com/tls-skip-verify: "true"
         spec:
+          initContainers:
+          - name: check-existance-of-transit-path
+            image: registry.connect.redhat.com/hashicorp/vault:1.12.0-ubi
+            imagePullPolicy: IfNotPresent
+            env:  
+            - name: VAULT_ADDR
+              value: https://vault.vault.svc:8200
+            - name: VAULT_SKIP_VERIFY
+              value: "true"
+            command:
+            - /bin/bash
+            - -c
+            - |
+                set -e
+                set -u
+                set -x
+                set -o pipefail
+                export VAULT_TOKEN=$(cat /vault/secrets/token)
+                vault list -format=yaml transit/keys | grep ci-system | wc -l >> /shared/result
+            volumeMounts:
+            - name: shared
+              mountPath: /shared                 
           containers:
           - name: hello
             image: docker.io/bitnami/cosign:latest
@@ -35,6 +57,18 @@ spec:
             - -c
             - |
                 set -e
+                set -u
+                set -x
+                set -o pipefail
                 export VAULT_TOKEN=$(cat /vault/secrets/token)
-                cosign generate-key-pair --kms hashivault://ci-system            
+                export count=$(cat ./shared/result)
+                if [ ${count} -eq 0] then 
+                  cosign generate-key-pair --kms hashivault://ci-system
+                fi
+            volumeMounts:
+            - name: shared
+              mountPath: /shared             
           restartPolicy: OnFailure
+          volumes:
+            - name: shared
+              emptyDir: {}          
