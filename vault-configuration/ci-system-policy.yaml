@@ -10,8 +10,8 @@ spec:
   policy: |
     # query existing mounts
     path "/transit/+/ci-system" {
-      capabilities = [ "list", "read", "write", "create", "update", "delete"]
+      capabilities = [ "list", "read", "create", "update", "delete"]
     }
     path "/transit/+/ci-system/+" {
-      capabilities = [ "list", "read", "write", "create", "update", "delete"]
+      capabilities = [ "list", "read", "create", "update", "delete"]
     }    
