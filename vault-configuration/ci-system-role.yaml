@@ -11,7 +11,7 @@ spec:
   policies:
     - ci-system
   targetServiceAccounts:
-  - openshift-pipeline  
+  - pipeline  
   targetNamespaces:
     targetNamespaceSelector:
       matchExpressions:
