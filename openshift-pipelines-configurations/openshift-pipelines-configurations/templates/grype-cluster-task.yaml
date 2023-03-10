@@ -34,14 +34,18 @@ spec:
   steps:
     - name: grype
       image: $(params.GRYPE_IMAGE)
-      args:
-        - "$(params.GRYPE_ARGS)"
+g
       volumeMounts:
       - name: tmp
-        mountPath: /attestation_tmp               
+        mountPath: /attestation_tmp
+      - name: dockerconfig
+        mountPath: /dockerconfig
+        readOnly: true                       
       env:
       - name: GRYPE_DB_CACHE_DIR
-        value: /tmp/.cache 
+        value: /tmp/.cache
+      - name: DOCKER_CONFIG
+        value: /dockerconfi         
       args:
       - registry:$(params.IMAGE) 
       - --file 

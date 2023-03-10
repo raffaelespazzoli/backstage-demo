@@ -34,6 +34,9 @@ spec:
   steps:
     - name: syft
       image: $(params.SYFT_IMAGE)
+      env:
+      - name: DOCKER_CONFIG
+        value: /dockerconfig      
       args: 
         - package 
         - registry:$(params.IMAGE) 
@@ -43,7 +46,10 @@ spec:
         - /attestation_tmp/attestation.sbom     
       volumeMounts:
       - name: tmp
-        mountPath: /attestation_tmp              
+        mountPath: /attestation_tmp
+      - name: dockerconfig
+        mountPath: /dockerconfig
+        readOnly: true                      
     - name: cosign
       image: $(params.COSIGN_IMAGE)
       command:
