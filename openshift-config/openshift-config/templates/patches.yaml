@@ -65,7 +65,7 @@ spec:
         {{ "{{-" }} else {{ "}}" }}
         {{ "{{" }} (index . 0).imagePullSecrets | toYaml | indent 2 {{ "}}" }}
         {{ "{{-" }} end {{ "}}" }}
-    pull-secret-service-account-patch:
+    push-secret-pipeline-service-account-patch:
       targetObjectRef:
         apiVersion: v1
         kind: ServiceAccount
