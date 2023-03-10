@@ -27,7 +27,6 @@ spec:
           path: kubernetes
           policies:
             - {{ .Labels.team }}-read-token
-            - ci-system
           targetNamespaces:
             targetNamespaceSelector:
               matchLabels:

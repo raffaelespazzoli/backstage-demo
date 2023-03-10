@@ -1,0 +1,23 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: KubernetesAuthEngineRole
+metadata:
+  name: ci-system
+spec:
+  # Add fields here
+  authentication: 
+    path: kubernetes
+    role: policy-admin
+  path: kubernetes  
+  policies:
+    - ci-system
+  targetServiceAccounts:
+  - default  
+  targetNamespaces:
+    targetNamespaceSelector:
+      matchExpressions:
+        - key: team
+          operator: Exists
+        - key: environment
+          operator: In
+          values:
+          - build
