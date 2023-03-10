@@ -44,7 +44,7 @@ spec:
       - name: GRYPE_DB_CACHE_DIR
         value: /tmp/.cache
       - name: DOCKER_CONFIG
-        value: /dockerconfi         
+        value: /dockerconfig         
       args:
       - registry:$(params.IMAGE) 
       - --file 
