@@ -20,6 +20,7 @@ spec:
             vault.hashicorp.com/agent-inject-token: "true"
             vault.hashicorp.com/role: "policy-admin"
             vault.hashicorp.com/tls-skip-verify: "true"
+            vault.hashicorp.com/agent-init-first: "true"
         spec:
           initContainers:
           - name: check-existance-of-transit-path
