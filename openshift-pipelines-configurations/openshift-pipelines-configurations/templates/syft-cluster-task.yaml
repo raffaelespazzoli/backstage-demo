@@ -68,7 +68,7 @@ spec:
         - |
           export VAULT_TOKEN=$(cat /vault/secrets/token)
           cosign initialize --mirror=$(params.TUF_URL) --root=$(params.TUF_URL)/root.json
-          cosign attest $(params.IMAGE) -f --rekor-url $(params.REKOR_URL) --key hashivault://ci-system --predicate /attestation_tmp/attestation.sbom --type spdxjson --attachment-tag-prefix sbom-
+          cosign attest $(params.IMAGE) -fyd --rekor-url $(params.REKOR_URL) --key hashivault://ci-system --predicate /attestation_tmp/attestation.sbom --type spdxjson --attachment-tag-prefix sbom-
       volumeMounts:
       - name: tmp
         mountPath: /attestation_tmp
