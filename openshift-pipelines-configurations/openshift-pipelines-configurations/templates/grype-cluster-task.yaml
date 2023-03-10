@@ -62,7 +62,7 @@ spec:
         - |
           export VAULT_TOKEN=$(cat /vault/secrets/token)
           cosign initialize --mirror=$(params.TUF_URL) --root=$(params.TUF_URL)/root.json
-          cosign attest $(params.IMAGE) -fyd --rekor-url $(params.REKOR_URL) --key hashivault://ci-system --predicate /attestation_tmp/attestation.sarif --type vuln --attachment-tag-prefix sarif-    
+          cosign attest $(params.IMAGE) -y -d --rekor-url $(params.REKOR_URL) --key hashivault://ci-system --predicate /attestation_tmp/attestation.sarif --type vuln --attachment-tag-prefix sarif-    
       env:
       - name: DOCKER_CONFIG
         value: /dockerconfig
