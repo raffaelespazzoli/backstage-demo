@@ -22,7 +22,9 @@ spec:
     - name: IMAGE
       description: container image that syft will analyse
     - name: TUF_URL
-      description: base TUF url for boostrappring cosign      
+      description: base TUF url for boostrappring cosign
+    - name: REKOR_URL
+      description: the url at which Rekor can be found        
     - name: SYFT_IMAGE
       default: docker.io/anchore/syft@sha256:2b71d0408aa5254704340e642687c0dd926563c258aaa0832da2c3c1ecd0c8e2 # v0.66.2
       description: Syft image to be used
@@ -60,13 +62,13 @@ spec:
       - name: VAULT_ADDR
         value: https://vault.vault.svc:8200
       - name: VAULT_SKIP_VERIFY
-        value: "true"        
+        value: "true"          
       args:
         - -c 
         - |
           export VAULT_TOKEN=$(cat /vault/secrets/token)
-          cosign initialize --mirror=${TUF_URL} --root=${TUF_URL}/root.json
-          cosign attest $(params.IMAGE) --key hashivault://ci-system --predicate /attestation_tmp/attestation.sbom --type spdxjson --attachment-tag-prefix sbom-
+          cosign initialize --mirror=$(params.TUF_URL) --root=$(params.TUF_URL)/root.json
+          cosign attest $(params.IMAGE) --rekor-url $(params.REKOR_URL) --key hashivault://ci-system --predicate /attestation_tmp/attestation.sbom --type spdxjson --attachment-tag-prefix sbom-
       volumeMounts:
       - name: tmp
         mountPath: /attestation_tmp

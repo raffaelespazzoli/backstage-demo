@@ -58,11 +58,15 @@ spec:
       args:
         - -c
         - |
-          cosign initialize --mirror=$TUF_URL --root=$TUF_URL/root.json
-          cosign attest $(params.IMAGE) --key hashivault://ci-system --predicate /attestation_tmp/attestation.sarif --type vuln --attachment-tag-prefix sarif-    
+          cosign initialize --mirror=$(params.TUF_URL) --root=$(params.TUF_URL)/root.json
+          cosign attest $(params.IMAGE) --rekor-url $(params.REKOR_URL) --key hashivault://ci-system --predicate /attestation_tmp/attestation.sarif --type vuln --attachment-tag-prefix sarif-    
       env:
       - name: DOCKER_CONFIG
-        value: /dockerconfig                    
+        value: /dockerconfig
+      - name: VAULT_ADDR
+        value: https://vault.vault.svc:8200
+      - name: VAULT_SKIP_VERIFY
+        value: "true"                            
       volumeMounts:
       - name: tmp
         mountPath: /attestation_tmp        
