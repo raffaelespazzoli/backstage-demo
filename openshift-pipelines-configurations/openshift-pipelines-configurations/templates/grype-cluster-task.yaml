@@ -38,16 +38,16 @@ spec:
         - "$(params.GRYPE_ARGS)"
       volumeMounts:
       - name: tmp
-        mountPath: /attestation_tmp
-      command:
-        - /bin/bash               
+        mountPath: /attestation_tmp               
       env:
       - name: GRYPE_DB_CACHE_DIR
         value: /tmp/.cache 
       args:
-      - -c
-      - |
-        grype registry:$(params.IMAGE) --file /attestation_tmp/attestation.sarif -o - sarif                    
+      - registry:$(params.IMAGE) 
+      - --file 
+      - /attestation_tmp/attestation.sarif 
+      - -o 
+      - sarif                    
     - name: cosign
       image: $(params.COSIGN_IMAGE)
       command:

@@ -34,12 +34,13 @@ spec:
   steps:
     - name: syft
       image: $(params.SYFT_IMAGE)
-      command:
-        - /bin/bash
-      args:  
-        - -c 
-        - |
-          syft package registry:$(params.IMAGE) -o spdx-json --file /attestation_tmp/attestation.sbom     
+      args: 
+        - package 
+        - registry:$(params.IMAGE) 
+        - -o 
+        - spdx-json 
+        - --file 
+        - /attestation_tmp/attestation.sbom     
       volumeMounts:
       - name: tmp
         mountPath: /attestation_tmp              
