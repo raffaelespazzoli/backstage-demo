@@ -22,7 +22,9 @@ spec:
     - name: IMAGE
       description: Image to be parsed by grype
     - name: TUF_URL
-      description: base TUF url for boostrappring cosign      
+      description: base TUF url for boostrappring cosign
+    - name: REKOR_URL
+      description: the url at which Rekor can be found             
     - name: GRYPE_IMAGE
       default: docker.io/anchore/grype:v0.56.0
       description: Grype image to be used
