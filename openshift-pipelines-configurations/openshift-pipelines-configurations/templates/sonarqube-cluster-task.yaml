@@ -46,7 +46,7 @@ spec:
         #!/usr/bin/env bash
         export SONAR_TOKEN=$(cat /sonar/SONARQUBE_TOKEN)
         echo $SONAR_TOKEN
-        ./mvnw -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.login=admin -Dsonar.password=${SONAR_TOKEN} -Dsonar.projectKey=$(params.SONAR_PROJECT_KEY) -Dmaven.repo.local=$(workspaces.maven-settings.path)
+        ./mvnw -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$(params.SONAR_PROJECT_KEY) -Dmaven.repo.local=$(workspaces.maven-settings.path)
       volumeMounts:
       - name: sonar
         mountPath: /sonar
