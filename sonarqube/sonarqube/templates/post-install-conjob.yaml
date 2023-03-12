@@ -31,7 +31,7 @@ spec:
                     export token=$(echo $curl_answer | jq -r .token)
                     echo "creating sonarqube-credentials secret..."
                     oc create secret generic sonarqube-credentials -n {{ .Release.Namespace }} --from-literal=SONARQUBE_TOKEN=${token}
-                    oc annotate secret sonarqube-credentials -n {{ .Release.Namespace }} reflector.v1.k8s.emberstack.com/reflection-allowed="true" reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces="" reflector.v1.k8s.emberstack.com/reflection-auto-enabled=true reflector.v1.k8s.emberstack.com/reflection-auto-namespaces=backstage
+                    oc annotate secret sonarqube-credentials --overwrite -n {{ .Release.Namespace }} reflector.v1.k8s.emberstack.com/reflection-allowed="true" reflector.v1.k8s.emberstack.com/reflection-auto-enabled=true reflector.v1.k8s.emberstack.com/reflection-auto-namespaces=backstage
                 fi    
             
           restartPolicy: OnFailure
