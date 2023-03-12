@@ -13,7 +13,7 @@ spec:
         kind: ArgoCD
         metadata:
           name: tenant-gitops
-          namespace: "{{ .Name }}"
+          namespace: "{{ "{{" }} .Name {{ "}}" }}"
         spec:
           server:
             autoscale:
@@ -144,14 +144,14 @@ spec:
         kind: GitWebhook
         metadata:
           name: argocd
-          namespace: {{ .Name }}  
+          namespace: {{ "{{" }} .Name {{ "}}" }}  
         spec:
           gitHub:
             gitServerCredentials:
               name: github-credentials
           repositoryOwner: raf-backstage-demo
           ownerType:  organization
-          repositoryName: {{ .Labels.app }}-gitops
+          repositoryName: {{ "{{" }} .Labels.app {{ "}}" }}-gitops
           # webhookURL: intentionally empty, will be patched
           insecureSSL: true
           webhookSecret:
@@ -170,13 +170,13 @@ spec:
         kind: RandomSecret
         metadata:
           name: argocd-webhook
-          namespace: {{ .Name }}   
+          namespace: {{ "{{" }} .Name {{ "}}" }}   
         spec:
           authentication: 
             path: kubernetes
-            role: {{ .Name }}-kv
+            role: {{ "{{" }} .Name {{ "}}" }}-kv
           isKVSecretsEngineV2: false
-          path: {{ .Labels.team }}/{{ .Name }}-kv
+          path: {{ "{{" }} .Labels.team {{ "}}" }}/{{ "{{" }} .Name {{ "}}" }}-kv
           secretKey: argocd-webhook-secret
           secretFormat:
             passwordPolicyName: webhook
@@ -189,18 +189,18 @@ spec:
         kind: VaultSecret
         metadata:
           name: argocd-webhook
-          namespace: {{ .Name }}  
+          namespace: {{ "{{" }} .Name {{ "}}" }}  
         spec:
           vaultSecretDefinitions:
             - authentication:
                 path: kubernetes
-                role: {{ .Name }}-kv
+                role: {{ "{{" }} .Name {{ "}}" }}-kv
               name: webhook_secret
-              path: {{ .Labels.team }}/{{ .Name }}-kv/argocd-webhook
+              path: {{ "{{" }} .Labels.team {{ "}}" }}/{{ "{{" }} .Name {{ "}}" }}-kv/argocd-webhook
           output:
             name: argocd-webhook
             stringData:
-              secret: '{{ "{{" }} index .webhook_secret "argocd-webhook-secret" {{ "}}" }}'
+              secret: '{{ "{{ \"{{\" }}" }} index .webhook_secret "argocd-webhook-secret" {{ "{{ \"}}\" }}" }}'
             type: Opaque
       excludedPaths:	
         - .spec.replicas	
@@ -221,8 +221,8 @@ spec:
         apiVersion: rbac.authorization.k8s.io/v1
         kind: RoleBinding
         metadata:
-          name: "{{ .Labels.app }}-tenant-argocd-sa-edit"
-          namespace: "{{ .Name }}"
+          name: "{{ "{{" }} .Labels.app {{ "}}" }}-tenant-argocd-sa-edit"
+          namespace: "{{ "{{" }} .Name {{ "}}" }}"
         roleRef:
           apiGroup: rbac.authorization.k8s.io
           kind: ClusterRole
@@ -230,14 +230,14 @@ spec:
         subjects:          
         - kind: ServiceAccount
           name: tenant-gitops-argocd-application-controller
-          namespace: "{{ index .Labels "build-namespace" }}"
+          namespace: "{{ "{{" }} index .Labels "build-namespace" {{ "}}" }}"
         - kind: ServiceAccount
           name: tenant-gitops-applicationset-controller
-          namespace: "{{ index .Labels "build-namespace" }}"
+          namespace: "{{ "{{" }} index .Labels "build-namespace" {{ "}}" }}"
         - kind: ServiceAccount
           name: tenant-gitops-argocd-server
-          namespace: "{{ index .Labels "build-namespace" }}"
+          namespace: "{{ "{{" }} index .Labels "build-namespace" {{ "}}" }}"
         - kind: ServiceAccount
           name: tenant-gitops-argocd-dex-server
-          namespace: "{{ index .Labels "build-namespace" }}"        
+          namespace: "{{ "{{" }} index .Labels "build-namespace" {{ "}}" }}"        
                                
