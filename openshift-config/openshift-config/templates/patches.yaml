@@ -420,19 +420,19 @@ spec:
       patchTemplate: | 
         data:
           webhook.github.secret: {{ "{{" }} (index . 1).data.secret | b64enc {{ "}}" }}
-    argocd-webhook:
-      targetObjectRef:
-        apiVersion: redhatcop.redhat.io/v1alpha1
-        kind: GitWebhook
-        name: argocd  
-      sourceObjectRefs:
-      - apiVersion: config.openshift.io/v1
-        kind: DNS
-        name: cluster
-      patchType: application/merge-patch+json
-      patchTemplate: |
-        spec:
-          webhookURL: https://tenant-gitops-server-{{ "{{" }} (index . 0).metadata.namespace {{ "}}" }}.apps.{{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}                   
+    # argocd-webhook:
+    #   targetObjectRef:
+    #     apiVersion: redhatcop.redhat.io/v1alpha1
+    #     kind: GitWebhook
+    #     name: argocd  
+    #   sourceObjectRefs:
+    #   - apiVersion: config.openshift.io/v1
+    #     kind: DNS
+    #     name: cluster
+    #   patchType: application/merge-patch+json
+    #   patchTemplate: |
+    #     spec:
+    #       webhookURL: https://tenant-gitops-server-{{ "{{" }} (index . 0).metadata.namespace {{ "}}" }}.apps.{{ "{{" }} (index . 1).spec.baseDomain {{ "}}" }}                   
     # database-secret-engine-username-patch:
     #   patchType: application/merge-patch+json
     #   targetObjectRef:

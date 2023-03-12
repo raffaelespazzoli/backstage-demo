@@ -3,6 +3,8 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
 metadata:
   name: tenant-argocd
+  labels:
+    {{- include "openshift-config.labels" . | nindent 4 }}  
 spec:
   labelSelector:
     matchLabels:
@@ -152,7 +154,6 @@ spec:
           repositoryOwner: raf-backstage-demo
           ownerType:  organization
           repositoryName: {{ "{{" }} .Labels.app {{ "}}" }}-gitops
-          # webhookURL: intentionally empty, will be patched
           insecureSSL: true
           webhookSecret:
             name: argocd-webhook
@@ -211,6 +212,8 @@ apiVersion: redhatcop.redhat.io/v1alpha1
 kind: NamespaceConfig
 metadata:
   name: tenant-argocd-sa-edit
+  labels:
+    {{- include "openshift-config.labels" . | nindent 4 }}  
 spec:
   labelSelector:
     matchExpressions:
