@@ -225,17 +225,6 @@ envsubst < ./argocd/argo-root-application.yaml | oc apply -f -
 
 You may need to resync a few times to get all the argocd apps going. Check the gitops status here: `https://openshift-gitops-server-openshift-gitops.apps.${base_domain}`
 
-Once sonarqube is up and running connect to it `https://sonarqube-sonarqube.apps.${base_domain}` with admin/admin and create a new admin token (Administration->security->users->admin->tokens).
-Add it to your ./secrets.sh file with the env variable ${sonarqube_token}
-
-then run these commands
-
-```shell
-source ./secrets.sh
-oc create secret generic sonarqube-credentials -n backstage --from-literal=SONARQUBE_TOKEN=${sonarqube_token}
-oc annotate secret sonarqube-credentials -n backstage reflector.v1.k8s.emberstack.com/reflection-allowed="true"
-oc annotate secret sonarqube-credentials -n backstage reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces=""
-```
 
 This should be all to setup the demo.
 

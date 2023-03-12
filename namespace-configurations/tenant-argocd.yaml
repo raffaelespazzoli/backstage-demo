@@ -200,7 +200,7 @@ spec:
           output:
             name: argocd-webhook
             stringData:
-              secret: '{{ "{{" }} .webhook_secret.argocd-webhook-secret {{ "}}" }}'
+              secret: '{{ "{{" }} index .webhook_secret "argocd-webhook-secret" {{ "}}" }}'
             type: Opaque
       excludedPaths:	
         - .spec.replicas	
