@@ -65,6 +65,7 @@ spec:
         {{ "{{-" }} else {{ "}}" }}
         {{ "{{" }} (index . 0).imagePullSecrets | toYaml | indent 2 {{ "}}" }}
         {{ "{{-" }} end {{ "}}" }}
+      patchType: application/merge-patch+json  
     push-secret-pipeline-service-account-patch:
       targetObjectRef:
         apiVersion: v1
