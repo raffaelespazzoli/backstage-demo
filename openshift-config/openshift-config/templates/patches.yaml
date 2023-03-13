@@ -420,7 +420,7 @@ spec:
       patchType: application/merge-patch+json
       patchTemplate: | 
         data:
-          webhook.github.secret: {{ "{{" }} (index . 1).data.secret | b64enc {{ "}}" }}
+          webhook.github.secret: {{ "{{" }} (index . 1).data.secret {{ "}}" }}
     # argocd-webhook:
     #   targetObjectRef:
     #     apiVersion: redhatcop.redhat.io/v1alpha1
