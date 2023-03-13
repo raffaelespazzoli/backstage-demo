@@ -155,7 +155,7 @@ spec:
           ownerType:  organization
           repositoryName: {{ "{{" }} .Labels.app {{ "}}" }}-gitops
           insecureSSL: true
-          webhookURL: https://tenant-gitops-server-{{ .Name }}.apps.{{ .Values.base_domain }}
+          webhookURL: https://tenant-gitops-server-{{ "{{" }} .Name {{ "}}" }}.apps.{{ .Values.base_domain }}
           webhookSecret:
             name: argocd-webhook
           events:
