@@ -1,0 +1,11 @@
+apiVersion: multicluster.openshift.io/v1
+kind: MultiClusterEngine
+metadata:
+  name: multiclusterengine
+  annotations:
+    argocd.argoproj.io/sync-options: ServerSideApply=true  
+spec:
+  overrides:
+    components:
+      - enabled: true
+        name: hypershift-preview
