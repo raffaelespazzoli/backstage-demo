@@ -1,13 +1,13 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: {{ include "argocd-rollouts.fullname" . }}
+  name: {{ include "argo-rollouts.fullname" . }}
   labels:
-    {{- include "argocd-rollouts.labels" . | nindent 4 }}
+    {{- include "argo-rollouts.labels" . | nindent 4 }}
 spec:
   to:
     kind: Service
-    name: {{ include "argocd-rollouts.fullname" . }}
+    name: {{ include "argo-rollouts.fullname" . }}
     weight: 100
   port:
     targetPort: 8000
