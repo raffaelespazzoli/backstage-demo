@@ -7,7 +7,7 @@ metadata:
 spec:
   to:
     kind: Service
-    name: {{ include "argo-rollouts.fullname" . }}
+    name: {{ include "argo-rollouts.fullname" . }}-dashboard
     weight: 100
   port:
     targetPort: 8000
