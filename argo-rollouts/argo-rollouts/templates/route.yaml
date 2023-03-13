@@ -10,7 +10,7 @@ spec:
     name: {{ include "argo-rollouts.fullname" . }}-dashboard
     weight: 100
   port:
-    targetPort: 8000
+    targetPort: 3100
   tls:
     termination: edge
   wildcardPolicy: None
