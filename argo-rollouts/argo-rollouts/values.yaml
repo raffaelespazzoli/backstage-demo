@@ -1,0 +1,7 @@
+argo-rollouts:
+  dashboard:
+    enabled: true
+    ingress:
+      enabled: false
+
+baseDomain: dummy

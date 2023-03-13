@@ -14,9 +14,10 @@ spec:
   source:
     repoURL: {{ .Values.gitRepo.URL }}
     targetRevision: {{ .Values.gitRepo.targetRevision }}
-    path: argo-rollouts
-    directory:
-      include: install.yaml
+    path: argo-rollouts/argo-rollouts
+    helm:
+      values: | 
+        baseDomain: {{ .Values.baseDomain }}      
   destination:
     server: https://kubernetes.default.svc
     namespace: argo-rollouts
