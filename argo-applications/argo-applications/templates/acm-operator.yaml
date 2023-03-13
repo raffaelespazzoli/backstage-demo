@@ -14,7 +14,7 @@ spec:
   source:
     repoURL: {{ .Values.gitRepo.URL }}
     targetRevision: {{ .Values.gitRepo.targetRevision }}
-    path: acm
+    path: acm-operator
     directory:
       include: operator.yaml
   destination:
