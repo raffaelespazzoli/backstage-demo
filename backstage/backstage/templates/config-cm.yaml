@@ -108,11 +108,11 @@ data:
       providers:
         keycloakOrg:
           default:
-            baseUrl: ${KEYCLOAK_BASE_URL}
-            loginRealm: ${KEYCLOAK_LOGIN_REALM}
-            realm: ${KEYCLOAK_REALM}
-            clientId: ${KEYCLOAK_CLIENT_ID}
-            clientSecret: ${KEYCLOAK_CLIENT_SECRET}    
+            baseUrl: dummy
+            loginRealm: dummy
+            realm: dummy
+            clientId: dummy
+            clientSecret: dummy  
       rules:
         - allow: [Component, System, API, Group, User, Resource, Location]
       locations:
@@ -164,20 +164,20 @@ data:
     # this is to make the janus image happy
     ocm:
       hub:
-        name: ${OCM_HUB_NAME}
-        url: ${OCM_HUB_URL}
-        serviceAccountToken: ${moc_infra_token}
+        name: dummy
+        url: dummy
+        serviceAccountToken: dummy
 
     argocd:
-      username: ${ARGOCD_USERNAME}
-      password: ${ARGOCD_PASSWORD}
+      username: dummy
+      password: dummy
       appLocatorMethods:
         - type: 'config'
           instances:
             - name: argoInstance1
-              url: ${ARGOCD_INSTANCE1_URL}
-              token: ${ARGOCD_AUTH_TOKEN}
+              url: dummy
+              token: dummy
             - name: argoInstance2
-              url: ${ARGOCD_INSTANCE2_URL}
-              token: ${ARGOCD_AUTH_TOKEN2}                                              
+              url: dummy
+              token: dummy                                              
 
