@@ -105,6 +105,14 @@ data:
               dashboardApp: openshift
 
     catalog:
+      providers:
+        keycloakOrg:
+          default:
+            baseUrl: ${KEYCLOAK_BASE_URL}
+            loginRealm: ${KEYCLOAK_LOGIN_REALM}
+            realm: ${KEYCLOAK_REALM}
+            clientId: ${KEYCLOAK_CLIENT_ID}
+            clientSecret: ${KEYCLOAK_CLIENT_SECRET}    
       rules:
         - allow: [Component, System, API, Group, User, Resource, Location]
       locations:
@@ -151,5 +159,25 @@ data:
         - type: github-discovery
           target: https://github.com/${GITHUB_ORG}/*-gitops/blob/-/resources/*.yaml
           rules:
-            - allow: [Resource]                       
+            - allow: [Resource] 
+
+        # this is to make the janus image happy
+        ocm:
+          hub:
+            name: ${OCM_HUB_NAME}
+            url: ${OCM_HUB_URL}
+            serviceAccountToken: ${moc_infra_token}
+
+        argocd:
+          username: ${ARGOCD_USERNAME}
+          password: ${ARGOCD_PASSWORD}
+          appLocatorMethods:
+            - type: 'config'
+              instances:
+                - name: argoInstance1
+                  url: ${ARGOCD_INSTANCE1_URL}
+                  token: ${ARGOCD_AUTH_TOKEN}
+                - name: argoInstance2
+                  url: ${ARGOCD_INSTANCE2_URL}
+                  token: ${ARGOCD_AUTH_TOKEN2}                                              
 

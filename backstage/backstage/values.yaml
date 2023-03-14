@@ -5,10 +5,12 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/raf-backstage-demo/backstage-app-demo
+  #repository: ghcr.io/raf-backstage-demo/backstage-app-demo
+  repository: quay.io/janus-idp/backstage-showcase
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: main
+  #tag: main
+  tag: sha-954b43a
 
 imagePullSecrets: []
 nameOverride: ""
