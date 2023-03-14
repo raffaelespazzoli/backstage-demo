@@ -13,7 +13,7 @@ data:
   artifacts.pipelinerun.storage: oci
   transparency.enabled: "true"
   transparency.url: https://rekor.apps.{{ .Values.baseDomain }}
-  signers.kms.kmsref: hashivault://ci-system
-  signers.kms.auth.address: https://vault.apps.{{ .Values.baseDomain }}				
-  signers.kms.auth.oidc.path: kubernetes	
-  signers.kms.auth.oidc.role: vault-admin
+  #signers.kms.kmsref: hashivault://ci-system
+  #signers.kms.auth.address: https://vault.apps.{{ .Values.baseDomain }}				
+  #signers.kms.auth.oidc.path: kubernetes	
+  #signers.kms.auth.oidc.role: vault-admin

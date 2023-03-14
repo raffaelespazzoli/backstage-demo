@@ -9,5 +9,6 @@ NAMESPACE="open-cluster-management"  # $SECRET_CREDS needs to exist in $NAMESPAC
 
 
 aws s3api create-bucket --acl public-read --bucket $BUCKET_NAME --create-bucket-configuration LocationConstraint=$REGION --region $REGION
+oc create secret generic hypershift-operator-oidc-provider-s3-credentials --from-file=credentials=$HOME/.aws/credentials --from-literal=bucket=$BUCKET_NAME --from-literal=region=$REGION -n local-cluster
 hypershift create cluster aws --name $CLUSTER_NAME --namespace $NAMESPACE --node-pool-replicas=3 --secret-creds $SECRET_CREDS --region $REGION
 ```
