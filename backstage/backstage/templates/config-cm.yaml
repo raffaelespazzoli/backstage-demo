@@ -112,7 +112,42 @@ data:
             loginRealm: dummy
             realm: dummy
             clientId: dummy
-            clientSecret: dummy  
+            clientSecret: dummy
+      github:
+          # the provider ID can be any camelCase string
+          components:
+            organization: '${GITHUB_ORG}' # string
+            catalogPath: '/catalog-info.yaml' # string
+            filters:
+              branch: 'main' # string
+              repository: '.*' # Regex
+            schedule: # optional; same options as in TaskScheduleDefinition
+              # supports cron, ISO duration, "human duration" as used in code
+              frequency: { minutes: 30 }
+              # supports ISO duration, "human duration" as used in code
+              timeout: { minutes: 3 }
+          systems:
+            organization: '${GITHUB_ORG}' # string
+            catalogPath: '/systems/*.yaml' # string
+            filters:
+              branch: 'main' # string
+              repository: '.*-gitops' # Regex
+            schedule: # optional; same options as in TaskScheduleDefinition
+              # supports cron, ISO duration, "human duration" as used in code
+              frequency: { minutes: 30 }
+              # supports ISO duration, "human duration" as used in code
+              timeout: { minutes: 3 }
+          resources:
+            organization: '${GITHUB_ORG}' # string
+            catalogPath: '/resources/*.yaml' # string
+            filters:
+              branch: 'main' # string
+              repository: '.*-gitops' # Regex
+            schedule: # optional; same options as in TaskScheduleDefinition
+              # supports cron, ISO duration, "human duration" as used in code
+              frequency: { minutes: 30 }
+              # supports ISO duration, "human duration" as used in code
+              timeout: { minutes: 3 }                                          
       rules:
         - allow: [Component, System, API, Group, User, Resource, Location]
       locations:
@@ -138,28 +173,28 @@ data:
             - allow: [Template]            
 
 
-        - type: github-discovery
-          target: https://github.com/${GITHUB_ORG}
+        # - type: github-discovery
+        #   target: https://github.com/${GITHUB_ORG}
           
         - type: github-org
           target: https://github.com/${GITHUB_ORG}
         # Systems discovery  
-        - type: github-discovery
-          target: https://github.com/${GITHUB_ORG}/approved-namespaces/blob/-/systems/*.yaml
-          rules:
-            - allow: [System]
+        # - type: github-discovery
+        #   target: https://github.com/${GITHUB_ORG}/approved-namespaces/blob/-/systems/*.yaml
+        #   rules:
+        #     - allow: [System]
         
         # vms discovery
-        - type: github-discovery
-          target: https://github.com/${GITHUB_ORG}/*-gitops/blob/-/vms/resource.yaml
-          rules:
-            - allow: [Resource]            
+        # - type: github-discovery
+        #   target: https://github.com/${GITHUB_ORG}/*-gitops/blob/-/vms/resource.yaml
+        #   rules:
+        #     - allow: [Resource]            
 
         # Resources discovery    
-        - type: github-discovery
-          target: https://github.com/${GITHUB_ORG}/*-gitops/blob/-/resources/*.yaml
-          rules:
-            - allow: [Resource] 
+        # - type: github-discovery
+        #   target: https://github.com/${GITHUB_ORG}/*-gitops/blob/-/resources/*.yaml
+        #   rules:
+        #     - allow: [Resource] 
 
     # this is to make the janus image happy
     ocm:
