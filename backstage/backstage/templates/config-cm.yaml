@@ -31,6 +31,7 @@ data:
         connection: ':memory:'
       {{- else }}  
      # config options: https://node-postgres.com/api/client
+      database:
         client: pg
         connection:
           host: {{ include "backstage.fullname" . }}-postgresql.{{ .Release.Namespace }}.svc
