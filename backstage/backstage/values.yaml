@@ -97,4 +97,4 @@ postgresql:
     chmod:
       enabled: false  
 
-usePostgresql: false          
+usePostgresql: true          
