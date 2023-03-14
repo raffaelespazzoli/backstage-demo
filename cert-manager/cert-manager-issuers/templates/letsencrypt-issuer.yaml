@@ -35,7 +35,9 @@ spec:
     - dns01:
       # Here we define a list of DNS-01 providers that can solve DNS challenges
         route53:
-          accessKeyID: dummy
+          accessKeyIDSecretRef:
+            name: cert-manager-dns-credentials
+            key: aws_access_key_id
           secretAccessKeySecretRef:
             name: cert-manager-dns-credentials
             key: aws_secret_access_key

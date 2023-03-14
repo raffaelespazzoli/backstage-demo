@@ -215,7 +215,9 @@ spec:
             solvers:
             - dns01:
                 route53:
-                  accessKeyID: {{ "{{" }} (index . 3).data.aws_access_key_id | b64dec {{ "}}" }}
+                  accessKeyIDSecretRef:
+                    name: cert-manager-dns-credentials
+                    key: aws_access_key_id
                   secretAccessKeySecretRef:
                     name: cert-manager-dns-credentials
                     key: aws_secret_access_key
