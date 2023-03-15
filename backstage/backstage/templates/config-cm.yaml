@@ -121,7 +121,7 @@ data:
             organization: '${GITHUB_ORG}' # string
             catalogPath: '/catalog-info.yaml' # string
             filters:
-              branch: 'main' # string
+              branch: 'master' # string
               repository: '.*' # Regex
             schedule: # optional; same options as in TaskScheduleDefinition
               # supports cron, ISO duration, "human duration" as used in code
@@ -132,7 +132,7 @@ data:
             organization: '${GITHUB_ORG}' # string
             catalogPath: '/systems/*.yaml' # string
             filters:
-              branch: 'main' # string
+              branch: 'master' # string
               repository: '.*-gitops' # Regex
             schedule: # optional; same options as in TaskScheduleDefinition
               # supports cron, ISO duration, "human duration" as used in code
@@ -143,7 +143,7 @@ data:
             organization: '${GITHUB_ORG}' # string
             catalogPath: '/resources/*.yaml' # string
             filters:
-              branch: 'main' # string
+              branch: 'master' # string
               repository: '.*-gitops' # Regex
             schedule: # optional; same options as in TaskScheduleDefinition
               # supports cron, ISO duration, "human duration" as used in code
