@@ -115,41 +115,41 @@ data:
             realm: dummy
             clientId: dummy
             clientSecret: dummy
-      github:
-          # the provider ID can be any camelCase string
-          components:
-            organization: '${GITHUB_ORG}' # string
-            catalogPath: '/catalog-info.yaml' # string
-            filters:
-              branch: 'master' # string
-              repository: '.*' # Regex
-            schedule: # optional; same options as in TaskScheduleDefinition
-              # supports cron, ISO duration, "human duration" as used in code
-              frequency: { minutes: 30 }
-              # supports ISO duration, "human duration" as used in code
-              timeout: { minutes: 3 }
-          systems:
-            organization: '${GITHUB_ORG}' # string
-            catalogPath: '/systems/*.yaml' # string
-            filters:
-              branch: 'master' # string
-              repository: '.*-gitops' # Regex
-            schedule: # optional; same options as in TaskScheduleDefinition
-              # supports cron, ISO duration, "human duration" as used in code
-              frequency: { minutes: 30 }
-              # supports ISO duration, "human duration" as used in code
-              timeout: { minutes: 3 }
-          resources:
-            organization: '${GITHUB_ORG}' # string
-            catalogPath: '/resources/*.yaml' # string
-            filters:
-              branch: 'master' # string
-              repository: '.*-gitops' # Regex
-            schedule: # optional; same options as in TaskScheduleDefinition
-              # supports cron, ISO duration, "human duration" as used in code
-              frequency: { minutes: 30 }
-              # supports ISO duration, "human duration" as used in code
-              timeout: { minutes: 3 }                                          
+        github:
+            # the provider ID can be any camelCase string
+            components:
+              organization: '${GITHUB_ORG}' # string
+              catalogPath: '/catalog-info.yaml' # string
+              filters:
+                branch: 'master' # string
+                repository: '.*' # Regex
+              schedule: # optional; same options as in TaskScheduleDefinition
+                # supports cron, ISO duration, "human duration" as used in code
+                frequency: { minutes: 30 }
+                # supports ISO duration, "human duration" as used in code
+                timeout: { minutes: 3 }
+            systems:
+              organization: '${GITHUB_ORG}' # string
+              catalogPath: '/systems/*.yaml' # string
+              filters:
+                branch: 'master' # string
+                repository: '.*-gitops' # Regex
+              schedule: # optional; same options as in TaskScheduleDefinition
+                # supports cron, ISO duration, "human duration" as used in code
+                frequency: { minutes: 30 }
+                # supports ISO duration, "human duration" as used in code
+                timeout: { minutes: 3 }
+            resources:
+              organization: '${GITHUB_ORG}' # string
+              catalogPath: '/resources/*.yaml' # string
+              filters:
+                branch: 'master' # string
+                repository: '.*-gitops' # Regex
+              schedule: # optional; same options as in TaskScheduleDefinition
+                # supports cron, ISO duration, "human duration" as used in code
+                frequency: { minutes: 30 }
+                # supports ISO duration, "human duration" as used in code
+                timeout: { minutes: 3 }                                          
       rules:
         - allow: [Component, System, API, Group, User, Resource, Location]
       locations:
