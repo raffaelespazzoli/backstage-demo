@@ -205,10 +205,10 @@ spec:
       - apiVersion: config.openshift.io/v1
         kind: Infrastructure
         name: cluster
-      - apiVersion: v1
-        kind: Secret
-        namespace: cert-manager
-        name: cert-manager-dns-credentials                        
+      # - apiVersion: v1
+      #   kind: Secret
+      #   namespace: cert-manager
+      #   name: cert-manager-dns-credentials                        
       patchTemplate: | 
         spec:
           acme:
