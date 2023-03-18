@@ -6,11 +6,18 @@ metadata:
   labels:
     {{- include "openshift-pipelines-configurations.labels" . | nindent 4 }}  
 data:
-  artifacts.oci.storage: oci
+  artifacts.oci.format: simplesigning
+  artifacts.oci.signer: x509
+  artifacts.oci.storage: oci,tekton
+
   artifacts.taskrun.format: in-toto
-  artifacts.taskrun.storage: oci
+  artifacts.taskrun.storage: oci,tekton
+  artifacts.taskrun.signer: x509
+
   artifacts.pipelinerun.format: in-toto
-  artifacts.pipelinerun.storage: oci
+  artifacts.pipelinerun.storage: oci,tekton
+  artifacts.pipelinerun.signer: x509
+
   transparency.enabled: "true"
   transparency.url: https://rekor.apps.{{ .Values.baseDomain }}
   #signers.kms.kmsref: hashivault://ci-system

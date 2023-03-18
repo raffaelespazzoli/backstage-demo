@@ -10,7 +10,7 @@ image:
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   #tag: main
-  tag: sha-c32f9a2
+  tag: sha-398916b
 
 imagePullSecrets: []
 nameOverride: ""
