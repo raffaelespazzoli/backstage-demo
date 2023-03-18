@@ -199,7 +199,7 @@ vault_github_app_private_key=$(cat ${vault_github_app_private_key_file_path}| se
 envsubst < ./vault-quay-plugin-creds-secret.yaml | oc apply -f - -n vault-admin
 oc create namespace openshift-dbaas-operator
 oc create secret generic cockroachdb-admin -n openshift-dbaas-operator --from-literal=apiSecretKey=${cockroachdb_secret}
-oc new-project openshift-pipelines
+oc adm new-project openshift-pipelines
 cosign generate-key-pair k8s://openshift-pipelines/signing-secrets
 ```
 

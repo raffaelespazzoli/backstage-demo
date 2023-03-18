@@ -133,7 +133,7 @@ data:
               catalogPath: '/systems/*.yaml' # string
               filters:
                 branch: 'master' # string
-                repository: '.*-gitops' # Regex
+                repository: 'approved-namespaces' # Regex
               schedule: # optional; same options as in TaskScheduleDefinition
                 # supports cron, ISO duration, "human duration" as used in code
                 frequency: { minutes: 30 }
