@@ -13,7 +13,11 @@ scaffold:
   trillian:
     namespace:
       name: trillian-system
-      create: true       
+      create: true
+    mysql:
+      auth:
+        password: changeit
+        rootPassword: changeit             
 
   rekor:
     namespace:
