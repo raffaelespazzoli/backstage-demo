@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: acm-hub
+  name: acm-config
   namespace: openshift-gitops
   labels:
     {{- include "argo-applications.labels" . | nindent 4 }} 
   finalizers:
   - resources-finalizer.argocd.argoproj.io
   annotations:
-    argocd.argoproj.io/sync-wave: "15"    
+    argocd.argoproj.io/sync-wave: "25"    
 spec:
   project: default
   source:
@@ -16,7 +16,7 @@ spec:
     targetRevision: {{ .Values.gitRepo.targetRevision }}
     path: acm-hub
     directory:
-      include: "*.yaml"
+      include: "mce-patch.yaml"
   destination:
     server: https://kubernetes.default.svc
     namespace: open-cluster-management
