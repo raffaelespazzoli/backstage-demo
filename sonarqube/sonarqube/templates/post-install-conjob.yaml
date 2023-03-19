@@ -27,7 +27,7 @@ spec:
                     echo "sonarqube-credentials is already created exiting..."
                 else
                   num_tokens=$(curl -s -u admin:admin1 -X GET -H "Content-Type: application/json" https://sonarqube-sonarqube.apps.control-cluster-raffa.demo.red-chesterfield.com/api/user_tokens/search | jq '.userTokens[] | select(.name=="backstage") | length')
-                  if [ "$num_tokens" -lt "1" ]; then
+                  if [ -z "$num_tokens" ]; then
                     echo "sonarqube-credentials doesn't exist"
                     echo "creating token..."
                     export curl_answer=$(curl -s -u admin:admin1 -X POST -H "Content-Type: application/json" https://{{ include "sonarqube.fullname" . }}-{{ .Release.Namespace }}.apps.{{ .Values.base_domain }}/api/user_tokens/generate?name=backstage)
