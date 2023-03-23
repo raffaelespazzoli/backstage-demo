@@ -55,7 +55,7 @@ data:
 
     github-org-provider:
       id: production
-      orgUrl: ${GITHUB_ORG}        
+      orgUrl: https://github.com/${GITHUB_ORG}        
 
     proxy:
       '/sonarqube':
