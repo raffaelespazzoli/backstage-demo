@@ -179,8 +179,8 @@ data:
             - allow: [Template]            
 
 
-        - type: github-discovery
-          target: https://github.com/${GITHUB_ORG}
+        # - type: github-discovery
+        #   target: https://github.com/${GITHUB_ORG}
           
         # - type: github-org
         #   target: https://github.com/${GITHUB_ORG}
