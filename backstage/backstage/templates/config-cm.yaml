@@ -53,6 +53,10 @@ data:
         - host: github.com
           token: ${GITHUB_TOKEN}
 
+    github-org-provider:
+      id: production
+      orgUrl: ${GITHUB_ORG}        
+
     proxy:
       '/sonarqube':
         target: https://sonarqube-sonarqube.apps.{{ .Values.base_domain }}/api
